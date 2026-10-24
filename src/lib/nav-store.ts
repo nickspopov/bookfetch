@@ -33,6 +33,31 @@ export function getEntry(token: string | undefined) {
   return token ? entries.get(token) : undefined;
 }
 
+const pages = boundedMap<{ catalogId: string; url: string }>();
+
+/**
+ * Stores a feed URL for a feed screen and returns the token to put in its route. Feed URLs can carry an API key
+ * (Kavita), so they never go into route params, which navigation state and deep-link logs can expose.
+ */
+export function putFeedPage(catalogId: string, url: string): string {
+  counter += 1;
+  const token = `p${Date.now().toString(36)}-${counter}`;
+  pages.set(token, { catalogId, url });
+  return token;
+}
+
+export type FeedTarget = { kind: 'root' } | { kind: 'page'; url: string } | { kind: 'gone' };
+
+/**
+ * What a feed screen shows: the catalog root when it has no page token, the stored page, or "gone" when the token
+ * is no longer known (the app was restarted and its route restored) or belongs to another catalog.
+ */
+export function resolveFeedPage(catalogId: string, token: string | undefined): FeedTarget {
+  if (!token) return { kind: 'root' };
+  const page = pages.get(token);
+  return page && page.catalogId === catalogId ? { kind: 'page', url: page.url } : { kind: 'gone' };
+}
+
 const feeds = boundedMap<Feed>();
 const feedKey = (catalogId: string, url: string) => `${catalogId}|${url}`;
 

@@ -1,5 +1,5 @@
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
-import { memo, useCallback, useEffect, useRef, useState } from 'react';
+import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import {
   ActivityIndicator,
   FlatList,
@@ -15,7 +15,7 @@ import type { Entry, Feed } from '@/opds';
 import { useCatalog } from '@/lib/catalogs';
 import type { CatalogSession } from '@/lib/client';
 import { describeError } from '@/lib/errors';
-import { getSearchSource, putEntry, putSearchSource, takeFeed } from '@/lib/nav-store';
+import { getSearchSource, putEntry, putFeedPage, putSearchSource, resolveFeedPage, takeFeed } from '@/lib/nav-store';
 import { cleanText, formatBytes } from '@/lib/text';
 import { useCatalogSession } from '@/lib/use-session';
 import { Button } from '@/ui/Button';
@@ -25,7 +25,8 @@ import { CenteredMessage, ErrorState, Loading } from '@/ui/States';
 import { Text } from '@/ui/Text';
 import { space, useColors } from '@/ui/theme';
 
-type Params = { id: string; url?: string; search?: string; q?: string };
+// `page` and `search` are nav-store tokens: feed URLs can carry an API key, so they never go into a route.
+type Params = { id: string; page?: string; search?: string; q?: string };
 
 interface ListState {
   feed?: Feed;
@@ -56,6 +57,9 @@ export default function FeedScreen() {
   const visited = useRef(new Set<string>());
   const isSearch = !!params.q;
   const query = params.q ?? '';
+  const target = useMemo(() => resolveFeedPage(params.id, params.page), [params.id, params.page]);
+  const pageUrl = target.kind === 'page' ? target.url : undefined;
+  const pageGone = !isSearch && target.kind === 'gone';
 
   const load = useCallback(
     async (session: CatalogSession, mode: 'initial' | 'refresh') => {
@@ -67,7 +71,7 @@ export default function FeedScreen() {
           if (!source) throw new Error('Search source is gone');
           feed = await session.client.search(source, query);
         } else {
-          const url = params.url || session.rootUrl;
+          const url = pageUrl ?? session.rootUrl;
           feed = (mode === 'initial' ? takeFeed(params.id, url) : undefined) ?? (await session.client.fetchFeed(url));
         }
         seen.current = new Set();
@@ -85,12 +89,12 @@ export default function FeedScreen() {
         setState((s) => ({ ...s, error, loading: false, refreshing: false }));
       }
     },
-    [isSearch, params.search, params.url, params.id, query],
+    [isSearch, params.search, pageUrl, params.id, query],
   );
 
   useEffect(() => {
-    if (session) void load(session, 'initial');
-  }, [session, load]);
+    if (session && !pageGone) void load(session, 'initial');
+  }, [session, load, pageGone]);
 
   const loadMore = useCallback(
     async (retry = false) => {
@@ -123,7 +127,10 @@ export default function FeedScreen() {
   const openEntry = useCallback(
     (entry: Entry) => {
       if (!isBook(entry) && entry.navigation) {
-        router.push({ pathname: '/catalog/[id]/feed', params: { id: params.id, url: entry.navigation.href } });
+        router.push({
+          pathname: '/catalog/[id]/feed',
+          params: { id: params.id, page: putFeedPage(params.id, entry.navigation.href) },
+        });
       } else {
         router.push({ pathname: '/catalog/[id]/book', params: { id: params.id, token: putEntry(params.id, entry) } });
       }
@@ -135,7 +142,7 @@ export default function FeedScreen() {
   // The root shows the catalog's (user-editable) name; sections show their feed titles.
   const title = isSearch
     ? `“${query}”`
-    : (!params.url && catalog?.title) || cleanText(feed?.title) || catalog?.title || '';
+    : (target.kind === 'root' && catalog?.title) || cleanText(feed?.title) || catalog?.title || '';
   const canSearch = !isSearch && !!feed?.search;
 
   const screenOptions = (
@@ -171,6 +178,21 @@ export default function FeedScreen() {
         {screenOptions}
         <CenteredMessage title="Catalog removed" message="This catalog is no longer in your libraries.">
           <Button title="Back to Libraries" variant="tinted" onPress={() => router.dismissTo('/')} />
+        </CenteredMessage>
+      </Scroll>
+    );
+  }
+
+  if (pageGone) {
+    return (
+      <Scroll>
+        {screenOptions}
+        <CenteredMessage title="This page is no longer open" message="Go back to the catalog and open it again.">
+          <Button
+            title="Back to catalog"
+            variant="tinted"
+            onPress={() => router.dismissTo({ pathname: '/catalog/[id]/feed', params: { id: catalog.id } })}
+          />
         </CenteredMessage>
       </Scroll>
     );
