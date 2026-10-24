@@ -58,6 +58,15 @@ describe('parseCatalogs', () => {
     });
   });
 
+  it('drops icon URLs of keyed catalogs and icon URLs that carry a key', () => {
+    const result = parseCatalogs([
+      catalog('k', { urlInKeychain: true, iconUrl: 'https://kavita.example.com/api/opds/x/favicon' }),
+      catalog('q', { iconUrl: 'https://books.example.com/icon.png?token=abc' }),
+      catalog('p', { iconUrl: 'https://books.example.com/favicon.ico' }),
+    ]);
+    expect(result.map((c) => c.iconUrl)).toEqual([undefined, undefined, 'https://books.example.com/favicon.ico']);
+  });
+
   it('treats missing data as an empty list', () => {
     expect(parseCatalogs(undefined)).toEqual([]);
   });

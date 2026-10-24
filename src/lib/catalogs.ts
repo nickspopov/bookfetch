@@ -1,5 +1,6 @@
 import { useSyncExternalStore } from 'react';
 
+import { redactUrl } from './catalog-url';
 import { readVersioned, writeVersioned } from './storage';
 
 export interface Catalog {
@@ -34,13 +35,22 @@ export function parseCatalogs(items: unknown[] | undefined): Catalog[] {
       id: c.id,
       url: c.url,
       title: typeof c.title === 'string' && c.title.trim() ? c.title : hostOf(c.url),
-      iconUrl: typeof c.iconUrl === 'string' && c.iconUrl ? c.iconUrl : undefined,
+      iconUrl: typeof c.iconUrl === 'string' ? storableIconUrl(c.iconUrl, c.urlInKeychain === true) : undefined,
       urlInKeychain: c.urlInKeychain === true,
       hasCredentials: c.hasCredentials === true,
       addedAt: typeof c.addedAt === 'number' ? c.addedAt : 0,
     });
   }
   return result;
+}
+
+/**
+ * The catalog list lives in MMKV, outside the keychain. A keyed catalog's icon URL (Kavita) carries the same API
+ * key, so such icons are not kept; the row shows the fallback glyph instead.
+ */
+export function storableIconUrl(iconUrl: string | undefined, keyedCatalog: boolean): string | undefined {
+  if (!iconUrl || keyedCatalog || redactUrl(iconUrl).secret) return undefined;
+  return iconUrl;
 }
 
 export function hostOf(url: string): string {

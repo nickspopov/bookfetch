@@ -1,7 +1,7 @@
 import { normalizeCatalogUrl, type Credentials, type Feed } from '@/opds';
 
 import { redactUrl } from './catalog-url';
-import { catalogStore, newId, type Catalog } from './catalogs';
+import { catalogStore, newId, storableIconUrl, type Catalog } from './catalogs';
 import { forgetSession, makeClient } from './client';
 import { deleteCredentials, deleteSecretUrl, saveCredentials, saveSecretUrl } from './credentials';
 import { putFeed } from './nav-store';
@@ -37,7 +37,7 @@ export async function connectCatalog(input: ConnectInput): Promise<{ catalog: Ca
     url: secret ? redacted : rootUrl,
     urlInKeychain: secret,
     title: input.name?.trim() || cleanTitle(feed.title) || existing?.title || hostLabel(rootUrl),
-    iconUrl: feed.iconUrl,
+    iconUrl: storableIconUrl(feed.iconUrl, secret),
     hasCredentials: !!input.credentials,
     addedAt: existing?.addedAt ?? Date.now(),
   };
