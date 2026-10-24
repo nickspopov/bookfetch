@@ -154,11 +154,22 @@ export function createOpdsClient(options: ClientOptions): OpdsClient {
       else init.signal.addEventListener('abort', onCallerAbort);
     }
     try {
-      const response = await fetchImpl(url, {
-        method: 'GET',
-        headers: { ...headersFor(url), Accept: accept },
-        signal: controller.signal,
-      });
+      const headers: Record<string, string> = { ...headersFor(url), Accept: accept };
+      const send = (target: string) => fetchImpl(target, { method: 'GET', headers, signal: controller.signal });
+      let requested = url;
+      let response = await send(requested);
+      // iOS drops custom headers when it follows a redirect, so a protected catalog that redirects (/opds -> /opds/)
+      // answers 401 to the right credentials. Ask the final URL directly once, and only on the catalog origin.
+      if (
+        (response.status === 401 || response.status === 403) &&
+        headers.Authorization !== undefined &&
+        response.url &&
+        response.url !== url &&
+        credentialOriginOf(response.url) === catalogOrigin
+      ) {
+        requested = response.url;
+        response = await send(requested);
+      }
       if (response.status === 401) throw new OpdsError('unauthorized', MESSAGES.unauthorized, 401);
       if (response.status === 403) throw new OpdsError('unauthorized', MESSAGES.forbidden, 403);
       if (response.status === 404 || response.status === 410) {
@@ -168,7 +179,7 @@ export function createOpdsClient(options: ClientOptions): OpdsClient {
         throw new OpdsError('http', MESSAGES.http(response.status), response.status);
       }
       const body = await response.text();
-      return { body, url: response.url ? assertSafeHttpUrl(response.url) : url };
+      return { body, url: response.url ? assertSafeHttpUrl(response.url) : requested };
     } catch (error) {
       if (error instanceof OpdsError) throw error;
       if (init?.signal?.aborted && !timedOut) throw error;

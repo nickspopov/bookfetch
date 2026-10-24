@@ -181,7 +181,11 @@ The function goes through these steps:
 - Only HTTP Basic auth is supported. Digest, cookie/session login forms, OAuth and client certificates are not.
 - Self-signed or otherwise invalid TLS certificates fail as `network`. There is no trust override.
 - Redirects are followed by the platform's fetch. Whether it keeps an `Authorization` header on a cross-origin
-  redirect is up to NSURLSession/OkHttp; OkHttp drops it on a host change.
+  redirect is up to NSURLSession/OkHttp; OkHttp drops it on a host change. React Native on iOS drops custom
+  headers on every redirect, so when a request that carried `Authorization` gets 401/403 with a different
+  `response.url` on the catalog origin, the client asks that URL once more directly with the same headers and
+  maps the second answer normally. It never retries toward another origin. Downloads made outside the client
+  (`headersFor` + the platform downloader) do not get this retry.
 - Gutenberg's OpenSearch template is `http://m.gutenberg.org/...`. The core does not upgrade it, so the app's
   transport security settings decide whether plain-http catalogs load.
 - Hostnames must be ASCII (no IDN/punycode conversion).

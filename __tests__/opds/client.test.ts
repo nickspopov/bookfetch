@@ -129,6 +129,71 @@ describe('fetchFeed', () => {
     expect(client.headersFor(feed.next!).Authorization).toBeUndefined();
   });
 
+  describe('after a redirect that dropped Authorization (iOS)', () => {
+    const AUTH = `Basic ${Buffer.from('reader:secret').toString('base64')}`;
+    // the platform followed a redirect from `from` to `to`; the server only accepts `to` with Authorization
+    function redirectingFetch(from: string, to: string, retryStatus?: number) {
+      const requests: { url: string; headers: Record<string, string> }[] = [];
+      const fetchImpl = jest.fn(async (input: unknown, init?: { headers?: Record<string, string> }) => {
+        const url = String(input);
+        const headers = { ...(init?.headers ?? {}) };
+        requests.push({ url, headers });
+        if (url === from) return { status: 401, url: to, text: async () => 'login' };
+        if (url === to && headers.Authorization === AUTH && retryStatus === undefined) {
+          return { status: 200, url: to, text: async () => FEED('Redirected') };
+        }
+        return { status: retryStatus ?? 401, url, text: async () => 'login' };
+      });
+      return { fetchImpl: fetchImpl as unknown as typeof fetch, requests };
+    }
+
+    it('retries once against the same-origin response.url with the same headers', async () => {
+      const to = `${ORIGIN}/opds/root.xml/`;
+      const { fetchImpl, requests } = redirectingFetch(CATALOG, to);
+      const client = createOpdsClient({ userAgent: UA, credentials, catalogOrigin: ORIGIN, fetchImpl });
+      const feed = await client.fetchFeed(CATALOG);
+      expect(feed.title).toBe('Redirected');
+      expect(feed.url).toBe(to);
+      expect(requests.map((r) => r.url)).toEqual([CATALOG, to]);
+      expect(requests[1].headers).toEqual(requests[0].headers);
+      expect(requests[1].headers.Authorization).toBe(AUTH);
+    });
+
+    it('maps a second 401 or 403 normally and does not retry again', async () => {
+      const to = `${ORIGIN}/opds/root.xml/`;
+      for (const status of [401, 403]) {
+        const { fetchImpl, requests } = redirectingFetch(CATALOG, to, status);
+        const client = createOpdsClient({ userAgent: UA, credentials, catalogOrigin: ORIGIN, fetchImpl });
+        let error: OpdsError | undefined;
+        try {
+          await client.fetchFeed(CATALOG);
+        } catch (e) {
+          error = e as OpdsError;
+        }
+        expect(error?.code).toBe('unauthorized');
+        expect(error?.status).toBe(status);
+        expect(requests).toHaveLength(2);
+      }
+    });
+
+    it('never retries toward another origin, a URL with userinfo, or without credentials', async () => {
+      for (const to of [
+        'https://mirror.example.net/opds/',
+        'http://books.example.org/opds/',
+        'https://reader@books.example.org/opds/',
+      ]) {
+        const { fetchImpl, requests } = redirectingFetch(CATALOG, to);
+        const client = createOpdsClient({ userAgent: UA, credentials, catalogOrigin: ORIGIN, fetchImpl });
+        expect(await codeOf(client.fetchFeed(CATALOG))).toBe('unauthorized');
+        expect(requests.map((r) => r.url)).toEqual([CATALOG]);
+      }
+      const { fetchImpl, requests } = redirectingFetch(CATALOG, `${ORIGIN}/opds/root.xml/`);
+      const anonymous = createOpdsClient({ userAgent: UA, catalogOrigin: ORIGIN, fetchImpl });
+      expect(await codeOf(anonymous.fetchFeed(CATALOG))).toBe('unauthorized');
+      expect(requests).toHaveLength(1);
+    });
+  });
+
   it('sends no Authorization at all without credentials', async () => {
     const { fetchImpl, requests } = mockFetch({ [CATALOG]: { body: FEED() } });
     await createOpdsClient({ userAgent: UA, catalogOrigin: ORIGIN, fetchImpl }).fetchFeed(CATALOG);
