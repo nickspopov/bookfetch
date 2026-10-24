@@ -99,7 +99,7 @@ export default ({ config, projectRoot }: ConfigContext): ExpoConfig => {
       'expo-secure-store',
       'expo-sharing',
       'expo-image',
-      ['expo-build-properties', { android: { usesCleartextTraffic: true } }],
+      ['expo-build-properties', { ios: { enableSceneSupport: true }, android: { usesCleartextTraffic: true } }],
       './plugins/with-android-signing',
     ],
     experiments: {

@@ -132,7 +132,10 @@ export default function FeedScreen() {
   );
 
   const feed = state.feed;
-  const title = isSearch ? `“${query}”` : cleanText(feed?.title) || catalog?.title || '';
+  // The root shows the catalog's (user-editable) name; sections show their feed titles.
+  const title = isSearch
+    ? `“${query}”`
+    : (!params.url && catalog?.title) || cleanText(feed?.title) || catalog?.title || '';
   const canSearch = !isSearch && !!feed?.search;
 
   const screenOptions = (
