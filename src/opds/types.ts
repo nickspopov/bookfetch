@@ -113,7 +113,7 @@ export interface Credentials {
 }
 
 export interface ClientOptions {
-  /** sent on every request; the app passes "Bookfetch/<version> (+https://bookfetch.nickpopov.com)" */
+  /** sent on every request; the app passes "Bookfetch/<version> (+https://nickpopov.com/bookfetch)" */
   userAgent: string;
   /** HTTP Basic credentials, sent only to the catalog's own origin */
   credentials?: Credentials;

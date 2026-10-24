@@ -15,7 +15,7 @@ export const PRESETS: Preset[] = [
   {
     id: 'sample',
     name: 'Bookfetch Sample Library',
-    url: 'https://bookfetch.nickpopov.com/opds/catalog.xml',
+    url: 'https://nickpopov.com/bookfetch/opds/catalog.xml',
     subtitle: 'A few public-domain classics to try the app',
   },
 ];

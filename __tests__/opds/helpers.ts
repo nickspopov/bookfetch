@@ -9,7 +9,7 @@ export function fixture(name: string): string {
 
 export const KAVITA_BASE = 'https://demo.kavitareader.com/api/opds/9003cf99-9213-4206-a787-af2fe4cc5f1f';
 
-export const UA = 'Bookfetch/1.0.0 (+https://bookfetch.nickpopov.com)';
+export const UA = 'Bookfetch/1.0.0 (+https://nickpopov.com/bookfetch)';
 
 export interface MockRoute {
   status?: number;

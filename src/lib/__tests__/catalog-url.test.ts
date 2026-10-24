@@ -18,7 +18,7 @@ describe('redactUrl', () => {
     for (const url of [
       'https://www.gutenberg.org/ebooks.opds/',
       'https://komga.example.com/opds/v1.2/catalog',
-      'https://bookfetch.nickpopov.com/opds/catalog.xml',
+      'https://nickpopov.com/bookfetch/opds/catalog.xml',
     ]) {
       expect(redactUrl(url)).toEqual({ redacted: url, secret: false });
     }
