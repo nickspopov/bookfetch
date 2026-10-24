@@ -287,6 +287,15 @@ describe('edge cases (hand-made)', () => {
     expect(sort.thumbnailUrl).toBe('https://books.example.org/catalog/thumb.png');
     expect(feed.kind).toBe('acquisition'); // mixed feed
   });
+
+  it('repairs duplicate ids without colliding with an original id', () => {
+    const entry = (id: string) => `<entry><title>${id}</title><id>${id}</id></entry>`;
+    const entries = ['x', 'x', 'x#2'].map(entry).join('');
+    const xml = `<feed xmlns="http://www.w3.org/2005/Atom"><title>Dupes</title>${entries}</feed>`;
+    const ids = parseFeed(xml, 'https://books.example.org/dupes.xml').entries.map((e) => e.id);
+    expect(ids).toEqual(['x', 'x#3', 'x#2']);
+    expect(new Set(ids).size).toBe(ids.length);
+  });
 });
 
 describe('documents and input errors', () => {

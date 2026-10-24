@@ -388,11 +388,21 @@ function readFacets(links: RawLink[]): FacetLink[] {
 
 /** Makes entry ids unique within a feed (Kavita repeats ids for "Continue Reading" rows) so they can key lists. */
 function uniqueIds(entries: Entry[]): void {
-  const seen = new Map<string, number>();
+  // reserve every original id first so a repaired id never collides with a later original ("x", "x", "x#2")
+  const taken = new Set(entries.map((e) => e.id));
+  const kept = new Set<string>();
+  const nextSuffix = new Map<string, number>();
   for (const entry of entries) {
-    const n = seen.get(entry.id) ?? 0;
-    seen.set(entry.id, n + 1);
-    if (n > 0) entry.id = `${entry.id}#${n + 1}`;
+    if (!kept.has(entry.id)) {
+      kept.add(entry.id);
+      continue;
+    }
+    let n = nextSuffix.get(entry.id) ?? 2;
+    while (taken.has(`${entry.id}#${n}`)) n += 1;
+    nextSuffix.set(entry.id, n + 1);
+    const id = `${entry.id}#${n}`;
+    taken.add(id);
+    entry.id = id;
   }
 }
 
