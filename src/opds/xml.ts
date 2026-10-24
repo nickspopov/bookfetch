@@ -82,6 +82,7 @@ function normalizeElement(value: unknown, scope: Scope): unknown {
   if (value === null || typeof value !== 'object') return value;
   const node = value as XmlNode;
   const out: XmlNode = {};
+  const lists = new Set<string>(); // keys whose value in `out` is an array this function built
   for (const key of Object.keys(node)) {
     if (key === TEXT) {
       out[TEXT] = node[key];
@@ -94,7 +95,12 @@ function normalizeElement(value: unknown, scope: Scope): unknown {
         const childScope = withDeclarations(item, scope);
         const canon = canonicalName(key, childScope, false);
         const normalized = normalizeElement(item, childScope);
-        out[canon] = canon in out ? [...asArray(out[canon]), normalized] : normalized;
+        if (!(canon in out)) out[canon] = normalized;
+        else if (lists.has(canon)) (out[canon] as unknown[]).push(normalized);
+        else {
+          out[canon] = [out[canon], normalized];
+          lists.add(canon);
+        }
       }
     }
   }
