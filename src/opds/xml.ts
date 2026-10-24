@@ -61,33 +61,35 @@ function canonicalName(name: string, scope: Scope, isAttribute: boolean): string
   return prefix === '' ? `?:${local}` : name;
 }
 
-function normalizeNode(value: unknown, parentScope: Scope): unknown {
-  if (Array.isArray(value)) return value.map((v) => normalizeNode(v, parentScope));
+function withDeclarations(node: unknown, scope: Scope): Scope {
+  if (node === null || typeof node !== 'object' || Array.isArray(node)) return scope;
+  let out = scope;
+  for (const [key, value] of Object.entries(node as XmlNode)) {
+    if (key === `${ATTR}xmlns`) out = { ...out, '': String(value) };
+    else if (key.startsWith(`${ATTR}xmlns:`)) out = { ...out, [key.slice(ATTR.length + 6)]: String(value) };
+  }
+  return out;
+}
+
+/** Rewrites an element's attributes and children to canonical names; `scope` already includes its own xmlns. */
+function normalizeElement(value: unknown, scope: Scope): unknown {
   if (value === null || typeof value !== 'object') return value;
   const node = value as XmlNode;
-  let scope = parentScope;
-  for (const key of Object.keys(node)) {
-    if (key === `${ATTR}xmlns`) scope = { ...scope, '': String(node[key]) };
-    else if (key.startsWith(`${ATTR}xmlns:`)) scope = { ...scope, [key.slice(ATTR.length + 6)]: String(node[key]) };
-  }
   const out: XmlNode = {};
   for (const key of Object.keys(node)) {
     if (key === TEXT) {
       out[TEXT] = node[key];
-      continue;
-    }
-    if (key.startsWith(ATTR)) {
+    } else if (key.startsWith(ATTR)) {
       const name = key.slice(ATTR.length);
-      if (name === 'xmlns' || name.startsWith('xmlns:')) continue;
-      out[ATTR + canonicalName(name, scope, true)] = node[key];
-      continue;
-    }
-    const canon = canonicalName(key, scope, false);
-    const child = normalizeNode(node[key], scope);
-    if (canon in out) {
-      out[canon] = [...asArray(out[canon]), ...asArray(child)];
+      if (name !== 'xmlns' && !name.startsWith('xmlns:')) out[ATTR + canonicalName(name, scope, true)] = node[key];
     } else {
-      out[canon] = child;
+      // each child may redeclare namespaces on itself, so name every occurrence in its own scope
+      for (const item of asArray(node[key])) {
+        const childScope = withDeclarations(item, scope);
+        const canon = canonicalName(key, childScope, false);
+        const normalized = normalizeElement(item, childScope);
+        out[canon] = canon in out ? [...asArray(out[canon]), normalized] : normalized;
+      }
     }
   }
   return out;
@@ -108,7 +110,7 @@ export function parseXml(xml: string): [string, XmlNode] {
   } catch {
     throw new OpdsError('parse', "The catalog sent a feed that couldn't be read.");
   }
-  const doc = normalizeNode(parsed, {}) as XmlNode;
+  const doc = normalizeElement(parsed, {}) as XmlNode;
   const rootName = Object.keys(doc).find((k) => !k.startsWith(ATTR) && k !== TEXT && !k.startsWith('?'));
   const root = rootName !== undefined ? asArray(doc[rootName])[0] : undefined;
   if (rootName === undefined || root === undefined) {
