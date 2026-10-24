@@ -51,7 +51,7 @@ export interface Entry {
 }
 
 export type SearchSpec =
-  | { kind: 'template'; template: string } // Atom URL template with {searchTerms}
+  | { kind: 'template'; template: string; indexOffset?: number; pageOffset?: number } // Atom URL template with {searchTerms}
   | { kind: 'description'; url: string }; // OpenSearch description document to fetch first
 
 export interface FacetLink {
@@ -75,6 +75,9 @@ export interface Feed {
   next?: string;
   previous?: string;
   start?: string;
+  /** first/last page of a paged feed (rel="first"/"last"), when given */
+  first?: string;
+  last?: string;
   up?: string;
   search?: SearchSpec;
   facets: FacetLink[];
@@ -120,11 +123,16 @@ export interface ClientOptions {
   fetchImpl?: typeof fetch; // tests inject a mock
 }
 
+export interface RequestOptions {
+  /** cancels the request; the promise then rejects with the AbortError itself (not an OpdsError) */
+  signal?: AbortSignal;
+}
+
 export interface OpdsClient {
   /** fetch + parse; follows HTML autodiscovery (<link rel="alternate" type="application/atom+xml;profile=opds-catalog">) once */
-  fetchFeed(url: string): Promise<Feed>;
+  fetchFeed(url: string, options?: RequestOptions): Promise<Feed>;
   /** resolves feed.search (fetching the OpenSearch description when needed) and returns the results feed */
-  search(feed: Feed, query: string): Promise<Feed>;
+  search(feed: Feed, query: string, options?: RequestOptions): Promise<Feed>;
   /** headers to use for images and downloads of the given URL (User-Agent, and Authorization only for the catalog origin) */
   headersFor(url: string): Record<string, string>;
 }
