@@ -10,7 +10,7 @@ dependency (`fast-xml-parser` 5); it has no React or Expo imports and is tested 
 | `parse.ts`      | `parseFeed` — Atom feed / entry document → `Feed`                                |
 | `opensearch.ts` | `parseOpenSearchDescription`, `buildSearchUrl`                                   |
 | `client.ts`     | `createOpdsClient` — fetch, auth, status mapping, sniffing, search               |
-| `url.ts`        | RFC 3986 resolution, `originOf`, `normalizeCatalogUrl`                           |
+| `url.ts`        | RFC 3986 resolution, `originOf`, `normalizeCatalogUrl`, safe-URL checks          |
 | `mime.ts`       | `formatLabel`, DRM detection, MIME parameters                                    |
 | `html.ts`       | `htmlToText`, `decodeEntities`                                                   |
 
@@ -116,8 +116,14 @@ The client caches each resolved template per description URL.
 - `Authorization: Basic …` goes only to URLs whose origin (scheme, host and port, with default ports
   normalised) equals `catalogOrigin`. That rule applies to each request, so after a redirect to another origin
   (`response.url`) the next pages, autodiscovered feeds and descriptions there go out without credentials.
-  `headersFor(url)` applies the same rule for images and downloads. Base64 is computed from UTF-8 bytes by the
-  core itself (no `Buffer`; `btoa` fails on non-Latin-1 text).
+  `headersFor(url)` applies the same rule for images and downloads. A URL with userinfo (`user@host`) in its
+  authority never gets the catalog's credentials.
+- URLs that contain a backslash, an ASCII control character or whitespace are read differently by WHATWG,
+  OkHttp, NSURL and the core's RFC 3986 parser (`https://a.example\@b.example/`), so the client never fetches
+  them: a requested URL, a redirect target (`response.url`) or an autodiscovered link like that fails with
+  `invalid-url`, and `headersFor` returns headers without `Authorization` for them.
+- Base64 for Basic auth is computed from UTF-8 bytes by the core itself (no `Buffer`; `btoa` fails on
+  non-Latin-1 text).
 - Timeout: `AbortController`, 20 s by default, covering the headers and the body.
 - `fetchFeed(url, { signal })` and `search(feed, q, { signal })` take an optional caller signal. When the
   caller cancels, the promise rejects with the `AbortError` itself, not an `OpdsError`, so screens can ignore it.
@@ -133,23 +139,23 @@ The client caches each resolved template per description URL.
 
 ## Error codes (`OpdsError.code`)
 
-| Code                | When                                             | Message (shown to users)                                                                            |
-| ------------------- | ------------------------------------------------ | --------------------------------------------------------------------------------------------------- |
-| `invalid-url`       | `normalizeCatalogUrl` rejected the input         | Enter a full web address that starts with http:// or https://.                                      |
-| `network`           | fetch threw (offline, DNS, TLS, refused)         | Can't reach the server. Check the address and your connection.                                      |
-| `timeout`           | no complete answer within `timeoutMs`            | The server took too long to answer.                                                                 |
-| `unauthorized`      | HTTP 401 / 403 (`status` set)                    | The server needs a valid username and password. / The server refused access with these credentials. |
-| `not-found`         | HTTP 404 / 410; no search                        | Nothing was found at this address. / This catalog has no search                                     |
-| `http`              | any other non-2xx (`status` set)                 | The server answered with an error (HTTP n).                                                         |
-| `not-opds`          | HTML without an OPDS link, other XML, JSON, text | This address doesn't look like an OPDS catalog.                                                     |
-| `opds2-unsupported` | OPDS 2 JSON                                      | OPDS 2 catalogs aren't supported yet.                                                               |
-| `parse`             | empty or unreadable XML                          | The catalog sent a feed that couldn't be read.                                                      |
+| Code                | When                                              | Message (shown to users)                                                                            |
+| ------------------- | ------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| `invalid-url`       | `normalizeCatalogUrl` or the client refused a URL | Enter a full web address that starts with http:// or https://.                                      |
+| `network`           | fetch threw (offline, DNS, TLS, refused)          | Can't reach the server. Check the address and your connection.                                      |
+| `timeout`           | no complete answer within `timeoutMs`             | The server took too long to answer.                                                                 |
+| `unauthorized`      | HTTP 401 / 403 (`status` set)                     | The server needs a valid username and password. / The server refused access with these credentials. |
+| `not-found`         | HTTP 404 / 410; no search                         | Nothing was found at this address. / This catalog has no search                                     |
+| `http`              | any other non-2xx (`status` set)                  | The server answered with an error (HTTP n).                                                         |
+| `not-opds`          | HTML without an OPDS link, other XML, JSON, text  | This address doesn't look like an OPDS catalog.                                                     |
+| `opds2-unsupported` | OPDS 2 JSON                                       | OPDS 2 catalogs aren't supported yet.                                                               |
+| `parse`             | empty or unreadable XML                           | The catalog sent a feed that couldn't be read.                                                      |
 
 ## normalizeCatalogUrl
 
 The function goes through these steps:
 
-1. Trim the input. Reject it when it is empty or has whitespace inside.
+1. Trim the input. Reject it when it is empty or has whitespace, a backslash or a control character inside.
 2. Map `opds://` and `opds+https://` to `https://`, and `opds+http://` to `http://`.
 3. Add `https://` when there is no scheme. `host:8080/path` counts as a host with a port, not a scheme.
 4. Allow only http and https; `javascript:`, `file:`, `data:`, `ftp:`, `mailto:` and others get `invalid-url`.

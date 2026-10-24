@@ -142,9 +142,43 @@ export function isHttpUrl(url: string | undefined): boolean {
   return originOf(url) !== '';
 }
 
-const HOST_RE = /^(?:\[[0-9a-f:.]+\]|[a-z0-9](?:[a-z0-9_-]*[a-z0-9])?(?:\.[a-z0-9](?:[a-z0-9_-]*[a-z0-9])?)*\.?)$/i;
-
 const INVALID_URL_MESSAGE = 'Enter a full web address that starts with http:// or https://.';
+
+/**
+ * Backslashes, ASCII control characters and whitespace are read differently by WHATWG parsers, OkHttp, NSURL
+ * and the RFC 3986 regex above (for "https://a.example\@b.example/" WHATWG says host a.example, the regex says
+ * b.example), so URLs that contain them are never fetched and never get credentials.
+ */
+function hasAmbiguousChars(url: string): boolean {
+  if (/[\s\\]/u.test(url)) return true;
+  for (let i = 0; i < url.length; i += 1) {
+    const code = url.charCodeAt(i);
+    if (code < 0x20 || code === 0x7f) return true;
+  }
+  return false;
+}
+
+/** An http(s) URL without backslashes, control characters or whitespace. */
+export function isSafeHttpUrl(url: string | undefined): url is string {
+  return typeof url === 'string' && !hasAmbiguousChars(url) && isHttpUrl(url);
+}
+
+/** Returns `url` when it is a safe http(s) URL (see isSafeHttpUrl); throws OpdsError('invalid-url') otherwise. */
+export function assertSafeHttpUrl(url: string | undefined): string {
+  if (!isSafeHttpUrl(url)) throw new OpdsError('invalid-url', INVALID_URL_MESSAGE);
+  return url;
+}
+
+/**
+ * The origin to compare against a catalog origin before sending its credentials: '' for unsafe URLs and for
+ * URLs with userinfo (user@host) in the authority, so those never get the catalog's Authorization header.
+ */
+export function credentialOriginOf(url: string | undefined): string {
+  if (!isSafeHttpUrl(url)) return '';
+  return parseUri(url).authority?.includes('@') ? '' : originOf(url);
+}
+
+const HOST_RE = /^(?:\[[0-9a-f:.]+\]|[a-z0-9](?:[a-z0-9_-]*[a-z0-9])?(?:\.[a-z0-9](?:[a-z0-9_-]*[a-z0-9])?)*\.?)$/i;
 
 /**
  * Normalises what a user typed into an add-catalog field.
@@ -153,7 +187,7 @@ const INVALID_URL_MESSAGE = 'Enter a full web address that starts with http:// o
  */
 export function normalizeCatalogUrl(input: string): string {
   const raw = (input ?? '').trim();
-  if (raw === '' || /\s/.test(raw)) throw new OpdsError('invalid-url', INVALID_URL_MESSAGE);
+  if (raw === '' || hasAmbiguousChars(raw)) throw new OpdsError('invalid-url', INVALID_URL_MESSAGE);
 
   let url: string;
   const withSlashes = /^([A-Za-z][A-Za-z0-9+.-]*):\/\//.exec(raw);

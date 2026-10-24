@@ -73,6 +73,47 @@ describe('fetchFeed', () => {
     expect(client.headersFor('data:image/png;base64,AAA=')).toEqual({ 'User-Agent': UA });
   });
 
+  it('never sends credentials to URLs that parsers read differently or that carry userinfo', () => {
+    const client = createOpdsClient({
+      userAgent: UA,
+      credentials,
+      catalogOrigin: ORIGIN,
+      fetchImpl: jest.fn() as never,
+    });
+    expect(client.headersFor(`${ORIGIN}/x`).Authorization).toBeDefined();
+    for (const url of [
+      'https://evil.example\\@books.example.org/x',
+      'https://evil.example%5C@books.example.org/x',
+      'https://reader@books.example.org/x',
+      'https://reader:secret@books.example.org/x',
+      'https://books.example.org/x y',
+      'https://books.example.org/x\ty',
+      'https://books.example.org/x\u0001',
+    ]) {
+      expect(client.headersFor(url)).toEqual({ 'User-Agent': UA });
+    }
+  });
+
+  it('refuses to fetch ambiguous URLs, including a redirect target or an autodiscovered link', async () => {
+    const fetchImpl = jest.fn() as unknown as typeof fetch;
+    const client = createOpdsClient({ userAgent: UA, credentials, catalogOrigin: ORIGIN, fetchImpl });
+    expect(await codeOf(client.fetchFeed('https://evil.example\\@books.example.org/opds'))).toBe('invalid-url');
+    expect(await codeOf(client.fetchFeed('https://books.example.org/op ds'))).toBe('invalid-url');
+    expect(fetchImpl).not.toHaveBeenCalled();
+
+    const redirected = mockFetch({ [CATALOG]: { body: FEED(), url: 'https://evil.example\\@books.example.org/' } });
+    const redirectClient = createOpdsClient({ userAgent: UA, fetchImpl: redirected.fetchImpl });
+    expect(await codeOf(redirectClient.fetchFeed(CATALOG))).toBe('invalid-url');
+
+    const page = 'https://books.example.org/';
+    const html =
+      '<html><head><link rel="alternate" type="application/atom+xml;profile=opds-catalog" href="/op\u0001ds"></head></html>';
+    const discovered = mockFetch({ [page]: { body: html } });
+    const discoverClient = createOpdsClient({ userAgent: UA, fetchImpl: discovered.fetchImpl });
+    expect(await codeOf(discoverClient.fetchFeed(page))).toBe('invalid-url');
+    expect(discovered.requests).toHaveLength(1);
+  });
+
   it('resolves links against response.url after a cross-origin redirect and stops sending auth there', async () => {
     const moved = 'https://mirror.example.net/opds/root.xml';
     const { fetchImpl, requests } = mockFetch({

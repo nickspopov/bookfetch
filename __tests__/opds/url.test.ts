@@ -1,5 +1,6 @@
 /// <reference types="jest" />
 import { OpdsError, normalizeCatalogUrl, originOf, resolveUrl } from '../../src/opds';
+import { assertSafeHttpUrl, credentialOriginOf } from '../../src/opds/url';
 
 describe('resolveUrl (RFC 3986)', () => {
   const base = 'http://a/b/c/d;p?q';
@@ -103,6 +104,12 @@ describe('normalizeCatalogUrl', () => {
     ['https://exa mple.org'],
     ['https://example.org:99999/'],
     ['/relative/path'],
+    ['https://books.example.org\\@evil.example/opds'],
+    ['https://evil.example\\@books.example.org/opds'],
+    ['https://books.example.org/op\\ds'],
+    ['https://books.example.org/op\u0001ds'],
+    ['https://books.example.org/op\u007fds'],
+    ['https://books.example.org/op\u00a0ds'],
   ])('rejects %j with invalid-url', (input) => {
     let error: unknown;
     try {
@@ -112,5 +119,29 @@ describe('normalizeCatalogUrl', () => {
     }
     expect(error).toBeInstanceOf(OpdsError);
     expect((error as OpdsError).code).toBe('invalid-url');
+  });
+});
+
+describe('assertSafeHttpUrl and credentialOriginOf', () => {
+  it.each([
+    ['https://books.example.org\\@evil.example/x'],
+    ['https://evil.example\\@books.example.org/x'],
+    ['https://books.example.org/a b'],
+    ['https://books.example.org/a\tb'],
+    ['https://books.example.org/a\nb'],
+    ['https://books.example.org/a\u0000b'],
+    ['ftp://books.example.org/x'],
+    ['books.example.org/x'],
+  ])('refuses %j', (url) => {
+    expect(() => assertSafeHttpUrl(url)).toThrow(expect.objectContaining({ code: 'invalid-url' }));
+    expect(credentialOriginOf(url)).toBe('');
+  });
+
+  it('accepts plain http(s) URLs and gives no credential origin to URLs with userinfo', () => {
+    expect(assertSafeHttpUrl('https://books.example.org/opds?x=%20')).toBe('https://books.example.org/opds?x=%20');
+    expect(credentialOriginOf('https://books.example.org:443/opds')).toBe('https://books.example.org');
+    expect(assertSafeHttpUrl('https://user@books.example.org/x')).toBe('https://user@books.example.org/x');
+    expect(credentialOriginOf('https://user@books.example.org/x')).toBe('');
+    expect(credentialOriginOf('https://evil.example@books.example.org/x')).toBe('');
   });
 });

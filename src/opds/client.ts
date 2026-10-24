@@ -5,7 +5,7 @@ import { buildSearchUrl, parseOpenSearchDescription } from './opensearch';
 import { parseFeed } from './parse';
 import type { ClientOptions, Credentials, Feed, OpdsClient, RequestOptions, SearchSpec } from './types';
 import { OpdsError } from './types';
-import { originOf, resolveUrl } from './url';
+import { assertSafeHttpUrl, credentialOriginOf, originOf, resolveUrl } from './url';
 
 export const ACCEPT_FEED =
   'application/atom+xml;profile=opds-catalog, application/atom+xml;q=0.9, application/xml;q=0.8, */*;q=0.5';
@@ -134,11 +134,14 @@ export function createOpdsClient(options: ClientOptions): OpdsClient {
 
   function headersFor(url: string): Record<string, string> {
     const headers: Record<string, string> = { 'User-Agent': options.userAgent };
-    if (authorization && catalogOrigin !== '' && originOf(url) === catalogOrigin) headers.Authorization = authorization;
+    if (authorization && catalogOrigin !== '' && credentialOriginOf(url) === catalogOrigin) {
+      headers.Authorization = authorization;
+    }
     return headers;
   }
 
   async function request(url: string, accept: string, init?: RequestOptions): Promise<{ body: string; url: string }> {
+    assertSafeHttpUrl(url);
     const controller = new AbortController();
     let timedOut = false;
     const timer = setTimeout(() => {
@@ -165,7 +168,7 @@ export function createOpdsClient(options: ClientOptions): OpdsClient {
         throw new OpdsError('http', MESSAGES.http(response.status), response.status);
       }
       const body = await response.text();
-      return { body, url: response.url ? response.url : url };
+      return { body, url: response.url ? assertSafeHttpUrl(response.url) : url };
     } catch (error) {
       if (error instanceof OpdsError) throw error;
       if (init?.signal?.aborted && !timedOut) throw error;
