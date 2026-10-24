@@ -1,18 +1,18 @@
 const { withAppBuildGradle } = require('expo/config-plugins');
 
 const PROPERTIES = [
-  'SIDESEEN_UPLOAD_STORE_FILE',
-  'SIDESEEN_UPLOAD_STORE_PASSWORD',
-  'SIDESEEN_UPLOAD_KEY_ALIAS',
-  'SIDESEEN_UPLOAD_KEY_PASSWORD',
+  'BOOKFETCH_UPLOAD_STORE_FILE',
+  'BOOKFETCH_UPLOAD_STORE_PASSWORD',
+  'BOOKFETCH_UPLOAD_KEY_ALIAS',
+  'BOOKFETCH_UPLOAD_KEY_PASSWORD',
 ];
 
 const UPLOAD_CONFIG = `        if ([${PROPERTIES.map((name) => `'${name}'`).join(', ')}].every { project.hasProperty(it) }) {
             upload {
-                storeFile file(project.property('SIDESEEN_UPLOAD_STORE_FILE'))
-                storePassword project.property('SIDESEEN_UPLOAD_STORE_PASSWORD')
-                keyAlias project.property('SIDESEEN_UPLOAD_KEY_ALIAS')
-                keyPassword project.property('SIDESEEN_UPLOAD_KEY_PASSWORD')
+                storeFile file(project.property('BOOKFETCH_UPLOAD_STORE_FILE'))
+                storePassword project.property('BOOKFETCH_UPLOAD_STORE_PASSWORD')
+                keyAlias project.property('BOOKFETCH_UPLOAD_KEY_ALIAS')
+                keyPassword project.property('BOOKFETCH_UPLOAD_KEY_PASSWORD')
             }
         }
 `;

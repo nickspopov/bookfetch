@@ -5,7 +5,7 @@ import { buildSearchUrl, parseOpenSearchDescription } from './opensearch';
 import { parseFeed } from './parse';
 import type { ClientOptions, Credentials, Feed, OpdsClient, RequestOptions, SearchSpec } from './types';
 import { OpdsError } from './types';
-import { originOf, resolveUrl } from './url';
+import { assertSafeHttpUrl, credentialOriginOf, originOf, resolveUrl } from './url';
 
 export const ACCEPT_FEED =
   'application/atom+xml;profile=opds-catalog, application/atom+xml;q=0.9, application/xml;q=0.8, */*;q=0.5';
@@ -58,11 +58,7 @@ export function basicAuthHeader(credentials: Credentials): string {
   return `Basic ${base64Utf8(`${credentials.username}:${credentials.password}`)}`;
 }
 
-type Sniffed =
-  | { kind: 'feed' }
-  | { kind: 'html' }
-  | { kind: 'opds2' }
-  | { kind: 'other' };
+type Sniffed = { kind: 'feed' } | { kind: 'html' } | { kind: 'opds2' } | { kind: 'other' };
 
 /** Classifies a response body by its content (servers often send wrong Content-Type headers). */
 export function sniffBody(body: string): Sniffed {
@@ -138,11 +134,14 @@ export function createOpdsClient(options: ClientOptions): OpdsClient {
 
   function headersFor(url: string): Record<string, string> {
     const headers: Record<string, string> = { 'User-Agent': options.userAgent };
-    if (authorization && catalogOrigin !== '' && originOf(url) === catalogOrigin) headers.Authorization = authorization;
+    if (authorization && catalogOrigin !== '' && credentialOriginOf(url) === catalogOrigin) {
+      headers.Authorization = authorization;
+    }
     return headers;
   }
 
   async function request(url: string, accept: string, init?: RequestOptions): Promise<{ body: string; url: string }> {
+    assertSafeHttpUrl(url);
     const controller = new AbortController();
     let timedOut = false;
     const timer = setTimeout(() => {
@@ -155,11 +154,22 @@ export function createOpdsClient(options: ClientOptions): OpdsClient {
       else init.signal.addEventListener('abort', onCallerAbort);
     }
     try {
-      const response = await fetchImpl(url, {
-        method: 'GET',
-        headers: { ...headersFor(url), Accept: accept },
-        signal: controller.signal,
-      });
+      const headers: Record<string, string> = { ...headersFor(url), Accept: accept };
+      const send = (target: string) => fetchImpl(target, { method: 'GET', headers, signal: controller.signal });
+      let requested = url;
+      let response = await send(requested);
+      // iOS drops custom headers when it follows a redirect, so a protected catalog that redirects (/opds -> /opds/)
+      // answers 401 to the right credentials. Ask the final URL directly once, and only on the catalog origin.
+      if (
+        (response.status === 401 || response.status === 403) &&
+        headers.Authorization !== undefined &&
+        response.url &&
+        response.url !== url &&
+        credentialOriginOf(response.url) === catalogOrigin
+      ) {
+        requested = response.url;
+        response = await send(requested);
+      }
       if (response.status === 401) throw new OpdsError('unauthorized', MESSAGES.unauthorized, 401);
       if (response.status === 403) throw new OpdsError('unauthorized', MESSAGES.forbidden, 403);
       if (response.status === 404 || response.status === 410) {
@@ -169,7 +179,7 @@ export function createOpdsClient(options: ClientOptions): OpdsClient {
         throw new OpdsError('http', MESSAGES.http(response.status), response.status);
       }
       const body = await response.text();
-      return { body, url: response.url ? response.url : url };
+      return { body, url: response.url ? assertSafeHttpUrl(response.url) : requested };
     } catch (error) {
       if (error instanceof OpdsError) throw error;
       if (init?.signal?.aborted && !timedOut) throw error;

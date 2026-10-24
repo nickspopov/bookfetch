@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Source: https://standardebooks.org/feeds/opds/all?query=austen fetched 2026-10-24 with User-Agent "Bookfetch/1.0.0 (+https://bookfetch.nickpopov.com)". -->
+<?xml-stylesheet href="https://standardebooks.org/feeds/opds/style" type="text/xsl"?>
+	<feed xmlns="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:schema="http://schema.org/" xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/">
+		<script xmlns="http://www.w3.org/1999/xhtml" src="https://standardebooks.org/scripts/xslt-polyfill.min.js"/>
+		<id>https://standardebooks.org/feeds/opds/all?query=austen&amp;page=1&amp;per-page=12</id>
+		<link href="https://standardebooks.org/feeds/opds/all?query=austen&amp;page=1&amp;per-page=12" rel="self" type="application/atom+xml;profile=opds-catalog; charset=utf-8"/>
+		<link rel="first" href="https://standardebooks.org/feeds/opds/all?query=austen&amp;page=1&amp;per-page=12" type="application/atom+xml;profile=opds-catalog; charset=utf-8"/>
+						<link rel="last" href="https://standardebooks.org/feeds/opds/all?query=austen&amp;page=1&amp;per-page=12" type="application/atom+xml;profile=opds-catalog; charset=utf-8"/>
+		<link rel="search" href="https://standardebooks.org/opensearch" type="application/opensearchdescription+xml" title="Standard Ebooks"/>
+		<link href="https://standardebooks.org/ebooks/ebooks?query=austen&amp;page=1&amp;per-page=12" rel="alternate" type="application/xhtml+xml"/>
+		<opensearch:totalResults>7</opensearch:totalResults>
+		<opensearch:startIndex>1</opensearch:startIndex>
+		<opensearch:itemsPerPage>12</opensearch:itemsPerPage>
+		<link href="https://standardebooks.org/feeds/opds" rel="start" type="application/atom+xml;profile=opds-catalog;kind=navigation; charset=utf-8"/>
+		<link href="https://standardebooks.org/feeds/opds/all" rel="http://opds-spec.org/crawlable" type="application/atom+xml;profile=opds-catalog;kind=acquisition; charset=utf-8"/>
+		<title>Search Results</title>
+		<subtitle>Results for “austen”</subtitle>
+		<icon>https://standardebooks.org/images/logo.png</icon>
+		<updated>2026-10-24T21:54:27Z</updated>
+		<author>
+			<name>Standard Ebooks</name>
+			<uri>https://standardebooks.org</uri>
+		</author>
+					<entry>
+	<id>https://standardebooks.org/ebooks/ring-lardner/short-fiction</id>
+	<dc:identifier>https://standardebooks.org/ebooks/ring-lardner/short-fiction</dc:identifier>
+	<title>Short Fiction</title>
+			<author>
+			<name>Ring Lardner</name>
+			<uri>https://standardebooks.org/ebooks/ring-lardner</uri>
+							<schema:alternateName>Ringgold Wilmer Lardner</schema:alternateName>
+										<schema:sameAs>https://en.wikipedia.org/wiki/Ring_Lardner</schema:sameAs>
+										<schema:sameAs>https://id.loc.gov/authorities/names/n79023324.html</schema:sameAs>
+					</author>
+		<published>2026-04-02T18:53:17Z</published>
+	<dc:issued>2026-04-02T18:53:17Z</dc:issued>
+	<updated>2026-10-01T20:49:17Z</updated>
+	<dc:language>en-US</dc:language>
+	<dc:publisher>Standard Ebooks</dc:publisher>
+	<rights>Public domain in the United States. Users located outside of the United States must check their local laws before using this ebook. Original content released to the public domain via the Creative Commons CC0 1.0 Universal Public Domain Dedication.</rights>
+	<summary type="text">A collection of short stories by Ring Lardner.</summary>
+	<content type="html">&lt;p&gt;&lt;a href=&quot;https://standardebooks.org/ebooks/ring-lardner&quot;&gt;Ring Lardner&lt;/a&gt; was a prolific 20th century American humorist and journalist best known for his baseball stories and reportage, whose corpus nevertheless spans a wide range of genres and styles. He began his professional career as a sports reporter, but his literary career began in earnest in 1913 when he took over the &lt;i&gt;Chicago Tribune&lt;/i&gt;’s popular “In the Wake of the News” column, for which he wrote daily until 1919.&lt;/p&gt;
+			&lt;p&gt;His career as an author of short fiction took off when his &lt;i&gt;&lt;a href=&quot;https://standardebooks.org/ebooks/ring-lardner/jack-keefe-stories&quot;&gt;Jack Keefe Stories&lt;/a&gt;&lt;/i&gt; became an instant hit in the &lt;i&gt;Saturday Evening Post&lt;/i&gt;, launching his career as a magazine-first author of fiction that spanned over one hundred different stories published in the era’s most popular magazines, including &lt;i&gt;The Saturday Evening Post&lt;/i&gt;, &lt;i&gt;Collier’s&lt;/i&gt;, &lt;i&gt;Redbook&lt;/i&gt;, and &lt;i&gt;Cosmopolitan&lt;/i&gt;.&lt;/p&gt;
+			&lt;p&gt;A disenchantment with baseball following the infamous game-fixing scandal involving his beloved Chicago White Sox in the 1919 World Series, followed by a tuberculosis diagnosis, mark a sharp decrease in the length of his stories, a pivot away from baseball as a subject, and a shift to a generally darker tone. This era, however, is when he wrote some of his most well-known and often-cited stories, like “Haircut” and “Some Like Them Cold,” the latter of which would later be adapted into his full-length stage play, &lt;i&gt;&lt;a href=&quot;https://standardebooks.org/ebooks/ring-lardner_george-s-kaufman/june-moon&quot;&gt;June Moon&lt;/a&gt;&lt;/i&gt;. Lardner produced so many works of short fiction that stories would continue to appear in popular magazines for years after his death. Many of the stories in this edition have never been reprinted, remaining unavailable to readers for nearly a century.&lt;/p&gt;</content>
+			<category scheme="http://purl.org/dc/terms/LCSH" term="Short stories"/>
+			<category scheme="http://purl.org/dc/terms/LCSH" term="Baseball"/>
+			<category scheme="http://purl.org/dc/terms/LCSH" term="Humorists"/>
+			<category scheme="http://purl.org/dc/terms/LCSH" term="Satire"/>
+			<category scheme="http://purl.org/dc/terms/LCSH" term="Comedy"/>
+			<category scheme="http://purl.org/dc/terms/LCSH" term="Short stories, American"/>
+				<category scheme="https://standardebooks.org/vocab/subjects" term="Comedy"/>
+			<category scheme="https://standardebooks.org/vocab/subjects" term="Fiction"/>
+			<category scheme="https://standardebooks.org/vocab/subjects" term="Satire"/>
+			<category scheme="https://standardebooks.org/vocab/subjects" term="Shorts"/>
+		<link href="https://standardebooks.org/ebooks/ring-lardner/short-fiction/downloads/cover.jpg" rel="http://opds-spec.org/image" type="image/jpeg"/>
+	<link href="https://standardebooks.org/ebooks/ring-lardner/short-fiction/downloads/cover-thumbnail.jpg" rel="http://opds-spec.org/image/thumbnail" type="image/jpeg"/>
+	<link href="https://standardebooks.org/ebooks/ring-lardner/short-fiction" rel="alternate" title="This ebook’s page at Standard Ebooks" type="application/xhtml+xml"/>
+			<link href="https://standardebooks.org/ebooks/ring-lardner/short-fiction/downloads/ring-lardner_short-fiction.epub?source=feed" length="1354128" rel="http://opds-spec.org/acquisition/open-access" title="Recommended compatible epub" type="application/epub+zip" />
+				<link href="https://standardebooks.org/ebooks/ring-lardner/short-fiction/downloads/ring-lardner_short-fiction_advanced.epub?source=feed" length="1415346" rel="http://opds-spec.org/acquisition/open-access" title="Advanced epub" type="application/epub+zip" />
+				<link href="https://standardebooks.org/ebooks/ring-lardner/short-fiction/downloads/ring-lardner_short-fiction.kepub.epub?source=feed" length="1486953" rel="http://opds-spec.org/acquisition/open-access" title="Kobo Kepub epub" type="application/kepub+zip" />
+				<link href="https://standardebooks.org/ebooks/ring-lardner/short-fiction/downloads/ring-lardner_short-fiction.azw3?source=feed" length="2070259" rel="http://opds-spec.org/acquisition/open-access" title="Amazon Kindle azw3" type="application/x-mobipocket-ebook" />
+				<link href="https://standardebooks.org/ebooks/ring-lardner/short-fiction/text/single-page" length="2908795" rel="http://opds-spec.org/acquisition/open-access" title="XHTML" type="application/xhtml+xml" />
+	</entry>
+					<entry>
+	<id>https://standardebooks.org/ebooks/jane-austen/northanger-abbey</id>
+	<dc:identifier>https://standardebooks.org/ebooks/jane-austen/northanger-abbey</dc:identifier>
+	<title>Northanger Abbey</title>
+			<author>
+			<name>Jane Austen</name>
+			<uri>https://standardebooks.org/ebooks/jane-austen</uri>
+										<schema:sameAs>https://en.wikipedia.org/wiki/Jane_Austen</schema:sameAs>
+										<schema:sameAs>https://id.loc.gov/authorities/names/n79032879.html</schema:sameAs>
+					</author>
+		<published>2022-05-16T17:07:12Z</published>
+	<dc:issued>2022-05-16T17:07:12Z</dc:issued>
+	<updated>2026-08-04T14:53:56Z</updated>
+	<dc:language>en-GB</dc:language>
+	<dc:publisher>Standard Ebooks</dc:publisher>
+	<rights>Public domain in the United States. Users located outside of the United States must check their local laws before using this ebook. Original content released to the public domain via the Creative Commons CC0 1.0 Universal Public Domain Dedication.</rights>
+	<summary type="text">A young girl with an overactive imagination comes of age.</summary>
+	<content type="html">&lt;p&gt;&lt;i&gt;Northanger Abbey&lt;/i&gt; is the coming-of-age story of Catherine Morland, a seventeen-year-old girl who’s entering society for the first time. Despite her naivete, she quickly gains two potential suitors. We follow Catherine as she tries to navigate the difficulties of romance, friendship, and responsibility—problems amplified by the fact that Catherine views her world through the lens of the dramatic Gothic novels she loves to read. &lt;a href=&quot;https://standardebooks.org/ebooks/jane-austen&quot;&gt;Austen&lt;/a&gt; deftly satirizes both the Gothic novels popular at the time (especially &lt;a href=&quot;https://standardebooks.org/ebooks/ann-radcliffe&quot;&gt;Ann Radcliffe’s&lt;/a&gt; &lt;a href=&quot;https://standardebooks.org/ebooks/ann-radcliffe/the-mysteries-of-udolpho&quot;&gt;&lt;i&gt;The Mysteries of Udolpho&lt;/i&gt;&lt;/a&gt;), as well as contemporary society and women’s role in it.&lt;/p&gt;
+			&lt;p&gt;Completed in 1803, &lt;i&gt;Northanger Abbey&lt;/i&gt; was the first of Austen’s novels to be completed, but it was only published posthumously in 1817.&lt;/p&gt;</content>
+			<category scheme="http://purl.org/dc/terms/LCSH" term="England -- Social life and customs -- 19th century -- Fiction"/>
+			<category scheme="http://purl.org/dc/terms/LCSH" term="Satire"/>
+			<category scheme="http://purl.org/dc/terms/LCSH" term="England -- Fiction"/>
+			<category scheme="http://purl.org/dc/terms/LCSH" term="Young women -- Fiction"/>
+			<category scheme="http://purl.org/dc/terms/LCSH" term="Love stories"/>
+			<category scheme="http://purl.org/dc/terms/LCSH" term="Gothic fiction"/>
+			<category scheme="http://purl.org/dc/terms/LCSH" term="Horror tales -- Appreciation -- Fiction"/>
+			<category scheme="http://purl.org/dc/terms/LCSH" term="Books and reading -- Fiction"/>
+			<category scheme="http://purl.org/dc/terms/LCSH" term="Gentry -- England -- Fiction"/>
+			<category scheme="http://purl.org/dc/terms/LCSH" term="Marriage -- Economic aspects -- Fiction"/>
+				<category scheme="https://standardebooks.org/vocab/subjects" term="Fiction"/>
+			<category scheme="https://standardebooks.org/vocab/subjects" term="Satire"/>
+		<link href="https://standardebooks.org/ebooks/jane-austen/northanger-abbey/downloads/cover.jpg" rel="http://opds-spec.org/image" type="image/jpeg"/>
+	<link href="https://standardebooks.org/ebooks/jane-austen/northanger-abbey/downloads/cover-thumbnail.jpg" rel="http://opds-spec.org/image/thumbnail" type="image/jpeg"/>
+	<link href="https://standardebooks.org/ebooks/jane-austen/northanger-abbey" rel="alternate" title="This ebook’s page at Standard Ebooks" type="application/xhtml+xml"/>
+			<link href="https://standardebooks.org/ebooks/jane-austen/northanger-abbey/downloads/jane-austen_northanger-abbey.epub?source=feed" length="841945" rel="http://opds-spec.org/acquisition/open-access" title="Recommended compatible epub" type="application/epub+zip" />
+				<link href="https://standardebooks.org/ebooks/jane-austen/northanger-abbey/downloads/jane-austen_northanger-abbey_advanced.epub?source=feed" length="844997" rel="http://opds-spec.org/acquisition/open-access" title="Advanced epub" type="application/epub+zip" />
+				<link href="https://standardebooks.org/ebooks/jane-austen/northanger-abbey/downloads/jane-austen_northanger-abbey.kepub.epub?source=feed" length="783697" rel="http://opds-spec.org/acquisition/open-access" title="Kobo Kepub epub" type="application/kepub+zip" />
+				<link href="https://standardebooks.org/ebooks/jane-austen/northanger-abbey/downloads/jane-austen_northanger-abbey.azw3?source=feed" length="905916" rel="http://opds-spec.org/acquisition/open-access" title="Amazon Kindle azw3" type="application/x-mobipocket-ebook" />
+				<link href="https://standardebooks.org/ebooks/jane-austen/northanger-abbey/text/single-page" length="553362" rel="http://opds-spec.org/acquisition/open-access" title="XHTML" type="application/xhtml+xml" />
+	</entry>
+					<entry>
+	<id>https://standardebooks.org/ebooks/jane-austen/mansfield-park</id>
+	<dc:identifier>https://standardebooks.org/ebooks/jane-austen/mansfield-park</dc:identifier>
+	<title>Mansfield Park</title>
+			<author>
+			<name>Jane Austen</name>
+			<uri>https://standardebooks.org/ebooks/jane-austen</uri>
+										<schema:sameAs>https://en.wikipedia.org/wiki/Jane_Austen</schema:sameAs>
+										<schema:sameAs>https://id.loc.gov/authorities/names/n79032879.html</schema:sameAs>
+					</author>
+		<published>2021-01-11T19:50:42Z</published>
+	<dc:issued>2021-01-11T19:50:42Z</dc:issued>
+	<updated>2026-08-04T14:53:54Z</updated>
+	<dc:language>en-GB</dc:language>
+	<dc:publisher>Standard Ebooks</dc:publisher>
+	<rights>Public domain in the United States. Users located outside of the United States must check their local laws before using this ebook. Original content released to the public domain via the Creative Commons CC0 1.0 Universal Public Domain Dedication.</rights>
+	<summary type="text">A young girl is sent to live with her wealthy relatives at a country estate, where she must navigate adolescence and young adulthood.</summary>
+	<content type="html">&lt;p&gt;At the age of 10, Fanny Price, the daughter of a poor Portsmouth family, is sent to live with her wealthy uncle’s family, the Bertrams, at the country estate of Mansfield Park. The Bertrams treat her cruelly at first, and Fanny has trouble fitting in. Her female cousins, Maria and Julia, are fashionable and vapid, and her elder male cousin, Tom, is a drunk. The only family member she feels a connection to is the younger Edmund, who is preparing for life in the clergy.&lt;/p&gt;
+			&lt;p&gt;When her uncle leaves to manage business in Antigua, Henry and Mary Crawford, siblings from the region, come to live at Mansfield Park as well. Their arrival begins a series of romantic engagements that strains the entire family’s relationships.&lt;/p&gt;
+			&lt;p&gt;&lt;i&gt;Mansfield Park&lt;/i&gt; is unusual in that despite it being a great public success, with the first edition selling out in six months and a second edition selling out two years later, it wasn’t publicly reviewed until 1821, seven years after it was first published. Contemporary reviews were generally good, praising the novel’s morality. Modern reviews are more mixed, making it one of &lt;a href=&quot;https://standardebooks.org/ebooks/jane-austen&quot;&gt;Austen’s&lt;/a&gt; more controversial works. Modern critics have called it everything from eccentric and difficult to thoughtful and profound, with any number of interpretations possible depending on the lens one views the work through.&lt;/p&gt;</content>
+			<category scheme="http://purl.org/dc/terms/LCSH" term="England -- Fiction"/>
+			<category scheme="http://purl.org/dc/terms/LCSH" term="Young women -- Fiction"/>
+			<category scheme="http://purl.org/dc/terms/LCSH" term="Love stories"/>
+			<category scheme="http://purl.org/dc/terms/LCSH" term="Domestic fiction"/>
+			<category scheme="http://purl.org/dc/terms/LCSH" term="Country homes -- Fiction"/>
+			<category scheme="http://purl.org/dc/terms/LCSH" term="Adoptees -- Fiction"/>
+			<category scheme="http://purl.org/dc/terms/LCSH" term="Children of the rich -- Fiction"/>
+			<category scheme="http://purl.org/dc/terms/LCSH" term="Cousins -- Fiction"/>
+			<category scheme="http://purl.org/dc/terms/LCSH" term="Uncles -- Fiction"/>
+				<category scheme="https://standardebooks.org/vocab/subjects" term="Fiction"/>
+		<link href="https://standardebooks.org/ebooks/jane-austen/mansfield-park/downloads/cover.jpg" rel="http://opds-spec.org/image" type="image/jpeg"/>
+	<link href="https://standardebooks.org/ebooks/jane-austen/mansfield-park/downloads/cover-thumbnail.jpg" rel="http://opds-spec.org/image/thumbnail" type="image/jpeg"/>
+	<link href="https://standardebooks.org/ebooks/jane-austen/mansfield-park" rel="alternate" title="This ebook’s page at Standard Ebooks" type="application/xhtml+xml"/>
+			<link href="https://standardebooks.org/ebooks/jane-austen/mansfield-park/downloads/jane-austen_mansfield-park.epub?source=feed" length="708463" rel="http://opds-spec.org/acquisition/open-access" title="Recommended compatible epub" type="application/epub+zip" />
+				<link href="https://standardebooks.org/ebooks/jane-austen/mansfield-park/downloads/jane-austen_mansfield-park_advanced.epub?source=feed" length="693654" rel="http://opds-spec.org/acquisition/open-access" title="Advanced epub" type="application/epub+zip" />
+				<link href="https://standardebooks.org/ebooks/jane-austen/mansfield-park/downloads/jane-austen_mansfield-park.kepub.epub?source=feed" length="689487" rel="http://opds-spec.org/acquisition/open-access" title="Kobo Kepub epub" type="application/kepub+zip" />
+				<link href="https://standardebooks.org/ebooks/jane-austen/mansfield-park/downloads/jane-austen_mansfield-park.azw3?source=feed" length="897330" rel="http://opds-spec.org/acquisition/open-access" title="Amazon Kindle azw3" type="application/x-mobipocket-ebook" />
+				<link href="https://standardebooks.org/ebooks/jane-austen/mansfield-park/text/single-page" length="1046538" rel="http://opds-spec.org/acquisition/open-access" title="XHTML" type="application/xhtml+xml" />
+	</entry>
+					<entry>
+	<id>https://standardebooks.org/ebooks/jane-austen/sense-and-sensibility</id>
+	<dc:identifier>https://standardebooks.org/ebooks/jane-austen/sense-and-sensibility</dc:identifier>
+	<title>Sense and Sensibility</title>
+			<author>
+			<name>Jane Austen</name>
+			<uri>https://standardebooks.org/ebooks/jane-austen</uri>
+										<schema:sameAs>https://en.wikipedia.org/wiki/Jane_Austen</schema:sameAs>
+										<schema:sameAs>https://id.loc.gov/authorities/names/n79032879.html</schema:sameAs>
+					</author>
+		<published>2019-10-20T21:46:09Z</published>
+	<dc:issued>2019-10-20T21:46:09Z</dc:issued>
+	<updated>2026-08-15T17:39:33Z</updated>
+	<dc:language>en-GB</dc:language>
+	<dc:publisher>Standard Ebooks</dc:publisher>
+	<rights>Public domain in the United States. Users located outside of the United States must check their local laws before using this ebook. Original content released to the public domain via the Creative Commons CC0 1.0 Universal Public Domain Dedication.</rights>
+	<summary type="text">Two sisters take long journeys to love in early nineteenth-century England.</summary>
+	<content type="html">&lt;p&gt;When her husband dies and leaves his estate to his son from a former marriage, Mrs. Dashwood and her three daughters are offered a cottage on the estate of a distant relative. The two oldest daughters fall in love, only to find that the objects of their affection have secrets that throw their lives into an uproar. The reserved oldest daughter and impetuous, fiery middle daughter will take very different journeys to discovering the true worth of their respective beaus.&lt;/p&gt;
+			&lt;p&gt;Published in 1811, &lt;i&gt;Sense and Sensibility&lt;/i&gt;, was largely written fifteen years earlier, when &lt;a href=&quot;https://standardebooks.org/ebooks/jane-austen&quot;&gt;Austen&lt;/a&gt; was approximately the same age as her older protagonist Elinor. It was published anonymously (“By A Lady”), possibly due to propriety, or perhaps because she wanted to avoid any negative publicity if the book was not well-received. She needn’t have worried; it sold out its first printing of a modest 750 copies. She used well-defined characters, humor, and satire to paint a vivid picture of life in the England of George III, with all of its manners, class issues, and unwritten rules of behavior. That it’s still being read over two hundred years later is a testimony to her brilliance.&lt;/p&gt;</content>
+			<category scheme="http://purl.org/dc/terms/LCSH" term="England -- Social life and customs -- 19th century -- Fiction"/>
+			<category scheme="http://purl.org/dc/terms/LCSH" term="Inheritance and succession -- Fiction"/>
+			<category scheme="http://purl.org/dc/terms/LCSH" term="England -- Fiction"/>
+			<category scheme="http://purl.org/dc/terms/LCSH" term="Young women -- Fiction"/>
+			<category scheme="http://purl.org/dc/terms/LCSH" term="Love stories"/>
+			<category scheme="http://purl.org/dc/terms/LCSH" term="Sisters -- Fiction"/>
+			<category scheme="http://purl.org/dc/terms/LCSH" term="Domestic fiction"/>
+			<category scheme="http://purl.org/dc/terms/LCSH" term="Mate selection -- Fiction"/>
+			<category scheme="http://purl.org/dc/terms/LCSH" term="Social classes -- Fiction"/>
+			<category scheme="http://purl.org/dc/terms/LCSH" term="Gentry -- England -- Fiction"/>
+			<category scheme="http://purl.org/dc/terms/LCSH" term="Regency fiction"/>
+				<category scheme="https://standardebooks.org/vocab/subjects" term="Fiction"/>
+		<link href="https://standardebooks.org/ebooks/jane-austen/sense-and-sensibility/downloads/cover.jpg" rel="http://opds-spec.org/image" type="image/jpeg"/>
+	<link href="https://standardebooks.org/ebooks/jane-austen/sense-and-sensibility/downloads/cover-thumbnail.jpg" rel="http://opds-spec.org/image/thumbnail" type="image/jpeg"/>
+	<link href="https://standardebooks.org/ebooks/jane-austen/sense-and-sensibility" rel="alternate" title="This ebook’s page at Standard Ebooks" type="application/xhtml+xml"/>
+			<link href="https://standardebooks.org/ebooks/jane-austen/sense-and-sensibility/downloads/jane-austen_sense-and-sensibility.epub?source=feed" length="793296" rel="http://opds-spec.org/acquisition/open-access" title="Recommended compatible epub" type="application/epub+zip" />
+				<link href="https://standardebooks.org/ebooks/jane-austen/sense-and-sensibility/downloads/jane-austen_sense-and-sensibility_advanced.epub?source=feed" length="760638" rel="http://opds-spec.org/acquisition/open-access" title="Advanced epub" type="application/epub+zip" />
+				<link href="https://standardebooks.org/ebooks/jane-austen/sense-and-sensibility/downloads/jane-austen_sense-and-sensibility.kepub.epub?source=feed" length="749145" rel="http://opds-spec.org/acquisition/open-access" title="Kobo Kepub epub" type="application/kepub+zip" />
+				<link href="https://standardebooks.org/ebooks/jane-austen/sense-and-sensibility/downloads/jane-austen_sense-and-sensibility.azw3?source=feed" length="923504" rel="http://opds-spec.org/acquisition/open-access" title="Amazon Kindle azw3" type="application/x-mobipocket-ebook" />
+				<link href="https://standardebooks.org/ebooks/jane-austen/sense-and-sensibility/text/single-page" length="821366" rel="http://opds-spec.org/acquisition/open-access" title="XHTML" type="application/xhtml+xml" />
+	</entry>
+					<entry>
+	<id>https://standardebooks.org/ebooks/jane-austen/persuasion</id>
+	<dc:identifier>https://standardebooks.org/ebooks/jane-austen/persuasion</dc:identifier>
+	<title>Persuasion</title>
+			<author>
+			<name>Jane Austen</name>
+			<uri>https://standardebooks.org/ebooks/jane-austen</uri>
+										<schema:sameAs>https://en.wikipedia.org/wiki/Jane_Austen</schema:sameAs>
+										<schema:sameAs>https://id.loc.gov/authorities/names/n79032879.html</schema:sameAs>
+					</author>
+		<published>2018-12-05T00:19:55Z</published>
+	<dc:issued>2018-12-05T00:19:55Z</dc:issued>
+	<updated>2026-08-20T16:10:04Z</updated>
+	<dc:language>en-GB</dc:language>
+	<dc:publisher>Standard Ebooks</dc:publisher>
+	<rights>Public domain in the United States. Users located outside of the United States must check their local laws before using this ebook. Original content released to the public domain via the Creative Commons CC0 1.0 Universal Public Domain Dedication.</rights>
+	<summary type="text">A young woman meets again with a lover whose marriage proposal she had been persuaded to reject several years ago.</summary>
+	<content type="html">&lt;p&gt;Anne Elliot is the under-valued daughter of a vain and improvident English baronet, Sir Walter Elliot. Some years previously, at the urging of a family friend, Anne had rejected a marriage proposal from a young but impoverished naval captain. When she unexpectedly encounters him again, she is filled with regrets.&lt;/p&gt;
+			&lt;p&gt;&lt;i&gt;Persuasion&lt;/i&gt; was published in 1817, six months after &lt;a href=&quot;https://standardebooks.org/ebooks/jane-austen&quot;&gt;Jane Austen’s&lt;/a&gt; death, and is the last novel she completed in full. It was well-regarded on publication and has been turned into several television series and movies.&lt;/p&gt;</content>
+			<category scheme="http://purl.org/dc/terms/LCSH" term="England -- Social life and customs -- 19th century -- Fiction"/>
+			<category scheme="http://purl.org/dc/terms/LCSH" term="Psychological fiction"/>
+			<category scheme="http://purl.org/dc/terms/LCSH" term="Young women -- Fiction"/>
+			<category scheme="http://purl.org/dc/terms/LCSH" term="Motherless families -- Fiction"/>
+			<category scheme="http://purl.org/dc/terms/LCSH" term="Rejection (Psychology) -- Fiction"/>
+			<category scheme="http://purl.org/dc/terms/LCSH" term="First loves -- Fiction"/>
+			<category scheme="http://purl.org/dc/terms/LCSH" term="Dysfunctional families -- Fiction"/>
+			<category scheme="http://purl.org/dc/terms/LCSH" term="Ship captains -- Fiction"/>
+			<category scheme="http://purl.org/dc/terms/LCSH" term="Love stories"/>
+			<category scheme="http://purl.org/dc/terms/LCSH" term="Regency fiction"/>
+				<category scheme="https://standardebooks.org/vocab/subjects" term="Fiction"/>
+		<link href="https://standardebooks.org/ebooks/jane-austen/persuasion/downloads/cover.jpg" rel="http://opds-spec.org/image" type="image/jpeg"/>
+	<link href="https://standardebooks.org/ebooks/jane-austen/persuasion/downloads/cover-thumbnail.jpg" rel="http://opds-spec.org/image/thumbnail" type="image/jpeg"/>
+	<link href="https://standardebooks.org/ebooks/jane-austen/persuasion" rel="alternate" title="This ebook’s page at Standard Ebooks" type="application/xhtml+xml"/>
+			<link href="https://standardebooks.org/ebooks/jane-austen/persuasion/downloads/jane-austen_persuasion.epub?source=feed" length="640519" rel="http://opds-spec.org/acquisition/open-access" title="Recommended compatible epub" type="application/epub+zip" />
+				<link href="https://standardebooks.org/ebooks/jane-austen/persuasion/downloads/jane-austen_persuasion_advanced.epub?source=feed" length="1181751" rel="http://opds-spec.org/acquisition/open-access" title="Advanced epub" type="application/epub+zip" />
+				<link href="https://standardebooks.org/ebooks/jane-austen/persuasion/downloads/jane-austen_persuasion.kepub.epub?source=feed" length="597371" rel="http://opds-spec.org/acquisition/open-access" title="Kobo Kepub epub" type="application/kepub+zip" />
+				<link href="https://standardebooks.org/ebooks/jane-austen/persuasion/downloads/jane-austen_persuasion.azw3?source=feed" length="725439" rel="http://opds-spec.org/acquisition/open-access" title="Amazon Kindle azw3" type="application/x-mobipocket-ebook" />
+				<link href="https://standardebooks.org/ebooks/jane-austen/persuasion/text/single-page" length="588113" rel="http://opds-spec.org/acquisition/open-access" title="XHTML" type="application/xhtml+xml" />
+	</entry>
+					<entry>
+	<id>https://standardebooks.org/ebooks/jane-austen/emma</id>
+	<dc:identifier>https://standardebooks.org/ebooks/jane-austen/emma</dc:identifier>
+	<title>Emma</title>
+			<author>
+			<name>Jane Austen</name>
+			<uri>https://standardebooks.org/ebooks/jane-austen</uri>
+										<schema:sameAs>https://en.wikipedia.org/wiki/Jane_Austen</schema:sameAs>
+										<schema:sameAs>https://id.loc.gov/authorities/names/n79032879.html</schema:sameAs>
+					</author>
+		<published>2018-03-21T00:17:13Z</published>
+	<dc:issued>2018-03-21T00:17:13Z</dc:issued>
+	<updated>2026-08-04T14:53:54Z</updated>
+	<dc:language>en-GB</dc:language>
+	<dc:publisher>Standard Ebooks</dc:publisher>
+	<rights>Public domain in the United States. Users located outside of the United States must check their local laws before using this ebook. Original content released to the public domain via the Creative Commons CC0 1.0 Universal Public Domain Dedication.</rights>
+	<summary type="text">A wealthy young woman decides to take on the role of patroness and matchmaker to a young protégé, with considerably less than successful results.</summary>
+	<content type="html">&lt;p&gt;&lt;i&gt;Emma&lt;/i&gt; is one of &lt;a href=&quot;https://standardebooks.org/ebooks/jane-austen&quot;&gt;Jane Austen’s&lt;/a&gt; best-loved novels. Its eponymous heroine, Emma Woodhouse, has lived a pampered, protected life and consequently is somewhat unrealistic when she sets her sights on becoming a matchmaker for a young friend.&lt;/p&gt;
+			&lt;p&gt;The novel provides a light-hearted insight into the distinctions of the rigid class structure of England in the Regency period, and the social barriers to marriage between persons considered to be of superior and inferior rank.&lt;/p&gt;
+			&lt;p&gt;&lt;i&gt;Emma&lt;/i&gt; was published in 1815, the last of Austen’s novels to be published while she still lived. It received a generally very positive reception, and was well reviewed (though anonymously) by Sir Walter Scott. Criticisms of the novel, such as they were, centered around its supposed lack of plot, though its treatment of character was recognized and applauded. Today it is regarded as one of Austen’s best works. The novel has been adapted many times for theater, movies and television.&lt;/p&gt;</content>
+			<category scheme="http://purl.org/dc/terms/LCSH" term="Humorous stories"/>
+			<category scheme="http://purl.org/dc/terms/LCSH" term="England -- Fiction"/>
+			<category scheme="http://purl.org/dc/terms/LCSH" term="Young women -- Fiction"/>
+			<category scheme="http://purl.org/dc/terms/LCSH" term="Love stories"/>
+			<category scheme="http://purl.org/dc/terms/LCSH" term="Fathers and daughters -- Fiction"/>
+			<category scheme="http://purl.org/dc/terms/LCSH" term="Bildungsromans"/>
+			<category scheme="http://purl.org/dc/terms/LCSH" term="Mate selection -- Fiction"/>
+			<category scheme="http://purl.org/dc/terms/LCSH" term="Female friendship -- Fiction"/>
+				<category scheme="https://standardebooks.org/vocab/subjects" term="Fiction"/>
+		<link href="https://standardebooks.org/ebooks/jane-austen/emma/downloads/cover.jpg" rel="http://opds-spec.org/image" type="image/jpeg"/>
+	<link href="https://standardebooks.org/ebooks/jane-austen/emma/downloads/cover-thumbnail.jpg" rel="http://opds-spec.org/image/thumbnail" type="image/jpeg"/>
+	<link href="https://standardebooks.org/ebooks/jane-austen/emma" rel="alternate" title="This ebook’s page at Standard Ebooks" type="application/xhtml+xml"/>
+			<link href="https://standardebooks.org/ebooks/jane-austen/emma/downloads/jane-austen_emma.epub?source=feed" length="798869" rel="http://opds-spec.org/acquisition/open-access" title="Recommended compatible epub" type="application/epub+zip" />
+				<link href="https://standardebooks.org/ebooks/jane-austen/emma/downloads/jane-austen_emma_advanced.epub?source=feed" length="1193693" rel="http://opds-spec.org/acquisition/open-access" title="Advanced epub" type="application/epub+zip" />
+				<link href="https://standardebooks.org/ebooks/jane-austen/emma/downloads/jane-austen_emma.kepub.epub?source=feed" length="812057" rel="http://opds-spec.org/acquisition/open-access" title="Kobo Kepub epub" type="application/kepub+zip" />
+				<link href="https://standardebooks.org/ebooks/jane-austen/emma/downloads/jane-austen_emma.azw3?source=feed" length="1012613" rel="http://opds-spec.org/acquisition/open-access" title="Amazon Kindle azw3" type="application/x-mobipocket-ebook" />
+				<link href="https://standardebooks.org/ebooks/jane-austen/emma/text/single-page" length="1100197" rel="http://opds-spec.org/acquisition/open-access" title="XHTML" type="application/xhtml+xml" />
+	</entry>
+					<entry>
+	<id>https://standardebooks.org/ebooks/jane-austen/pride-and-prejudice</id>
+	<dc:identifier>https://standardebooks.org/ebooks/jane-austen/pride-and-prejudice</dc:identifier>
+	<title>Pride and Prejudice</title>
+			<author>
+			<name>Jane Austen</name>
+			<uri>https://standardebooks.org/ebooks/jane-austen</uri>
+										<schema:sameAs>https://en.wikipedia.org/wiki/Jane_Austen</schema:sameAs>
+										<schema:sameAs>https://id.loc.gov/authorities/names/n79032879.html</schema:sameAs>
+					</author>
+		<published>2014-05-25T00:00:00Z</published>
+	<dc:issued>2014-05-25T00:00:00Z</dc:issued>
+	<updated>2026-09-07T16:45:45Z</updated>
+	<dc:language>en-GB</dc:language>
+	<dc:publisher>Standard Ebooks</dc:publisher>
+	<rights>Public domain in the United States. Users located outside of the United States must check their local laws before using this ebook. Original content released to the public domain via the Creative Commons CC0 1.0 Universal Public Domain Dedication.</rights>
+	<summary type="text">A Regency-era novel of manners in which five women try to adjust to their new neighbor, an eligible gentleman.</summary>
+	<content type="html">&lt;p&gt;&lt;i&gt;Pride and Prejudice&lt;/i&gt; may today be one of &lt;a href=&quot;https://standardebooks.org/ebooks/jane-austen&quot;&gt;Jane Austen’s&lt;/a&gt; most enduring novels, having been widely adapted to stage, screen, and other media since its publication in 1813. The novel tells the tale of five unmarried sisters and how their lives change when a wealthy eligible bachelor moves in to their neighborhood.&lt;/p&gt;</content>
+			<category scheme="http://purl.org/dc/terms/LCSH" term="England--Fiction"/>
+			<category scheme="http://purl.org/dc/terms/LCSH" term="Young women--Fiction"/>
+			<category scheme="http://purl.org/dc/terms/LCSH" term="Love stories"/>
+			<category scheme="http://purl.org/dc/terms/LCSH" term="Sisters--Fiction"/>
+			<category scheme="http://purl.org/dc/terms/LCSH" term="Domestic fiction"/>
+			<category scheme="http://purl.org/dc/terms/LCSH" term="Courtship--Fiction"/>
+			<category scheme="http://purl.org/dc/terms/LCSH" term="Social classes--Fiction"/>
+				<category scheme="https://standardebooks.org/vocab/subjects" term="Fiction"/>
+		<link href="https://standardebooks.org/ebooks/jane-austen/pride-and-prejudice/downloads/cover.jpg" rel="http://opds-spec.org/image" type="image/jpeg"/>
+	<link href="https://standardebooks.org/ebooks/jane-austen/pride-and-prejudice/downloads/cover-thumbnail.jpg" rel="http://opds-spec.org/image/thumbnail" type="image/jpeg"/>
+	<link href="https://standardebooks.org/ebooks/jane-austen/pride-and-prejudice" rel="alternate" title="This ebook’s page at Standard Ebooks" type="application/xhtml+xml"/>
+			<link href="https://standardebooks.org/ebooks/jane-austen/pride-and-prejudice/downloads/jane-austen_pride-and-prejudice.epub?source=feed" length="831959" rel="http://opds-spec.org/acquisition/open-access" title="Recommended compatible epub" type="application/epub+zip" />
+				<link href="https://standardebooks.org/ebooks/jane-austen/pride-and-prejudice/downloads/jane-austen_pride-and-prejudice_advanced.epub?source=feed" length="823296" rel="http://opds-spec.org/acquisition/open-access" title="Advanced epub" type="application/epub+zip" />
+				<link href="https://standardebooks.org/ebooks/jane-austen/pride-and-prejudice/downloads/jane-austen_pride-and-prejudice.kepub.epub?source=feed" length="802527" rel="http://opds-spec.org/acquisition/open-access" title="Kobo Kepub epub" type="application/kepub+zip" />
+				<link href="https://standardebooks.org/ebooks/jane-austen/pride-and-prejudice/downloads/jane-austen_pride-and-prejudice.azw3?source=feed" length="975248" rel="http://opds-spec.org/acquisition/open-access" title="Amazon Kindle azw3" type="application/x-mobipocket-ebook" />
+				<link href="https://standardebooks.org/ebooks/jane-austen/pride-and-prejudice/text/single-page" length="861787" rel="http://opds-spec.org/acquisition/open-access" title="XHTML" type="application/xhtml+xml" />
+	</entry>
+			</feed>

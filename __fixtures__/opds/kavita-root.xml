@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Source: https://demo.kavitareader.com/api/opds/9003cf99-9213-4206-a787-af2fe4cc5f1f fetched 2026-10-24 with User-Agent "Bookfetch/1.0.0 (+https://bookfetch.nickpopov.com)". -->
+<feed xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.w3.org/2005/Atom">
+  <updated>2026-10-24T21:54:33</updated>
+  <id>root</id>
+  <title>Kavita</title>
+  <icon>/api/opds/9003cf99-9213-4206-a787-af2fe4cc5f1f/favicon</icon>
+  <author>
+    <name>Kavita</name>
+    <uri>https://www.kavitareader.com</uri>
+  </author>
+  <link rel="self" type="application/atom+xml;profile=opds-catalog;kind=navigation" href="/api/opds/" />
+  <link rel="start" type="application/atom+xml;profile=opds-catalog;kind=navigation" href="/api/opds/9003cf99-9213-4206-a787-af2fe4cc5f1f" />
+  <link rel="search" type="application/opensearchdescription+xml" href="/api/opds/9003cf99-9213-4206-a787-af2fe4cc5f1f/search" />
+  <entry>
+    <updated>2026-10-24T21:54:33</updated>
+    <id>recentlyAdded</id>
+    <title>Recently Added</title>
+    <content type="text">Browse Recently Added</content>
+    <link rel="subsection" type="application/atom+xml;profile=opds-catalog;kind=navigation" href="/api/opds/9003cf99-9213-4206-a787-af2fe4cc5f1f/recently-added" />
+  </entry>
+  <entry>
+    <updated>2026-10-24T21:54:33</updated>
+    <id>recentlyUpdated</id>
+    <title>Recently Updated</title>
+    <content type="text">Browse Recently Updated</content>
+    <link rel="subsection" type="application/atom+xml;profile=opds-catalog;kind=navigation" href="/api/opds/9003cf99-9213-4206-a787-af2fe4cc5f1f/recently-updated" />
+  </entry>
+  <entry>
+    <updated>2026-10-24T21:54:33</updated>
+    <id>onDeck</id>
+    <title>On Deck</title>
+    <content type="text">Browse On Deck</content>
+    <link rel="subsection" type="application/atom+xml;profile=opds-catalog;kind=navigation" href="/api/opds/9003cf99-9213-4206-a787-af2fe4cc5f1f/on-deck" />
+  </entry>
+  <entry>
+    <updated>2026-10-24T21:54:33</updated>
+    <id>smartFilter-44</id>
+    <title>New Filter</title>
+    <content type="text">New Filter</content>
+    <link rel="subsection" type="application/atom+xml;profile=opds-catalog;kind=navigation" href="/api/opds/9003cf99-9213-4206-a787-af2fe4cc5f1f/smart-filters/49/" />
+  </entry>
+  <entry>
+    <updated>2026-10-24T21:54:33</updated>
+    <id>readingList</id>
+    <title>Reading Lists</title>
+    <content type="text">Browse by Reading Lists</content>
+    <link rel="subsection" type="application/atom+xml;profile=opds-catalog;kind=navigation" href="/api/opds/9003cf99-9213-4206-a787-af2fe4cc5f1f/reading-list" />
+  </entry>
+  <entry>
+    <updated>2026-10-24T21:54:33</updated>
+    <id>wantToRead</id>
+    <title>Want to Read</title>
+    <content type="text">Browse Want to Read</content>
+    <link rel="subsection" type="application/atom+xml;profile=opds-catalog;kind=navigation" href="/api/opds/9003cf99-9213-4206-a787-af2fe4cc5f1f/want-to-read" />
+  </entry>
+  <entry>
+    <updated>2026-10-24T21:54:33</updated>
+    <id>allLibraries</id>
+    <title>All Libraries</title>
+    <content type="text">Browse by Libraries</content>
+    <link rel="subsection" type="application/atom+xml;profile=opds-catalog;kind=navigation" href="/api/opds/9003cf99-9213-4206-a787-af2fe4cc5f1f/libraries" />
+  </entry>
+  <entry>
+    <updated>2026-10-24T21:54:33</updated>
+    <id>allCollections</id>
+    <title>All Collections</title>
+    <content type="text">Browse by Collections</content>
+    <link rel="subsection" type="application/atom+xml;profile=opds-catalog;kind=navigation" href="/api/opds/9003cf99-9213-4206-a787-af2fe4cc5f1f/collections" />
+  </entry>
+  <entry>
+    <updated>2026-10-24T21:54:33</updated>
+    <id>allSmartFilters</id>
+    <title>Smart Filters</title>
+    <content type="text">Browse by Smart Filters</content>
+    <link rel="subsection" type="application/atom+xml;profile=opds-catalog;kind=navigation" href="/api/opds/9003cf99-9213-4206-a787-af2fe4cc5f1f/smart-filters" />
+  </entry>
+</feed>

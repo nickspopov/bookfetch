@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Source: https://demo.kavitareader.com/api/opds/9003cf99-9213-4206-a787-af2fe4cc5f1f/libraries/1 fetched 2026-10-24 with User-Agent "Bookfetch/1.0.0 (+https://bookfetch.nickpopov.com)". -->
+<feed xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.w3.org/2005/Atom">
+  <updated>2026-10-24T21:55:11</updated>
+  <id>library-Books</id>
+  <title>Books</title>
+  <icon>/api/opds/9003cf99-9213-4206-a787-af2fe4cc5f1f/favicon</icon>
+  <author>
+    <name>Kavita</name>
+    <uri>https://www.kavitareader.com</uri>
+  </author>
+  <totalResults xmlns="http://a9.com/-/spec/opensearch/1.1/">57</totalResults>
+  <itemsPerPage xmlns="http://a9.com/-/spec/opensearch/1.1/">20</itemsPerPage>
+  <startIndex xmlns="http://a9.com/-/spec/opensearch/1.1/">1</startIndex>
+  <link rel="self" type="application/atom+xml;profile=opds-catalog;kind=acquisition" href="/api/opds/9003cf99-9213-4206-a787-af2fe4cc5f1f/libraries/1?pageNumber=1" />
+  <link rel="start" type="application/atom+xml;profile=opds-catalog;kind=navigation" href="/api/opds/9003cf99-9213-4206-a787-af2fe4cc5f1f" />
+  <link rel="search" type="application/opensearchdescription+xml" href="/api/opds/9003cf99-9213-4206-a787-af2fe4cc5f1f/search" />
+  <link rel="next" type="application/atom+xml;profile=opds-catalog;kind=navigation" href="/api/opds/9003cf99-9213-4206-a787-af2fe4cc5f1f/libraries/1?pageNumber=2" />
+  <entry>
+    <updated>2026-10-24T21:55:11</updated>
+    <id>56</id>
+    <title>A Cyclopaedia of Canadian Biography: Being Chiefly Men of the Time / A Collection of Persons Distinguished in Professional and Political Life, Leaders in the Commerce and Industry of Canada, and Successful Pioneers</title>
+    <summary>Format: Epub</summary>
+    <link rel="subsection" type="application/atom+xml;profile=opds-catalog;kind=navigation" href="/api/opds/9003cf99-9213-4206-a787-af2fe4cc5f1f/series/56" />
+    <link rel="http://opds-spec.org/image" type="image/jpeg" href="/api/image/series-cover?seriesId=56&amp;apiKey=9003cf99-9213-4206-a787-af2fe4cc5f1f" />
+    <link rel="http://opds-spec.org/image/thumbnail" type="image/jpeg" href="/api/image/series-cover?seriesId=56&amp;apiKey=9003cf99-9213-4206-a787-af2fe4cc5f1f" />
+    <author>
+      <name>Unknown</name>
+      <uri>http://opds-spec.org/author/354</uri>
+    </author>
+    <category term="" label="canada -- biography" />
+    <category term="" label="canada -- biography -- dictionaries" />
+  </entry>
+  <entry>
+    <updated>2026-10-24T21:55:11</updated>
+    <id>61</id>
+    <title>A Little Traitor to the South / A War Time Comedy with a Tragic Interlude</title>
+    <summary>Format: Epub</summary>
+    <link rel="subsection" type="application/atom+xml;profile=opds-catalog;kind=navigation" href="/api/opds/9003cf99-9213-4206-a787-af2fe4cc5f1f/series/61" />
+    <link rel="http://opds-spec.org/image" type="image/jpeg" href="/api/image/series-cover?seriesId=61&amp;apiKey=9003cf99-9213-4206-a787-af2fe4cc5f1f" />
+    <link rel="http://opds-spec.org/image/thumbnail" type="image/jpeg" href="/api/image/series-cover?seriesId=61&amp;apiKey=9003cf99-9213-4206-a787-af2fe4cc5f1f" />
+    <author>
+      <name>Cyrus Townsend Brady</name>
+      <uri>http://opds-spec.org/author/384</uri>
+    </author>
+    <category term="" label="1861-1865 -- fiction" />
+    <category term="" label="united states -- history -- civil war" />
+  </entry>
+  <entry>
+    <updated>2026-10-24T21:55:11</updated>
+    <id>66</id>
+    <title>Agricultural Implements and Machines in the Collection of the National Museum of History and Technology / Smithsonian Studies in History and Technology, No. 17</title>
+    <summary>Format: Epub</summary>
+    <link rel="subsection" type="application/atom+xml;profile=opds-catalog;kind=navigation" href="/api/opds/9003cf99-9213-4206-a787-af2fe4cc5f1f/series/66" />
+    <link rel="http://opds-spec.org/image" type="image/jpeg" href="/api/image/series-cover?seriesId=66&amp;apiKey=9003cf99-9213-4206-a787-af2fe4cc5f1f" />
+    <link rel="http://opds-spec.org/image/thumbnail" type="image/jpeg" href="/api/image/series-cover?seriesId=66&amp;apiKey=9003cf99-9213-4206-a787-af2fe4cc5f1f" />
+    <author>
+      <name>John T. Schlebecker</name>
+      <uri>http://opds-spec.org/author/387</uri>
+    </author>
+    <category term="" label="agricultural implements -- united states -- exhibitions" />
+    <category term="" label="agricultural machinery -- united states -- exhibitions" />
+  </entry>
+  <entry>
+    <updated>2026-10-24T21:55:11</updated>
+    <id>35</id>
+    <title>Anastasia: The autobiography of H.I.H. the Grand Duchess Anastasia Nicholaevna of Russia</title>
+    <summary>Format: Epub</summary>
+    <link rel="subsection" type="application/atom+xml;profile=opds-catalog;kind=navigation" href="/api/opds/9003cf99-9213-4206-a787-af2fe4cc5f1f/series/35" />
+    <link rel="http://opds-spec.org/image" type="image/jpeg" href="/api/image/series-cover?seriesId=35&amp;apiKey=9003cf99-9213-4206-a787-af2fe4cc5f1f" />
+    <link rel="http://opds-spec.org/image/thumbnail" type="image/jpeg" href="/api/image/series-cover?seriesId=35&amp;apiKey=9003cf99-9213-4206-a787-af2fe4cc5f1f" />
+    <author>
+      <name>Eugenia Smith</name>
+      <uri>http://opds-spec.org/author/356</uri>
+    </author>
+    <category term="" label="1901-1918" />
+    <category term="" label="anastasiia nikolaevna" />
+    <category term="" label="daughter of nicholas ii" />
+    <category term="" label="emperor of russia" />
+    <category term="" label="grand duchess" />
+  </entry>
+  <entry>
+    <updated>2026-10-24T21:55:11</updated>
+    <id>51</id>
+    <title>Around the World in Eighty Days</title>
+    <summary>Format: Epub</summary>
+    <link rel="subsection" type="application/atom+xml;profile=opds-catalog;kind=navigation" href="/api/opds/9003cf99-9213-4206-a787-af2fe4cc5f1f/series/51" />
+    <link rel="http://opds-spec.org/image" type="image/jpeg" href="/api/image/series-cover?seriesId=51&amp;apiKey=9003cf99-9213-4206-a787-af2fe4cc5f1f" />
+    <link rel="http://opds-spec.org/image/thumbnail" type="image/jpeg" href="/api/image/series-cover?seriesId=51&amp;apiKey=9003cf99-9213-4206-a787-af2fe4cc5f1f" />
+    <author>
+      <name>Jules Verne</name>
+      <uri>http://opds-spec.org/author/374</uri>
+    </author>
+    <category term="" label="adventure stories" />
+    <category term="" label="voyages around the world -- fiction" />
+  </entry>
+  <entry>
+    <updated>2026-10-24T21:55:11</updated>
+    <id>53</id>
+    <title>Aus dem Leben eines Taugenichts: Novelle</title>
+    <summary>Format: Epub</summary>
+    <link rel="subsection" type="application/atom+xml;profile=opds-catalog;kind=navigation" href="/api/opds/9003cf99-9213-4206-a787-af2fe4cc5f1f/series/53" />
+    <link rel="http://opds-spec.org/image" type="image/jpeg" href="/api/image/series-cover?seriesId=53&amp;apiKey=9003cf99-9213-4206-a787-af2fe4cc5f1f" />
+    <link rel="http://opds-spec.org/image/thumbnail" type="image/jpeg" href="/api/image/series-cover?seriesId=53&amp;apiKey=9003cf99-9213-4206-a787-af2fe4cc5f1f" />
+    <author>
+      <name>Freiherr von Joseph Eichendorff</name>
+      <uri>http://opds-spec.org/author/376</uri>
+    </author>
+    <category term="" label="bildungsromans" />
+    <category term="" label="fathers and sons -- fiction" />
+    <category term="" label="german fiction" />
+    <category term="" label="young men -- fiction" />
+  </entry>
+  <entry>
+    <updated>2026-10-24T21:55:11</updated>
+    <id>41</id>
+    <title>Blue Ridge Country</title>
+    <summary>Format: Epub</summary>
+    <link rel="subsection" type="application/atom+xml;profile=opds-catalog;kind=navigation" href="/api/opds/9003cf99-9213-4206-a787-af2fe4cc5f1f/series/41" />
+    <link rel="http://opds-spec.org/image" type="image/jpeg" href="/api/image/series-cover?seriesId=41&amp;apiKey=9003cf99-9213-4206-a787-af2fe4cc5f1f" />
+    <link rel="http://opds-spec.org/image/thumbnail" type="image/jpeg" href="/api/image/series-cover?seriesId=41&amp;apiKey=9003cf99-9213-4206-a787-af2fe4cc5f1f" />
+    <author>
+      <name>Jean Thomas</name>
+      <uri>http://opds-spec.org/author/362</uri>
+    </author>
+    <category term="" label="appalachians (people)" />
+    <category term="" label="blue ridge mountains" />
+  </entry>
+  <entry>
+    <updated>2026-10-24T21:55:11</updated>
+    <id>59</id>
+    <title>Chocolate and Cocoa Recipes and Home Made Candy Recipes</title>
+    <summary>Format: Epub</summary>
+    <link rel="subsection" type="application/atom+xml;profile=opds-catalog;kind=navigation" href="/api/opds/9003cf99-9213-4206-a787-af2fe4cc5f1f/series/59" />
+    <link rel="http://opds-spec.org/image" type="image/jpeg" href="/api/image/series-cover?seriesId=59&amp;apiKey=9003cf99-9213-4206-a787-af2fe4cc5f1f" />
+    <link rel="http://opds-spec.org/image/thumbnail" type="image/jpeg" href="/api/image/series-cover?seriesId=59&amp;apiKey=9003cf99-9213-4206-a787-af2fe4cc5f1f" />
+    <author>
+      <name>Janet McKenzie Hill</name>
+      <uri>http://opds-spec.org/author/382</uri>
+    </author>
+    <author>
+      <name>Maria Parloa</name>
+      <uri>http://opds-spec.org/author/381</uri>
+    </author>
+    <category term="" label="chocolate" />
+    <category term="" label="cocoa" />
+    <category term="" label="confectionery" />
+    <category term="" label="cooking (chocolate)" />
+  </entry>
+  <entry>
+    <updated>2026-10-24T21:55:11</updated>
+    <id>36</id>
+    <title>Clio</title>
+    <summary>Format: Epub</summary>
+    <link rel="subsection" type="application/atom+xml;profile=opds-catalog;kind=navigation" href="/api/opds/9003cf99-9213-4206-a787-af2fe4cc5f1f/series/36" />
+    <link rel="http://opds-spec.org/image" type="image/jpeg" href="/api/image/series-cover?seriesId=36&amp;apiKey=9003cf99-9213-4206-a787-af2fe4cc5f1f" />
+    <link rel="http://opds-spec.org/image/thumbnail" type="image/jpeg" href="/api/image/series-cover?seriesId=36&amp;apiKey=9003cf99-9213-4206-a787-af2fe4cc5f1f" />
+    <author>
+      <name>Anatole France</name>
+      <uri>http://opds-spec.org/author/357</uri>
+    </author>
+    <category term="" label="france -- social life and customs -- fiction" />
+  </entry>
+  <entry>
+    <updated>2026-10-24T21:55:11</updated>
+    <id>63</id>
+    <title>Comic History of the United States</title>
+    <summary>Format: Epub</summary>
+    <link rel="subsection" type="application/atom+xml;profile=opds-catalog;kind=navigation" href="/api/opds/9003cf99-9213-4206-a787-af2fe4cc5f1f/series/63" />
+    <link rel="http://opds-spec.org/image" type="image/jpeg" href="/api/image/series-cover?seriesId=63&amp;apiKey=9003cf99-9213-4206-a787-af2fe4cc5f1f" />
+    <link rel="http://opds-spec.org/image/thumbnail" type="image/jpeg" href="/api/image/series-cover?seriesId=63&amp;apiKey=9003cf99-9213-4206-a787-af2fe4cc5f1f" />
+    <author>
+      <name>Bill Nye</name>
+      <uri>http://opds-spec.org/author/385</uri>
+    </author>
+    <category term="" label="american wit and humor" />
+    <category term="" label="caricatures and cartoons -- united states" />
+    <category term="" label="united states -- history -- humor" />
+  </entry>
+  <entry>
+    <updated>2026-10-24T21:55:11</updated>
+    <id>38</id>
+    <title>Crime and Punishment</title>
+    <summary>Format: Epub</summary>
+    <link rel="subsection" type="application/atom+xml;profile=opds-catalog;kind=navigation" href="/api/opds/9003cf99-9213-4206-a787-af2fe4cc5f1f/series/38" />
+    <link rel="http://opds-spec.org/image" type="image/jpeg" href="/api/image/series-cover?seriesId=38&amp;apiKey=9003cf99-9213-4206-a787-af2fe4cc5f1f" />
+    <link rel="http://opds-spec.org/image/thumbnail" type="image/jpeg" href="/api/image/series-cover?seriesId=38&amp;apiKey=9003cf99-9213-4206-a787-af2fe4cc5f1f" />
+    <author>
+      <name>Fyodor Dostoyevsky</name>
+      <uri>http://opds-spec.org/author/359</uri>
+    </author>
+    <category term="" label="crime -- psychological aspects -- fiction" />
+    <category term="" label="detective and mystery stories" />
+    <category term="" label="murder -- fiction" />
+    <category term="" label="psychological fiction" />
+    <category term="" label="saint petersburg (russia) -- fiction" />
+  </entry>
+  <entry>
+    <updated>2026-10-24T21:55:11</updated>
+    <id>30</id>
+    <title>Die seltsamen Geschichten des Doktor Ulebuhle</title>
+    <summary>Format: Epub</summary>
+    <link rel="subsection" type="application/atom+xml;profile=opds-catalog;kind=navigation" href="/api/opds/9003cf99-9213-4206-a787-af2fe4cc5f1f/series/30" />
+    <link rel="http://opds-spec.org/image" type="image/jpeg" href="/api/image/series-cover?seriesId=30&amp;apiKey=9003cf99-9213-4206-a787-af2fe4cc5f1f" />
+    <link rel="http://opds-spec.org/image/thumbnail" type="image/jpeg" href="/api/image/series-cover?seriesId=30&amp;apiKey=9003cf99-9213-4206-a787-af2fe4cc5f1f" />
+    <author>
+      <name>Bruno Hans Bürgel</name>
+      <uri>http://opds-spec.org/author/351</uri>
+    </author>
+    <category term="" label="german" />
+    <category term="" label="german fiction -- 20th century" />
+    <category term="" label="Short stories" />
+  </entry>
+  <entry>
+    <updated>2026-10-24T21:55:11</updated>
+    <id>29</id>
+    <title>Die Sternbuben in der Großstadt: Eine heitere Geschichte</title>
+    <summary>Format: Epub</summary>
+    <link rel="subsection" type="application/atom+xml;profile=opds-catalog;kind=navigation" href="/api/opds/9003cf99-9213-4206-a787-af2fe4cc5f1f/series/29" />
+    <link rel="http://opds-spec.org/image" type="image/jpeg" href="/api/image/series-cover?seriesId=29&amp;apiKey=9003cf99-9213-4206-a787-af2fe4cc5f1f" />
+    <link rel="http://opds-spec.org/image/thumbnail" type="image/jpeg" href="/api/image/series-cover?seriesId=29&amp;apiKey=9003cf99-9213-4206-a787-af2fe4cc5f1f" />
+    <author>
+      <name>Josephine Siebe</name>
+      <uri>http://opds-spec.org/author/348</uri>
+    </author>
+    <category term="" label="boys -- juvenile fiction" />
+    <category term="" label="city and town life -- juvenile fiction" />
+  </entry>
+  <entry>
+    <updated>2026-10-24T21:55:11</updated>
+    <id>23</id>
+    <title>Door het land der Skipetaren</title>
+    <summary>Format: Epub</summary>
+    <link rel="subsection" type="application/atom+xml;profile=opds-catalog;kind=navigation" href="/api/opds/9003cf99-9213-4206-a787-af2fe4cc5f1f/series/23" />
+    <link rel="http://opds-spec.org/image" type="image/jpeg" href="/api/image/series-cover?seriesId=23&amp;apiKey=9003cf99-9213-4206-a787-af2fe4cc5f1f" />
+    <link rel="http://opds-spec.org/image/thumbnail" type="image/jpeg" href="/api/image/series-cover?seriesId=23&amp;apiKey=9003cf99-9213-4206-a787-af2fe4cc5f1f" />
+    <author>
+      <name>Karl May</name>
+      <uri>http://opds-spec.org/author/342</uri>
+    </author>
+    <category term="" label="adventure stories" />
+    <category term="" label="middle east -- fiction" />
+  </entry>
+  <entry>
+    <updated>2026-10-24T21:55:11</updated>
+    <id>55</id>
+    <title>Dr. Mabuse, der Spieler</title>
+    <summary>Format: Epub</summary>
+    <link rel="subsection" type="application/atom+xml;profile=opds-catalog;kind=navigation" href="/api/opds/9003cf99-9213-4206-a787-af2fe4cc5f1f/series/55" />
+    <link rel="http://opds-spec.org/image" type="image/jpeg" href="/api/image/series-cover?seriesId=55&amp;apiKey=9003cf99-9213-4206-a787-af2fe4cc5f1f" />
+    <link rel="http://opds-spec.org/image/thumbnail" type="image/jpeg" href="/api/image/series-cover?seriesId=55&amp;apiKey=9003cf99-9213-4206-a787-af2fe4cc5f1f" />
+    <author>
+      <name>Norbert Jacques</name>
+      <uri>http://opds-spec.org/author/378</uri>
+    </author>
+    <category term="" label="criminals -- fiction" />
+    <category term="" label="gamblers -- fiction" />
+    <category term="" label="germany -- fiction" />
+    <category term="" label="hypnotism and crime -- fiction" />
+    <category term="" label="murderers -- fiction" />
+  </entry>
+  <entry>
+    <updated>2026-10-24T21:55:11</updated>
+    <id>62</id>
+    <title>Dr. Mabuse, master of mystery</title>
+    <summary>Format: Epub</summary>
+    <link rel="subsection" type="application/atom+xml;profile=opds-catalog;kind=navigation" href="/api/opds/9003cf99-9213-4206-a787-af2fe4cc5f1f/series/62" />
+    <link rel="http://opds-spec.org/image" type="image/jpeg" href="/api/image/series-cover?seriesId=62&amp;apiKey=9003cf99-9213-4206-a787-af2fe4cc5f1f" />
+    <link rel="http://opds-spec.org/image/thumbnail" type="image/jpeg" href="/api/image/series-cover?seriesId=62&amp;apiKey=9003cf99-9213-4206-a787-af2fe4cc5f1f" />
+    <author>
+      <name>Norbert Jacques</name>
+      <uri>http://opds-spec.org/author/378</uri>
+    </author>
+    <category term="" label="criminals -- fiction" />
+    <category term="" label="gamblers -- fiction" />
+    <category term="" label="germany -- fiction" />
+    <category term="" label="hypnotism and crime -- fiction" />
+    <category term="" label="murderers -- fiction" />
+  </entry>
+  <entry>
+    <updated>2026-10-24T21:55:11</updated>
+    <id>1</id>
+    <title>Eloquent JavaScript, 3rd Edition: A Modern Introduction to Programming</title>
+    <summary>Format: Epub     Summary: &lt;div&gt;
+&lt;p&gt;&lt;strong&gt;Completely revised and updated, this best-selling introduction to programming in JavaScript focuses on writing real applications.&lt;/strong&gt; &lt;/p&gt;
+&lt;p&gt;JavaScript lies at the heart of almost every modern web application, from social apps like Twitter to browser-based game frameworks like Phaser and Babylon. Though simple for beginners to pick up and play with, JavaScript is a flexible, complex language that you can use to build full-scale applications. &lt;/p&gt;
+&lt;p&gt;This much anticipated and thoroughly revised third edition of &lt;em&gt;Eloquent JavaScript&lt;/em&gt; dives deep into the JavaScript language to show you how to write beautiful, effective code. It has been updated to reflect the current state of Java¬Script and web browsers and includes brand-new material on features like class notation, arrow functions, iterators, async functions, template strings, and block scope. A host of new exercises have also been added to test your skills and keep you on track. &lt;/p&gt;
+&lt;p&gt;As with previous editions, Haverbeke continues to teach through extensive examples and immerses you in code from the start, while exercises and full-chapter projects give you hands-on experience with writing your own programs. You start by learning the basic structure of the JavaScript language as well as control structures, functions, and data structures to help you write basic programs. Then you'll learn about error handling and bug fixing, modularity, and asynchronous programming before moving on to web browsers and how JavaScript is used to program them. As you build projects such as an artificial life simulation, a simple programming language, and a paint program, you'll learn how to: &lt;/p&gt;
+&lt;p&gt;- Understand the essential elements of programming, including syntax, control, and data&lt;br&gt;- Organize and clarify your code with object-oriented and functional programming techniques&lt;br&gt;- Script the browser and make basic web applications&lt;br&gt;- Use the DOM effectively to interact with browsers&lt;br&gt;- Harness Node.js to build servers and utilities &lt;/p&gt;
+&lt;p&gt;Isn't it time you became fluent in the language of the Web? &lt;/p&gt;
+&lt;ul&gt;&lt;li&gt;All source code is available online in an inter¬active sandbox, where you can edit the code, run it, and see its output instantly. Contents Introduction (Part 1: Language) Values, Types, and Operators Program Structure Functions Data Structures: Objects and Arrays Higher-order Functions The Secret Life of Objects Project: A Robot Bugs and Errors Regular Expressions Modules Asynchronous Programming Project: A Programming Language (Part 2: Browser) JavaScript and the Browser The Document Object Model Handling Events Project: A Platform Game Drawing on Canvas HTTP and Forms Project: A Pixel Art Editor (Part 3: Node) Node.js Project: Skill-Sharing Website&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;</summary>
+    <link rel="subsection" type="application/atom+xml;profile=opds-catalog;kind=navigation" href="/api/opds/9003cf99-9213-4206-a787-af2fe4cc5f1f/series/1" />
+    <link rel="http://opds-spec.org/image" type="image/jpeg" href="/api/image/series-cover?seriesId=1&amp;apiKey=9003cf99-9213-4206-a787-af2fe4cc5f1f" />
+    <link rel="http://opds-spec.org/image/thumbnail" type="image/jpeg" href="/api/image/series-cover?seriesId=1&amp;apiKey=9003cf99-9213-4206-a787-af2fe4cc5f1f" />
+  </entry>
+  <entry>
+    <updated>2026-10-24T21:55:11</updated>
+    <id>48</id>
+    <title>Fathers and Sons</title>
+    <summary>Format: Epub</summary>
+    <link rel="subsection" type="application/atom+xml;profile=opds-catalog;kind=navigation" href="/api/opds/9003cf99-9213-4206-a787-af2fe4cc5f1f/series/48" />
+    <link rel="http://opds-spec.org/image" type="image/jpeg" href="/api/image/series-cover?seriesId=48&amp;apiKey=9003cf99-9213-4206-a787-af2fe4cc5f1f" />
+    <link rel="http://opds-spec.org/image/thumbnail" type="image/jpeg" href="/api/image/series-cover?seriesId=48&amp;apiKey=9003cf99-9213-4206-a787-af2fe4cc5f1f" />
+    <author>
+      <name>Ivan Sergeevich Turgenev</name>
+      <uri>http://opds-spec.org/author/371</uri>
+    </author>
+    <category term="" label="domestic fiction" />
+    <category term="" label="fathers and sons -- fiction" />
+    <category term="" label="historical fiction" />
+    <category term="" label="nihilism (philosophy) -- fiction" />
+    <category term="" label="russia -- social conditions -- 1801-1917 -- fiction" />
+    <category term="" label="russia -- social life and customs -- 1533-1917 -- fiction" />
+  </entry>
+  <entry>
+    <updated>2026-10-24T21:55:11</updated>
+    <id>67</id>
+    <title>Fifty-two Sunday dinners</title>
+    <summary>Format: Epub</summary>
+    <link rel="subsection" type="application/atom+xml;profile=opds-catalog;kind=navigation" href="/api/opds/9003cf99-9213-4206-a787-af2fe4cc5f1f/series/67" />
+    <link rel="http://opds-spec.org/image" type="image/jpeg" href="/api/image/series-cover?seriesId=67&amp;apiKey=9003cf99-9213-4206-a787-af2fe4cc5f1f" />
+    <link rel="http://opds-spec.org/image/thumbnail" type="image/jpeg" href="/api/image/series-cover?seriesId=67&amp;apiKey=9003cf99-9213-4206-a787-af2fe4cc5f1f" />
+    <author>
+      <name>Elizabeth O. Hiller</name>
+      <uri>http://opds-spec.org/author/388</uri>
+    </author>
+    <category term="" label="american" />
+    <category term="" label="cooking" />
+    <category term="" label="dinners and dining" />
+    <category term="" label="edible" />
+    <category term="" label="menus" />
+    <category term="" label="oils and fats" />
+  </entry>
+  <entry>
+    <updated>2026-10-24T21:55:11</updated>
+    <id>58</id>
+    <title>Food and Health</title>
+    <summary>Format: Epub     Summary: Discusses the importance of a balanced diet and the role of foods in good nutrition, as well as examining the eating habits of some typical sixth-grade students.</summary>
+    <link rel="subsection" type="application/atom+xml;profile=opds-catalog;kind=navigation" href="/api/opds/9003cf99-9213-4206-a787-af2fe4cc5f1f/series/58" />
+    <link rel="http://opds-spec.org/image" type="image/jpeg" href="/api/image/series-cover?seriesId=58&amp;apiKey=9003cf99-9213-4206-a787-af2fe4cc5f1f" />
+    <link rel="http://opds-spec.org/image/thumbnail" type="image/jpeg" href="/api/image/series-cover?seriesId=58&amp;apiKey=9003cf99-9213-4206-a787-af2fe4cc5f1f" />
+    <author>
+      <name>Enid Fisher</name>
+      <uri>http://opds-spec.org/author/396</uri>
+    </author>
+    <author>
+      <name>Lydia E. Pinkham Medicine Company</name>
+      <uri>http://opds-spec.org/author/380</uri>
+    </author>
+    <category term="" label="cooking" />
+    <category term="" label="lydia e. pinkham medicine company" />
+    <category term="" label="patent medicines" />
+    <category term="" label="women -- health and hygiene" />
+  </entry>
+</feed>

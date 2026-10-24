@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Hand-made fixture mirroring a Komga OPDS 1.2 series feed (OpdsController in gotson/komga, /opds/v1.2/series/{id}); the public demo needs a login, so no live copy. -->
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:opds="http://opds-spec.org/2010/catalog" xmlns:pse="http://vaemendis.net/opds-pse/ns" xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/">
+  <id>0FHPVA3SH5GKD</id>
+  <title>Public Domain Comics</title>
+  <updated>2026-10-20T10:00:00Z</updated>
+  <author>
+    <name>Komga</name>
+    <uri>https://github.com/gotson/komga</uri>
+  </author>
+  <link type="application/atom+xml;profile=opds-catalog;kind=acquisition" rel="self" href="/opds/v1.2/series/0FHPVA3SH5GKD?page=0"/>
+  <link type="application/atom+xml;profile=opds-catalog;kind=navigation" rel="start" href="/opds/v1.2/catalog"/>
+  <link type="application/opensearchdescription+xml" rel="search" href="/opds/v1.2/search"/>
+  <link type="application/atom+xml;profile=opds-catalog;kind=acquisition" rel="next" href="/opds/v1.2/series/0FHPVA3SH5GKD?page=1"/>
+  <opensearch:totalResults>3</opensearch:totalResults>
+  <opensearch:itemsPerPage>2</opensearch:itemsPerPage>
+  <entry>
+    <title>Vol. 1</title>
+    <updated>2026-10-19T08:00:00Z</updated>
+    <id>0FHPVA3T15D1X</id>
+    <content>CBZ - 25.3 MB</content>
+    <author>
+      <name>Unknown</name>
+    </author>
+    <link type="image/jpeg" rel="http://opds-spec.org/image" href="/opds/v1.2/books/0FHPVA3T15D1X/thumbnail"/>
+    <link type="image/jpeg" rel="http://opds-spec.org/image/thumbnail" href="/opds/v1.2/books/0FHPVA3T15D1X/thumbnail/small"/>
+    <link type="application/zip" rel="http://opds-spec.org/acquisition" href="/opds/v1.2/books/0FHPVA3T15D1X/file/Vol.%201.cbz"/>
+    <link type="image/jpeg" rel="http://vaemendis.net/opds-pse/stream" href="/opds/v1.2/books/0FHPVA3T15D1X/pages/{pageNumber}?zero_based=true" pse:count="24"/>
+  </entry>
+  <entry>
+    <title>Vol. 2</title>
+    <updated>2026-10-19T08:00:00Z</updated>
+    <id>0FHPVA3T15D1Y</id>
+    <content>EPUB - 4.1 MB</content>
+    <link type="image/jpeg" rel="http://vaemendis.net/opds-pse/stream" href="/opds/v1.2/books/0FHPVA3T15D1Y/pages/{pageNumber}?zero_based=true" pse:count="30"/>
+    <link type="application/epub+zip" rel="http://opds-spec.org/acquisition" href="/opds/v1.2/books/0FHPVA3T15D1Y/file/Vol.%202.epub"/>
+  </entry>
+</feed>

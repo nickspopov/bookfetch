@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Source: https://www.gutenberg.org/ebooks/search.opds/?query=austen fetched 2026-10-24 with User-Agent "Bookfetch/1.0.0 (+https://bookfetch.nickpopov.com)". Inline data: thumbnails replaced with a 1x1 PNG to keep the file small (27). -->
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:opds="http://opds-spec.org/2010/catalog" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:opensearch="http://a9.com/-/spec/opensearch/1.1/" xmlns:relevance="http://a9.com/-/opensearch/extensions/relevance/1.0/">
+<id>http://www.gutenberg.org/ebooks/search.opds/?query=austen</id>
+<updated>2026-10-24T21:54:24Z</updated>
+<title>Books: austen</title>
+<subtitle>Free eBooks since 1971.</subtitle>
+<author>
+<name>Project Gutenberg</name>
+<uri>https://www.gutenberg.org</uri>
+<email>webmaster@gutenberg.org</email>
+</author>
+<icon>https://www.gutenberg.org/gutenberg/favicon.ico</icon>
+<link rel="search" type="application/opensearchdescription+xml" title="Project Gutenberg Catalog Search" href="https://www.gutenberg.org/catalog/osd-books.xml"/>
+<link rel="self" title="This Page" type="application/atom+xml;profile=opds-catalog" href="/ebooks/search.opds/?query=austen"/>
+<link rel="alternate" type="text/html" title="HTML Page" href="/ebooks/search/?query=austen"/>
+<link rel="start" title="Start Page" type="application/atom+xml;profile=opds-catalog" href="/ebooks.opds/"/>
+<link rel="next" title="Next Page" type="application/atom+xml;profile=opds-catalog" href="/ebooks/search.opds/?query=austen&amp;start_index=26"/>
+<opensearch:itemsPerPage>25</opensearch:itemsPerPage>
+<opensearch:startIndex>1</opensearch:startIndex>
+<entry>
+<updated>2026-10-24T21:54:24Z</updated>
+<id>https://www.gutenberg.org/ebooks/authors/search.opds/?query=austen</id>
+<title>Authors</title>
+<content type="text">10 author names match your search.</content>
+<link type="application/atom+xml;profile=opds-catalog" rel="subsection" href="/ebooks/authors/search.opds/?query=austen"/>
+<link type="image/png" rel="http://opds-spec.org/image/thumbnail" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="/>
+</entry>
+<entry>
+<updated>2026-10-24T21:54:24Z</updated>
+<id>https://www.gutenberg.org/ebooks/subjects/search.opds/?query=austen</id>
+<title>Subjects</title>
+<content type="text">8 subject headings match your search.</content>
+<link type="application/atom+xml;profile=opds-catalog" rel="subsection" href="/ebooks/subjects/search.opds/?query=austen"/>
+<link type="image/png" rel="http://opds-spec.org/image/thumbnail" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="/>
+</entry>
+<entry>
+<updated>2026-10-24T21:54:24Z</updated>
+<id>https://www.gutenberg.org/ebooks/1342.opds</id>
+<title>Pride and Prejudice</title>
+<content type="text">Jane Austen</content>
+<link type="application/atom+xml;profile=opds-catalog" rel="subsection" href="/ebooks/1342.opds"/>
+<link type="image/png" rel="http://opds-spec.org/image/thumbnail" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="/>
+</entry>
+<entry>
+<updated>2026-10-24T21:54:24Z</updated>
+<id>https://www.gutenberg.org/ebooks/161.opds</id>
+<title>Sense and Sensibility</title>
+<content type="text">Jane Austen</content>
+<link type="application/atom+xml;profile=opds-catalog" rel="subsection" href="/ebooks/161.opds"/>
+<link type="image/png" rel="http://opds-spec.org/image/thumbnail" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="/>
+</entry>
+<entry>
+<updated>2026-10-24T21:54:24Z</updated>
+<id>https://www.gutenberg.org/ebooks/158.opds</id>
+<title>Emma</title>
+<content type="text">Jane Austen</content>
+<link type="application/atom+xml;profile=opds-catalog" rel="subsection" href="/ebooks/158.opds"/>
+<link type="image/png" rel="http://opds-spec.org/image/thumbnail" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="/>
+</entry>
+<entry>
+<updated>2026-10-24T21:54:24Z</updated>
+<id>https://www.gutenberg.org/ebooks/105.opds</id>
+<title>Persuasion</title>
+<content type="text">Jane Austen</content>
+<link type="application/atom+xml;profile=opds-catalog" rel="subsection" href="/ebooks/105.opds"/>
+<link type="image/png" rel="http://opds-spec.org/image/thumbnail" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="/>
+</entry>
+<entry>
+<updated>2026-10-24T21:54:24Z</updated>
+<id>https://www.gutenberg.org/ebooks/121.opds</id>
+<title>Northanger Abbey</title>
+<content type="text">Jane Austen</content>
+<link type="application/atom+xml;profile=opds-catalog" rel="subsection" href="/ebooks/121.opds"/>
+<link type="image/png" rel="http://opds-spec.org/image/thumbnail" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="/>
+</entry>
+<entry>
+<updated>2026-10-24T21:54:24Z</updated>
+<id>https://www.gutenberg.org/ebooks/42671.opds</id>
+<title>Pride and Prejudice</title>
+<content type="text">Jane Austen</content>
+<link type="application/atom+xml;profile=opds-catalog" rel="subsection" href="/ebooks/42671.opds"/>
+<link type="image/png" rel="http://opds-spec.org/image/thumbnail" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="/>
+</entry>
+<entry>
+<updated>2026-10-24T21:54:24Z</updated>
+<id>https://www.gutenberg.org/ebooks/141.opds</id>
+<title>Mansfield Park</title>
+<content type="text">Jane Austen</content>
+<link type="application/atom+xml;profile=opds-catalog" rel="subsection" href="/ebooks/141.opds"/>
+<link type="image/png" rel="http://opds-spec.org/image/thumbnail" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="/>
+</entry>
+<entry>
+<updated>2026-10-24T21:54:24Z</updated>
+<id>https://www.gutenberg.org/ebooks/19839.opds</id>
+<title>Emma</title>
+<content type="text">Jane Austen</content>
+<link type="application/atom+xml;profile=opds-catalog" rel="subsection" href="/ebooks/19839.opds"/>
+<link type="image/png" rel="http://opds-spec.org/image/thumbnail" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="/>
+</entry>
+<entry>
+<updated>2026-10-24T21:54:24Z</updated>
+<id>https://www.gutenberg.org/ebooks/26301.opds</id>
+<title>Pride and Prejudice</title>
+<content type="text">Jane Austen</content>
+<link type="application/atom+xml;profile=opds-catalog" rel="subsection" href="/ebooks/26301.opds"/>
+<link type="image/png" rel="http://opds-spec.org/image/thumbnail" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="/>
+</entry>
+<entry>
+<updated>2026-10-24T21:54:24Z</updated>
+<id>https://www.gutenberg.org/ebooks/22964.opds</id>
+<title>Sense and Sensibility</title>
+<content type="text">Jane Austen</content>
+<link type="application/atom+xml;profile=opds-catalog" rel="subsection" href="/ebooks/22964.opds"/>
+<link type="image/png" rel="http://opds-spec.org/image/thumbnail" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="/>
+</entry>
+<entry>
+<updated>2026-10-24T21:54:24Z</updated>
+<id>https://www.gutenberg.org/ebooks/21839.opds</id>
+<title>Sense and Sensibility</title>
+<content type="text">Jane Austen</content>
+<link type="application/atom+xml;profile=opds-catalog" rel="subsection" href="/ebooks/21839.opds"/>
+<link type="image/png" rel="http://opds-spec.org/image/thumbnail" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="/>
+</entry>
+<entry>
+<updated>2026-10-24T21:54:24Z</updated>
+<id>https://www.gutenberg.org/ebooks/22962.opds</id>
+<title>Mansfield Park</title>
+<content type="text">Jane Austen</content>
+<link type="application/atom+xml;profile=opds-catalog" rel="subsection" href="/ebooks/22962.opds"/>
+<link type="image/png" rel="http://opds-spec.org/image/thumbnail" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="/>
+</entry>
+<entry>
+<updated>2026-10-24T21:54:24Z</updated>
+<id>https://www.gutenberg.org/ebooks/31100.opds</id>
+<title>The Complete Project Gutenberg Works of Jane Austen</title>
+<content type="text">Jane Austen</content>
+<link type="application/atom+xml;profile=opds-catalog" rel="subsection" href="/ebooks/31100.opds"/>
+<link type="image/png" rel="http://opds-spec.org/image/thumbnail" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="/>
+</entry>
+<entry>
+<updated>2026-10-24T21:54:24Z</updated>
+<id>https://www.gutenberg.org/ebooks/1212.opds</id>
+<title>Love and Freindship [sic]</title>
+<content type="text">Jane Austen</content>
+<link type="application/atom+xml;profile=opds-catalog" rel="subsection" href="/ebooks/1212.opds"/>
+<link type="image/png" rel="http://opds-spec.org/image/thumbnail" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="/>
+</entry>
+<entry>
+<updated>2026-10-24T21:54:24Z</updated>
+<id>https://www.gutenberg.org/ebooks/25946.opds</id>
+<title>Gevoel en verstand (Dutch)</title>
+<content type="text">Jane Austen</content>
+<link type="application/atom+xml;profile=opds-catalog" rel="subsection" href="/ebooks/25946.opds"/>
+<link type="image/png" rel="http://opds-spec.org/image/thumbnail" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="/>
+</entry>
+<entry>
+<updated>2026-10-24T21:54:24Z</updated>
+<id>https://www.gutenberg.org/ebooks/20687.opds</id>
+<title>Pride and Prejudice</title>
+<content type="text">Jane Austen</content>
+<link type="application/atom+xml;profile=opds-catalog" rel="subsection" href="/ebooks/20687.opds"/>
+<link type="image/png" rel="http://opds-spec.org/image/thumbnail" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="/>
+</entry>
+<entry>
+<updated>2026-10-24T21:54:24Z</updated>
+<id>https://www.gutenberg.org/ebooks/20686.opds</id>
+<title>Pride and Prejudice</title>
+<content type="text">Jane Austen</content>
+<link type="application/atom+xml;profile=opds-catalog" rel="subsection" href="/ebooks/20686.opds"/>
+<link type="image/png" rel="http://opds-spec.org/image/thumbnail" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="/>
+</entry>
+<entry>
+<updated>2026-10-24T21:54:24Z</updated>
+<id>https://www.gutenberg.org/ebooks/20682.opds</id>
+<title>Northanger Abbey</title>
+<content type="text">Jane Austen</content>
+<link type="application/atom+xml;profile=opds-catalog" rel="subsection" href="/ebooks/20682.opds"/>
+<link type="image/png" rel="http://opds-spec.org/image/thumbnail" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="/>
+</entry>
+<entry>
+<updated>2026-10-24T21:54:24Z</updated>
+<id>https://www.gutenberg.org/ebooks/64457.opds</id>
+<title>The Common Reader</title>
+<content type="text">Virginia Woolf</content>
+<link type="application/atom+xml;profile=opds-catalog" rel="subsection" href="/ebooks/64457.opds"/>
+<link type="image/png" rel="http://opds-spec.org/image/thumbnail" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="/>
+</entry>
+<entry>
+<updated>2026-10-24T21:54:24Z</updated>
+<id>https://www.gutenberg.org/ebooks/22963.opds</id>
+<title>Persuasion</title>
+<content type="text">Jane Austen</content>
+<link type="application/atom+xml;profile=opds-catalog" rel="subsection" href="/ebooks/22963.opds"/>
+<link type="image/png" rel="http://opds-spec.org/image/thumbnail" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="/>
+</entry>
+<entry>
+<updated>2026-10-24T21:54:24Z</updated>
+<id>https://www.gutenberg.org/ebooks/22536.opds</id>
+<title>Jane Austen, Her Life and Letters: A Family Record</title>
+<content type="text">William Austen-Leigh and Richard Arthur Austen-Leigh</content>
+<link type="application/atom+xml;profile=opds-catalog" rel="subsection" href="/ebooks/22536.opds"/>
+<link type="image/png" rel="http://opds-spec.org/image/thumbnail" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="/>
+</entry>
+<entry>
+<updated>2026-10-24T21:54:24Z</updated>
+<id>https://www.gutenberg.org/ebooks/42078.opds</id>
+<title>The Letters of Jane Austen
+</title>
+<content type="text">Jane Austen</content>
+<link type="application/atom+xml;profile=opds-catalog" rel="subsection" href="/ebooks/42078.opds"/>
+<link type="image/png" rel="http://opds-spec.org/image/thumbnail" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="/>
+</entry>
+<entry>
+<updated>2026-10-24T21:54:24Z</updated>
+<id>https://www.gutenberg.org/ebooks/946.opds</id>
+<title>Lady Susan</title>
+<content type="text">Jane Austen</content>
+<link type="application/atom+xml;profile=opds-catalog" rel="subsection" href="/ebooks/946.opds"/>
+<link type="image/png" rel="http://opds-spec.org/image/thumbnail" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="/>
+</entry>
+<entry>
+<updated>2026-10-24T21:54:24Z</updated>
+<id>https://www.gutenberg.org/ebooks/17797.opds</id>
+<title>Memoir of Jane Austen</title>
+<content type="text">James Edward Austen-Leigh</content>
+<link type="application/atom+xml;profile=opds-catalog" rel="subsection" href="/ebooks/17797.opds"/>
+<link type="image/png" rel="http://opds-spec.org/image/thumbnail" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="/>
+</entry>
+<entry>
+<updated>2026-10-24T21:54:24Z</updated>
+<id>https://www.gutenberg.org/ebooks/37431.opds</id>
+<title>Pride and Prejudice, a play founded on Jane Austen's novel</title>
+<content type="text">Jane Austen and Mrs. Steele MacKaye</content>
+<link type="application/atom+xml;profile=opds-catalog" rel="subsection" href="/ebooks/37431.opds"/>
+<link type="image/png" rel="http://opds-spec.org/image/thumbnail" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="/>
+</entry>
+</feed>

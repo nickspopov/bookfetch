@@ -1,0 +1,3 @@
+app_identifier("com.nickpopov.bookfetch")
+package_name("com.nickpopov.bookfetch")
+team_id(ENV["APPLE_TEAM_ID"]) unless ENV["APPLE_TEAM_ID"].to_s.strip.empty?

@@ -1,0 +1,320 @@
+require "shellwords"
+require "fileutils"
+require "json"
+require "open3"
+require "tmpdir"
+require File.expand_path("release_checks", __dir__)
+
+opt_out_usage
+
+ROOT = File.expand_path("..", __dir__)
+VERSION_FILE = File.join(ROOT, "version.json")
+IDENTITY = ReleaseChecks::IDENTITY
+ASC_VARIABLES = %w[ASC_KEY_ID ASC_ISSUER_ID ASC_KEY_PATH].freeze
+UPLOAD_VARIABLES = {
+  "ANDROID_UPLOAD_STORE_FILE" => "BOOKFETCH_UPLOAD_STORE_FILE",
+  "ANDROID_UPLOAD_STORE_PASSWORD" => "BOOKFETCH_UPLOAD_STORE_PASSWORD",
+  "ANDROID_UPLOAD_KEY_ALIAS" => "BOOKFETCH_UPLOAD_KEY_ALIAS",
+  "ANDROID_UPLOAD_KEY_PASSWORD" => "BOOKFETCH_UPLOAD_KEY_PASSWORD"
+}.freeze
+PLAY_VARIABLES = %w[PLAY_JSON_KEY_PATH].freeze
+PLAY_RELEASE_STATUSES = %w[draft completed halted inProgress].freeze
+
+def env_set?(name)
+  !ENV[name].to_s.strip.empty?
+end
+
+def missing_variables(names)
+  names.reject { |name| env_set?(name) }
+end
+
+def read_version_file
+  JSON.parse(File.read(VERSION_FILE))
+end
+
+def require_variables(names, lane)
+  missing = missing_variables(names)
+  UI.user_error!("#{lane} needs #{missing.join(', ')} in .env, a fastlane --env file or the shell") unless missing.empty?
+end
+
+def use_next_build(store_builds)
+  current = read_version_file["build"]
+  build = ReleaseChecks.next_build(current, store_builds)
+  UI.message("Build number #{build} (version.json #{current}, highest in the store #{store_builds.map(&:to_i).max || 'none'})")
+  Dir.chdir(ROOT) { sh("node", "scripts/bump-version.mjs", "--build", build.to_s) } unless build == current
+end
+
+def root_path(path)
+  File.expand_path(path, ROOT)
+end
+
+# The build Mac has 8 GB: an Xcode archive and a Gradle build never run together.
+def ensure_no_other_build
+  xcode, = Open3.capture2e("pgrep", "-x", "xcodebuild")
+  UI.user_error!("An xcodebuild is running; wait for it to finish") unless xcode.strip.empty?
+  gradle, = Open3.capture2e("pgrep", "-f", "GradleDaemon")
+  UI.user_error!("A Gradle daemon is running; stop it with ./gradlew --stop in android/") unless gradle.strip.empty?
+end
+
+# pod install (run by prebuild) fails inside the bundle, which does not hold cocoapods.
+def outside_bundle(&block)
+  return yield unless defined?(Bundler)
+
+  carried = ENV.to_h.slice("APPLE_TEAM_ID")
+  Bundler.with_unbundled_env do
+    ENV.update(carried)
+    block.call
+  end
+end
+
+def prebuild(platform)
+  outside_bundle do
+    ENV["EXPO_NO_GIT_STATUS"] = "1"
+    Dir.chdir(ROOT) { sh("npx", "expo", "prebuild", "--clean", "--platform", platform) }
+  end
+end
+
+def plist_values(plist, keys)
+  keys.to_h do |key|
+    value, status = Open3.capture2e("/usr/libexec/PlistBuddy", "-c", "Print :#{key}", plist)
+    [key, status.success? ? value.strip : nil]
+  end
+end
+
+def check_ipa(ipa, identity)
+  keys = %w[CFBundleIdentifier CFBundleShortVersionString CFBundleVersion ITSAppUsesNonExemptEncryption]
+  Dir.mktmpdir do |dir|
+    _, status = Open3.capture2e("unzip", "-q", ipa, "-d", dir)
+    UI.user_error!("Couldn't unzip #{ipa}") unless status.success?
+    apps = Dir.glob(File.join(dir, "Payload", "*.app"))
+    UI.user_error!("#{ipa} must hold one app bundle; found #{apps.length}") unless apps.length == 1
+
+    app = apps.first
+    problems = ReleaseChecks.ipa_problems(
+      info: plist_values(File.join(app, "Info.plist"), keys),
+      bundle_present: File.exist?(File.join(app, "main.jsbundle")),
+      identity: identity,
+      version_file: read_version_file
+    )
+    problems.each { |problem| UI.error(problem) }
+    UI.user_error!("#{File.basename(ipa)} failed the bundle check") unless problems.empty?
+    UI.success("#{File.basename(ipa)}: #{identity[:application_id]}, version.json's numbers, export compliance and main.jsbundle check out")
+  end
+end
+
+# The ipa export runs /usr/bin/rsync, whose receiving side is the first rsync on PATH;
+# Homebrew's rsync rejects its options ("Copy failed").
+def with_system_rsync
+  saved = ENV["PATH"]
+  ENV["PATH"] = "/usr/bin:#{saved}"
+  yield
+ensure
+  ENV["PATH"] = saved
+end
+
+# Headless signing on a build Mac whose login keychain is locked over SSH: when
+# BOOKFETCH_BUILD_KEYCHAIN names a keychain holding the team signing identities (password in
+# BOOKFETCH_BUILD_KEYCHAIN_PASSWORD_FILE), unlock it and make it the only keychain codesign searches
+# during the build; the previous search list comes back afterwards.
+def with_build_keychain
+  keychain = ENV["BOOKFETCH_BUILD_KEYCHAIN"].to_s
+  return yield if keychain.empty?
+  UI.user_error!("BOOKFETCH_BUILD_KEYCHAIN needs BOOKFETCH_BUILD_KEYCHAIN_PASSWORD_FILE") unless env_set?("BOOKFETCH_BUILD_KEYCHAIN_PASSWORD_FILE")
+  password = File.read(File.expand_path(ENV.fetch("BOOKFETCH_BUILD_KEYCHAIN_PASSWORD_FILE"))).strip
+  saved, = Open3.capture2("security", "list-keychains", "-d", "user")
+  saved = saved.split("\n").map { |line| line.strip.delete('"') }.reject(&:empty?)
+  Open3.capture2e("security", "unlock-keychain", "-p", password, keychain)
+  Open3.capture2e("security", "list-keychains", "-d", "user", "-s", keychain)
+  yield
+ensure
+  Open3.capture2e("security", "list-keychains", "-d", "user", "-s", *saved) if saved && !saved.empty?
+end
+
+# With the App Store Connect API key set, xcodebuild manages certificates and profiles with it
+# instead of an Apple account signed in to Xcode.
+def asc_auth_xcargs
+  return "" unless missing_variables(ASC_VARIABLES).empty?
+  " -authenticationKeyPath #{root_path(ENV["ASC_KEY_PATH"]).shellescape}" \
+    " -authenticationKeyID #{ENV["ASC_KEY_ID"].shellescape}" \
+    " -authenticationKeyIssuerID #{ENV["ASC_ISSUER_ID"].shellescape}"
+end
+
+# Export signing. On a build Mac with BOOKFETCH_BUILD_KEYCHAIN the archive is exported with the
+# keychain's Apple Distribution certificate and the App Store profile named
+# "Bookfetch App Store com.nickpopov.bookfetch" (installed under ~/Library/MobileDevice/Provisioning Profiles):
+# cloud-managed distribution signing needs an Admin API key, which the team does not use.
+# Elsewhere Xcode signs automatically with the Apple account signed in to it.
+def ios_export_options(identity)
+  options = { teamID: ENV["APPLE_TEAM_ID"], manageAppVersionAndBuildNumber: false }
+  return options.merge(signingStyle: "automatic") if ENV["BOOKFETCH_BUILD_KEYCHAIN"].to_s.empty?
+  bundle_id = identity[:application_id]
+  options.merge(
+    signingStyle: "manual",
+    signingCertificate: "Apple Distribution",
+    provisioningProfiles: { bundle_id => "#{identity[:name]} App Store #{bundle_id}" }
+  )
+end
+
+def build_ios(identity)
+  UI.user_error!("ios build needs APPLE_TEAM_ID (the Apple team id) in .env or the shell") unless env_set?("APPLE_TEAM_ID")
+  ensure_no_other_build
+
+  name = identity[:name]
+  prebuild("ios")
+  workspace = File.join(ROOT, "ios", "#{name}.xcworkspace")
+  UI.user_error!("prebuild left no ios/#{name}.xcworkspace: pod install failed") unless File.directory?(workspace)
+  ipa = with_build_keychain do
+    with_system_rsync do
+      build_app(
+        workspace: workspace,
+        scheme: name,
+        configuration: "Release",
+        export_method: "app-store",
+        export_options: ios_export_options(identity),
+        skip_profile_detection: true,
+        xcargs: "-allowProvisioningUpdates#{asc_auth_xcargs}",
+        output_directory: File.join(ROOT, "build", "ios"),
+        output_name: "#{name}.ipa"
+      )
+    end
+  end
+  check_ipa(ipa, identity)
+  ipa
+end
+
+# plugins/with-android-signing.js reads the BOOKFETCH_UPLOAD_* Gradle properties; Gradle takes
+# ORG_GRADLE_PROJECT_<name> environment variables as project properties.
+def with_upload_properties
+  saved = {}
+  UPLOAD_VARIABLES.each do |variable, property|
+    key = "ORG_GRADLE_PROJECT_#{property}"
+    saved[key] = ENV[key]
+    value = ENV[variable]
+    ENV[key] = variable == "ANDROID_UPLOAD_STORE_FILE" ? root_path(value) : value
+  end
+  yield
+ensure
+  saved.each { |key, value| ENV[key] = value }
+end
+
+def check_merged_manifest(identity)
+  manifest = Dir.glob(File.join(ROOT, "android/app/build/intermediates/merged_manifests/release/**/AndroidManifest.xml")).first
+  UI.user_error!("No merged release manifest under android/app/build/intermediates/merged_manifests/release") unless manifest
+
+  contents = File.read(manifest)
+  UI.header("Merged release manifest")
+  UI.message("Permissions: #{ReleaseChecks.manifest_permissions(contents).join(', ')}")
+  checks = ReleaseChecks.manifest_checks(contents, identity, read_version_file)
+  checks.each { |label, passed| passed ? UI.success("ok: #{label}") : UI.error("FAILED: #{label}") }
+  UI.user_error!("The merged release manifest failed a check") unless checks.values.all?
+end
+
+def gradle_release(task, require_upload_key:)
+  missing = missing_variables(UPLOAD_VARIABLES.keys)
+  UI.user_error!("#{missing.join(', ')} not set: a Play upload must be signed with the upload key") if require_upload_key && !missing.empty?
+  ensure_no_other_build
+  prebuild("android")
+
+  gradle = -> { Dir.chdir(File.join(ROOT, "android")) { sh("./gradlew", task) } }
+  if missing.empty?
+    with_upload_properties(&gradle)
+  else
+    UI.important("#{missing.join(', ')} not set: the release is signed with the debug key and cannot be uploaded to Play")
+    gradle.call
+  end
+end
+
+def copy_artifact(source, identity, extension)
+  target = File.join(ROOT, "build", "android", ReleaseChecks.artifact_name(identity[:application_id], read_version_file, extension))
+  FileUtils.mkdir_p(File.dirname(target))
+  FileUtils.cp(File.join(ROOT, source), target)
+  UI.success("#{extension}: #{target.delete_prefix(ROOT + '/')}")
+  target
+end
+
+def build_android(identity, require_upload_key:)
+  gradle_release("bundleRelease", require_upload_key: require_upload_key)
+  aab = copy_artifact("android/app/build/outputs/bundle/release/app-release.aab", identity, "aab")
+  check_merged_manifest(identity)
+  aab
+end
+
+def play_version_codes(package_name)
+  require "supply"
+  require "supply/options"
+  Supply.config = FastlaneCore::Configuration.create(
+    Supply::Options.available_options,
+    package_name: package_name,
+    json_key: root_path(ENV["PLAY_JSON_KEY_PATH"])
+  )
+  client = Supply::Client.make_from_config
+  client.begin_edit(package_name: package_name)
+  codes = client.tracks.flat_map { |track| (track.releases || []).flat_map { |release| release.version_codes || [] } }
+  client.abort_current_edit
+  codes.map(&:to_i)
+end
+
+platform :ios do
+  desc "Prebuild, archive and export build/ios/Bookfetch.ipa, then check it. Needs APPLE_TEAM_ID"
+  lane :build do
+    build_ios(IDENTITY)
+  end
+
+  desc "Build number above TestFlight's latest, ios build, then upload to TestFlight without waiting for processing. Needs ASC_KEY_ID, ASC_ISSUER_ID, ASC_KEY_PATH"
+  lane :beta do
+    require_variables(ASC_VARIABLES, "ios beta")
+    api_key = app_store_connect_api_key(
+      key_id: ENV["ASC_KEY_ID"],
+      issuer_id: ENV["ASC_ISSUER_ID"],
+      key_filepath: root_path(ENV["ASC_KEY_PATH"])
+    )
+    latest = latest_testflight_build_number(api_key: api_key, app_identifier: IDENTITY[:application_id], initial_build_number: 0)
+    use_next_build([latest])
+
+    ipa = build_ios(IDENTITY)
+    upload_to_testflight(api_key: api_key, ipa: ipa, skip_waiting_for_build_processing: true)
+  end
+end
+
+platform :android do
+  desc "Prebuild, bundleRelease and copy to build/android/com.nickpopov.bookfetch-<version>-<build>.aab, then check the merged manifest"
+  lane :build do
+    build_android(IDENTITY, require_upload_key: false)
+  end
+
+  desc "Version code above every Play track, android build signed with the upload key, then upload to the internal track. Needs PLAY_JSON_KEY_PATH and the ANDROID_UPLOAD_* variables. Option: status (default draft; Play accepts only draft until the app's first release is rolled out in the Console)"
+  lane :beta do |options|
+    require_variables(PLAY_VARIABLES + UPLOAD_VARIABLES.keys, "android beta")
+    status = (options[:status] || "draft").to_s
+    UI.user_error!("status must be one of #{PLAY_RELEASE_STATUSES.join(', ')}; got \"#{status}\"") unless PLAY_RELEASE_STATUSES.include?(status)
+    use_next_build(play_version_codes(IDENTITY[:application_id]))
+
+    aab = build_android(IDENTITY, require_upload_key: true)
+    upload_to_play_store(
+      package_name: IDENTITY[:application_id],
+      json_key: root_path(ENV["PLAY_JSON_KEY_PATH"]),
+      aab: aab,
+      track: "internal",
+      release_status: status,
+      skip_upload_apk: true,
+      skip_upload_metadata: true,
+      skip_upload_changelogs: true,
+      skip_upload_images: true,
+      skip_upload_screenshots: true
+    )
+  end
+
+  desc "On request only: assembleRelease signed with the upload key to build/android/com.nickpopov.bookfetch-<version>-<build>.apk; uploads nothing and keeps the build number"
+  lane :apk do
+    require_variables(UPLOAD_VARIABLES.keys, "android apk")
+    gradle_release("assembleRelease", require_upload_key: true)
+    copy_artifact("android/app/build/outputs/apk/release/app-release.apk", IDENTITY, "apk")
+    check_merged_manifest(IDENTITY)
+  end
+end
+
+desc "Raise build in version.json by one, or set it. Options: version, build"
+lane :bump do |options|
+  args = %i[version build].flat_map { |key| options[key].nil? ? [] : ["--#{key}", options[key].to_s] }
+  Dir.chdir(ROOT) { sh("node", "scripts/bump-version.mjs", *args) }
+end
