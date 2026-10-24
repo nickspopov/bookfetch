@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Source: https://demo.kavitareader.com/api/opds/9003cf99-9213-4206-a787-af2fe4cc5f1f/series/56 fetched 2026-10-24 with User-Agent "Bookfetch/1.0.0 (+https://bookfetch.nickpopov.com)". -->
+<feed xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.w3.org/2005/Atom">
+  <updated>2026-10-24T21:55:19</updated>
+  <id>series-56</id>
+  <title>A Cyclopaedia of Canadian Biography: Being Chiefly Men of the Time / A Collection of Persons Distinguished in Professional and Political Life, Leaders in the Commerce and Industry of Canada, and Successful Pioneers - Storyline</title>
+  <icon>/api/opds/9003cf99-9213-4206-a787-af2fe4cc5f1f/favicon</icon>
+  <author>
+    <name>Kavita</name>
+    <uri>https://www.kavitareader.com</uri>
+  </author>
+  <link rel="self" type="application/atom+xml;profile=opds-catalog;kind=acquisition" href="/api/opds/9003cf99-9213-4206-a787-af2fe4cc5f1f/series/56" />
+  <link rel="start" type="application/atom+xml;profile=opds-catalog;kind=navigation" href="/api/opds/9003cf99-9213-4206-a787-af2fe4cc5f1f" />
+  <link rel="search" type="application/opensearchdescription+xml" href="/api/opds/9003cf99-9213-4206-a787-af2fe4cc5f1f/search" />
+  <link rel="http://opds-spec.org/image" type="image/jpeg" href="/api/image/series-cover?seriesId=56&amp;apiKey=9003cf99-9213-4206-a787-af2fe4cc5f1f" />
+  <entry>
+    <updated>2026-10-24T21:55:19</updated>
+    <id>79</id>
+    <title>Continue Reading from: ◔ A Cyclopaedia of Canadian Biography: Being Chiefly Men of the Time / A Collection of Persons Distinguished in Professional and Political Life, Leaders in the Commerce and Industry of Canada, and Successful Pioneers - A Cyclopaedia of Canadian Biography: Being Chiefly Men of the Time / A Collection of Persons Distinguished in Professional and Political Life, Leaders in the Commerce and Industry of Canada, and Successful Pioneers</title>
+    <summary>File Type: epub+zip - 1.75 MB</summary>
+    <extent xmlns="http://purl.org/dc/terms/">1.75 MB</extent>
+    <format xmlns="http://purl.org/dc/terms/format">Epub</format>
+    <content type="text">application/epub+zip</content>
+    <link rel="http://opds-spec.org/image" type="image/jpeg" href="/api/image/chapter-cover?chapterId=79&amp;apiKey=9003cf99-9213-4206-a787-af2fe4cc5f1f" />
+    <link rel="http://opds-spec.org/image/thumbnail" type="image/jpeg" href="/api/image/chapter-cover?chapterId=79&amp;apiKey=9003cf99-9213-4206-a787-af2fe4cc5f1f" />
+    <link rel="http://opds-spec.org/acquisition/open-access" type="application/epub+zip" href="/api/opds/9003cf99-9213-4206-a787-af2fe4cc5f1f/series/56/volume/78/chapter/79/download/Cyclopaedia%20of%20Canadian%20Biography%20-%20Being%20Chieflynd%20Industry%20of%20Canada%2C%20and%20Successful%20Pioneers%2C%20A.epub" title="Cyclopaedia%20of%20Canadian%20Biography%20-%20Being%20Chieflynd%20Industry%20of%20Canada%2C%20and%20Successful%20Pioneers%2C%20A.epub" p5:count="21" xmlns:p5="http://vaemendis.net/opds-pse/ns" />
+  </entry>
+  <entry>
+    <updated>2026-10-24T21:55:19</updated>
+    <id>79</id>
+    <title>◔ A Cyclopaedia of Canadian Biography: Being Chiefly Men of the Time / A Collection of Persons Distinguished in Professional and Political Life, Leaders in the Commerce and Industry of Canada, and Successful Pioneers - A Cyclopaedia of Canadian Biography: Being Chiefly Men of the Time / A Collection of Persons Distinguished in Professional and Political Life, Leaders in the Commerce and Industry of Canada, and Successful Pioneers</title>
+    <summary>File Type: epub+zip - 1.75 MB</summary>
+    <extent xmlns="http://purl.org/dc/terms/">1.75 MB</extent>
+    <format xmlns="http://purl.org/dc/terms/format">Epub</format>
+    <content type="text">application/epub+zip</content>
+    <link rel="http://opds-spec.org/image" type="image/jpeg" href="/api/image/chapter-cover?chapterId=79&amp;apiKey=9003cf99-9213-4206-a787-af2fe4cc5f1f" />
+    <link rel="http://opds-spec.org/image/thumbnail" type="image/jpeg" href="/api/image/chapter-cover?chapterId=79&amp;apiKey=9003cf99-9213-4206-a787-af2fe4cc5f1f" />
+    <link rel="http://opds-spec.org/acquisition/open-access" type="application/epub+zip" href="/api/opds/9003cf99-9213-4206-a787-af2fe4cc5f1f/series/56/volume/78/chapter/79/download/Cyclopaedia%20of%20Canadian%20Biography%20-%20Being%20Chieflynd%20Industry%20of%20Canada%2C%20and%20Successful%20Pioneers%2C%20A.epub" title="Cyclopaedia%20of%20Canadian%20Biography%20-%20Being%20Chieflynd%20Industry%20of%20Canada%2C%20and%20Successful%20Pioneers%2C%20A.epub" p5:count="21" xmlns:p5="http://vaemendis.net/opds-pse/ns" />
+    <author>
+      <name>Unknown</name>
+      <uri>http://opds-spec.org/author/354</uri>
+    </author>
+  </entry>
+</feed>

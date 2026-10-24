@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Hand-made fixture: a complete Atom entry document (application/atom+xml;type=entry), as linked from partial entries. -->
+<entry xmlns="http://www.w3.org/2005/Atom" xmlns:dcterms="http://purl.org/dc/terms/">
+  <id>urn:book:single</id>
+  <title>A Single Entry</title>
+  <author><name>Entry Author</name></author>
+  <dcterms:language>en</dcterms:language>
+  <link rel="http://opds-spec.org/acquisition/open-access" href="single.epub" type="application/epub+zip"/>
+</entry>

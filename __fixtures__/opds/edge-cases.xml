@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Hand-made fixture: prefixed Atom elements, nested xml:base, CDATA, entities, DRM and buy/borrow links, facets, missing fields. -->
+<!DOCTYPE feed [ <!ENTITY house "Example House"> ]>
+<atom:feed xmlns:atom="http://www.w3.org/2005/Atom" xmlns:o="http://opds-spec.org/2010/catalog" xmlns:t="http://purl.org/syndication/thread/1.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:os="http://a9.com/-/spec/opensearch/1.1/" xml:base="/catalog/">
+  <atom:id>urn:edge</atom:id>
+  <atom:title type="html">Edge &lt;b&gt;Cases&lt;/b&gt;</atom:title>
+  <atom:link rel="self" href="edge.xml" type="application/atom+xml;profile=opds-catalog;kind=acquisition"/>
+  <atom:link rel="http://www.iana.org/assignments/relation/next" href="edge.xml?page=2" type="application/atom+xml;profile=opds-catalog;kind=acquisition"/>
+  <atom:link rel="prev" href="edge.xml?page=0" type="application/atom+xml;profile=opds-catalog;kind=acquisition"/>
+  <atom:link rel="up" href="../" type="application/atom+xml;profile=opds-catalog;kind=navigation"/>
+  <atom:link rel="search" href="search?q={searchTerms}&amp;page={startPage?}" type="application/atom+xml"/>
+  <atom:link rel="http://opds-spec.org/facet" href="edge.xml?sort=new" title="Newest" o:facetGroup="Sort" o:activeFacet="true" t:count="12"/>
+  <atom:link rel="http://opds-spec.org/facet" href="edge.xml?lang=fr" title="French" o:facetGroup="Language" t:count="3"/>
+  <os:totalResults>42</os:totalResults>
+  <atom:entry xml:base="books/">
+    <atom:id>urn:book:1</atom:id>
+    <atom:title><![CDATA[Fish & Chips <Cookbook>]]></atom:title>
+    <atom:author><atom:name>  Ann   Author </atom:name></atom:author>
+    <atom:author><atom:name>Bob Writer</atom:name></atom:author>
+    <dc:language>fr</dc:language>
+    <dc:publisher>&house;</dc:publisher>
+    <dc:issued>1999</dc:issued>
+    <atom:category term="cooking"/>
+    <atom:category term="x" label="Food &amp; Drink"/>
+    <atom:summary>Short.</atom:summary>
+    <atom:content type="xhtml"><div xmlns="http://www.w3.org/1999/xhtml"><p>First   paragraph &amp; more.</p><p>Second<br/>line.</p></div></atom:content>
+    <atom:link rel="http://opds-spec.org/acquisition/open-access" href="1.epub" type="application/epub+zip" length="1000"/>
+    <atom:link rel="http://opds-spec.org/acquisition/open-access" href="1.epub" type="application/epub+zip"/>
+    <atom:link rel="http://opds-spec.org/acquisition/sample" href="1-sample.pdf" type="application/pdf"/>
+    <atom:link rel="http://opds-spec.org/acquisition/buy" href="https://shop.example.org/buy/1" type="text/html"/>
+    <atom:link rel="http://opds-spec.org/acquisition/borrow" href="borrow/1" type="application/atom+xml;type=entry;profile=opds-catalog">
+      <o:indirectAcquisition type="application/vnd.adobe.adept+xml">
+        <o:indirectAcquisition type="application/epub+zip"/>
+      </o:indirectAcquisition>
+    </atom:link>
+    <atom:link rel="http://opds-spec.org/acquisition" href="drm/1" type="application/vnd.readium.lcp.license.v1.0+json">
+      <o:indirectAcquisition type="application/epub+zip"/>
+    </atom:link>
+    <atom:link rel="http://opds-spec.org/image" href="/covers/1.jpg" type="image/jpeg"/>
+    <atom:link rel="alternate" href="https://example.org/book/1" type="text/html"/>
+  </atom:entry>
+  <atom:entry>
+    <atom:link href="untitled.epub" rel="http://opds-spec.org/acquisition" type="application/epub+zip"/>
+  </atom:entry>
+  <atom:entry>
+    <atom:title>Only a sort link</atom:title>
+    <atom:id>urn:nav:sort</atom:id>
+    <atom:link rel="http://opds-spec.org/sort/popular" href="popular.xml" type="application/atom+xml;profile=opds-catalog;kind=acquisition"/>
+    <atom:link rel="x-stanza-cover-image-thumbnail" href="thumb.png" type="image/png"/>
+  </atom:entry>
+</atom:feed>

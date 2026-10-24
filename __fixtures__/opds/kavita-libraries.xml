@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Source: https://demo.kavitareader.com/api/opds/9003cf99-9213-4206-a787-af2fe4cc5f1f/libraries fetched 2026-10-24 with User-Agent "Bookfetch/1.0.0 (+https://bookfetch.nickpopov.com)". -->
+<feed xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.w3.org/2005/Atom">
+  <updated>2026-10-24T21:55:00</updated>
+  <id>libraries</id>
+  <title>All Libraries</title>
+  <icon>/api/opds/9003cf99-9213-4206-a787-af2fe4cc5f1f/favicon</icon>
+  <author>
+    <name>Kavita</name>
+    <uri>https://www.kavitareader.com</uri>
+  </author>
+  <link rel="self" type="application/atom+xml;profile=opds-catalog;kind=acquisition" href="/api/opds/9003cf99-9213-4206-a787-af2fe4cc5f1f/libraries" />
+  <link rel="start" type="application/atom+xml;profile=opds-catalog;kind=navigation" href="/api/opds/9003cf99-9213-4206-a787-af2fe4cc5f1f" />
+  <link rel="search" type="application/opensearchdescription+xml" href="/api/opds/9003cf99-9213-4206-a787-af2fe4cc5f1f/search" />
+  <entry>
+    <updated>2026-10-24T21:55:00</updated>
+    <id>1</id>
+    <title>Books</title>
+    <link rel="subsection" type="application/atom+xml;profile=opds-catalog;kind=navigation" href="/api/opds/9003cf99-9213-4206-a787-af2fe4cc5f1f/libraries/1" />
+    <link rel="http://opds-spec.org/image" type="image/jpeg" href="/api/image/library-cover?libraryId=1&amp;apiKey=9003cf99-9213-4206-a787-af2fe4cc5f1f" />
+    <link rel="http://opds-spec.org/image/thumbnail" type="image/jpeg" href="/api/image/library-cover?libraryId=1&amp;apiKey=9003cf99-9213-4206-a787-af2fe4cc5f1f" />
+  </entry>
+  <entry>
+    <updated>2026-10-24T21:55:00</updated>
+    <id>2</id>
+    <title>Comics</title>
+    <link rel="subsection" type="application/atom+xml;profile=opds-catalog;kind=navigation" href="/api/opds/9003cf99-9213-4206-a787-af2fe4cc5f1f/libraries/2" />
+    <link rel="http://opds-spec.org/image" type="image/jpeg" href="/api/image/library-cover?libraryId=2&amp;apiKey=9003cf99-9213-4206-a787-af2fe4cc5f1f" />
+    <link rel="http://opds-spec.org/image/thumbnail" type="image/jpeg" href="/api/image/library-cover?libraryId=2&amp;apiKey=9003cf99-9213-4206-a787-af2fe4cc5f1f" />
+  </entry>
+  <entry>
+    <updated>2026-10-24T21:55:00</updated>
+    <id>3</id>
+    <title>Manga</title>
+    <link rel="subsection" type="application/atom+xml;profile=opds-catalog;kind=navigation" href="/api/opds/9003cf99-9213-4206-a787-af2fe4cc5f1f/libraries/3" />
+    <link rel="http://opds-spec.org/image" type="image/jpeg" href="/api/image/library-cover?libraryId=3&amp;apiKey=9003cf99-9213-4206-a787-af2fe4cc5f1f" />
+    <link rel="http://opds-spec.org/image/thumbnail" type="image/jpeg" href="/api/image/library-cover?libraryId=3&amp;apiKey=9003cf99-9213-4206-a787-af2fe4cc5f1f" />
+  </entry>
+</feed>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Source: https://demo.kavitareader.com/api/opds/9003cf99-9213-4206-a787-af2fe4cc5f1f/search fetched 2026-10-24 with User-Agent "Bookfetch/1.0.0 (+https://bookfetch.nickpopov.com)". -->
+<OpenSearchDescription xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://a9.com/-/spec/opensearch/1.1/">
+  <ShortName>Search</ShortName>
+  <Description>Search for Series, Collections, or Reading Lists</Description>
+  <Url type="application/atom+xml;profile=opds-catalog;kind=acquisition" rel="results" template="/api/opds/9003cf99-9213-4206-a787-af2fe4cc5f1f/series?query={searchTerms}" />
+  <Tags />
+  <InputEncoding>UTF-8</InputEncoding>
+  <OutputEncoding>UTF-8</OutputEncoding>
+  <Developer>kavitareader.com</Developer>
+</OpenSearchDescription>
