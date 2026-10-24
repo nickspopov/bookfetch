@@ -12,11 +12,22 @@ export interface ConnectInput {
   credentials?: Credentials;
   /** set when editing an existing catalog */
   catalogId?: string;
+  /** false once the form that started this attempt is gone or has started a newer one */
+  isCurrent?: () => boolean;
+}
+
+/** The connect finished after its form closed, a newer attempt started, or the edited catalog was removed. */
+export class StaleConnectError extends Error {
+  constructor() {
+    super('The connect attempt is no longer current');
+    this.name = 'StaleConnectError';
+  }
 }
 
 /**
  * Normalizes the address, fetches the feed with the given login and, on success, saves the catalog.
- * Throws the OpdsError from the client on failure; nothing is saved then.
+ * Throws the OpdsError from the client on failure, or StaleConnectError when the attempt is no longer wanted;
+ * nothing is saved then. An edit never brings back a catalog that was removed while it was connecting.
  */
 export async function connectCatalog(input: ConnectInput): Promise<{ catalog: Catalog; feed: Feed }> {
   const url = normalizeCatalogUrl(input.url);
@@ -26,11 +37,20 @@ export async function connectCatalog(input: ConnectInput): Promise<{ catalog: Ca
   const id = input.catalogId ?? newId();
   const existing = input.catalogId ? catalogStore.get(input.catalogId) : undefined;
   const { redacted, secret } = redactUrl(rootUrl);
+  const stale = () =>
+    (input.isCurrent ? !input.isCurrent() : false) || (!!input.catalogId && !catalogStore.get(input.catalogId));
+  if (stale()) throw new StaleConnectError();
 
   if (input.credentials) await saveCredentials(id, input.credentials);
   else await deleteCredentials(id);
   if (secret) await saveSecretUrl(id, rootUrl);
   else await deleteSecretUrl(id);
+
+  if (stale()) {
+    // No catalog points at these keychain items any more (or never did): take them back out.
+    if (!catalogStore.get(id)) await Promise.allSettled([deleteCredentials(id), deleteSecretUrl(id)]);
+    throw new StaleConnectError();
+  }
 
   const catalog: Catalog = {
     id,

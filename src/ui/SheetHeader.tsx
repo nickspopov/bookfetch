@@ -6,17 +6,32 @@ import { Text } from './Text';
 import { space, useColors } from './theme';
 
 /** Title row for form sheets: close on the leading side, an optional action on the trailing side. */
-export function SheetHeader({ title, onClose, action }: { title: string; onClose: () => void; action?: ReactNode }) {
+export function SheetHeader({
+  title,
+  onClose,
+  closeDisabled,
+  action,
+}: {
+  title: string;
+  onClose: () => void;
+  closeDisabled?: boolean;
+  action?: ReactNode;
+}) {
   const colors = useColors();
   return (
     <View style={styles.header}>
       <View style={styles.side}>
         <Pressable
           onPress={onClose}
+          disabled={closeDisabled}
           accessibilityRole="button"
           accessibilityLabel="Close"
+          accessibilityState={{ disabled: !!closeDisabled }}
           hitSlop={8}
-          style={({ pressed }) => [styles.close, { backgroundColor: colors.fill, opacity: pressed ? 0.6 : 1 }]}
+          style={({ pressed }) => [
+            styles.close,
+            { backgroundColor: colors.fill, opacity: closeDisabled ? 0.4 : pressed ? 0.6 : 1 },
+          ]}
         >
           <Icon ios="xmark" android="close" size={15} color={colors.secondaryText} />
         </Pressable>

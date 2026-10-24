@@ -1,6 +1,6 @@
 import type { Feed } from '@/opds';
 
-import { connectCatalog } from '../catalog-actions';
+import { connectCatalog, removeCatalog, StaleConnectError } from '../catalog-actions';
 import { catalogStore } from '../catalogs';
 import { memory } from './mmkv-mock';
 
@@ -62,5 +62,60 @@ describe('connectCatalog icon', () => {
     mockFetchFeed.mockResolvedValue(feed(url, { iconUrl: 'https://books.example.com/favicon.ico' }));
     const { catalog } = await connectCatalog({ url });
     expect(catalog.iconUrl).toBe('https://books.example.com/favicon.ico');
+  });
+});
+
+describe('connectCatalog stale completions', () => {
+  const url = 'https://books.example.com/opds';
+  const credentials = { username: 'ann', password: 'secret' };
+
+  function deferredFeed() {
+    let resolve!: (value: Feed) => void;
+    mockFetchFeed.mockReturnValueOnce(new Promise<Feed>((r) => (resolve = r)));
+    return () => resolve(feed(url));
+  }
+
+  it('saves nothing when the form closed while connecting', async () => {
+    let current = true;
+    const finish = deferredFeed();
+    const pending = connectCatalog({ url, credentials, isCurrent: () => current });
+    current = false;
+    finish();
+    await expect(pending).rejects.toBeInstanceOf(StaleConnectError);
+    expect(catalogStore.all()).toEqual([]);
+    expect(mockSecure.size).toBe(0);
+  });
+
+  it('takes back keychain items when the attempt went stale while they were written', async () => {
+    let current = true;
+    mockFetchFeed.mockResolvedValueOnce(feed(url));
+    const SecureStore = jest.requireMock('expo-secure-store');
+    SecureStore.setItemAsync.mockImplementationOnce(async (key: string, value: string) => {
+      mockSecure.set(key, value);
+      current = false;
+    });
+    await expect(connectCatalog({ url, credentials, isCurrent: () => current })).rejects.toBeInstanceOf(
+      StaleConnectError,
+    );
+    expect(catalogStore.all()).toEqual([]);
+    expect(mockSecure.size).toBe(0);
+  });
+
+  it('does not bring back a catalog that was removed while its edit was connecting', async () => {
+    mockFetchFeed.mockResolvedValueOnce(feed(url));
+    const { catalog } = await connectCatalog({ url });
+    const finish = deferredFeed();
+    const pending = connectCatalog({ url, credentials, catalogId: catalog.id, isCurrent: () => true });
+    await removeCatalog(catalog.id);
+    finish();
+    await expect(pending).rejects.toBeInstanceOf(StaleConnectError);
+    expect(catalogStore.get(catalog.id)).toBeUndefined();
+    expect(mockSecure.size).toBe(0);
+  });
+
+  it('saves a current attempt', async () => {
+    mockFetchFeed.mockResolvedValueOnce(feed(url));
+    const { catalog } = await connectCatalog({ url, credentials, isCurrent: () => true });
+    expect(catalogStore.get(catalog.id)?.hasCredentials).toBe(true);
   });
 });

@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Alert, Platform, ScrollView, StyleSheet, Switch, TextInput, View, type TextInputProps } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { connectCatalog, renameCatalog } from '@/lib/catalog-actions';
+import { connectCatalog, renameCatalog, StaleConnectError } from '@/lib/catalog-actions';
 import { splitUserInfo } from '@/lib/catalog-url';
 import { useCatalog } from '@/lib/catalogs';
 import { loadCredentials, loadSecretUrl } from '@/lib/credentials';
@@ -48,6 +48,17 @@ export default function CatalogFormScreen() {
   const usernameRef = useRef<TextInput>(null);
   const autoConnected = useRef(false);
   const openAfterClose = useRef<string | undefined>(undefined);
+  // A connect that completes after the sheet closed, or after a newer attempt, must not save or touch state.
+  const mounted = useRef(true);
+  const attempt = useRef(0);
+  const inFlight = useRef(false);
+
+  useEffect(() => {
+    mounted.current = true;
+    return () => {
+      mounted.current = false;
+    };
+  }, []);
 
   // Edit: prefill from the saved catalog, its keychain URL and its login.
   useEffect(() => {
@@ -75,7 +86,9 @@ export default function CatalogFormScreen() {
 
   const dirty = loaded && !leaving && !sameFields(fields, initial);
 
-  usePreventRemove(dirty && !busy, ({ data }) => {
+  // While connecting, every way out (swipe, Android back, Close) is held until the attempt settles.
+  usePreventRemove(busy || dirty, ({ data }) => {
+    if (inFlight.current) return;
     Alert.alert('Discard changes?', 'What you typed here will be lost.', [
       { text: 'Keep editing', style: 'cancel' },
       { text: 'Discard', style: 'destructive', onPress: () => navigation.dispatch(data.action) },
@@ -88,7 +101,7 @@ export default function CatalogFormScreen() {
   };
 
   const connect = async (input: Fields = fields) => {
-    if (busy) return;
+    if (inFlight.current) return;
     const split = splitUserInfo(input.url.trim());
     const login = input.login || !!split.username;
     const username = split.username ?? input.username;
@@ -112,6 +125,9 @@ export default function CatalogFormScreen() {
     }
 
     const credentials = login ? { username: username.trim(), password } : undefined;
+    const mine = ++attempt.current;
+    const isCurrent = () => mounted.current && attempt.current === mine;
+    inFlight.current = true;
     setBusy(true);
     setError(undefined);
     try {
@@ -119,11 +135,19 @@ export default function CatalogFormScreen() {
         url: split.url,
         name: input.name,
         credentials,
-        catalogId: editing?.id,
+        // The route's id, not the live catalog: an edit of a catalog removed meanwhile must not create it again.
+        catalogId: params.id,
+        isCurrent,
       });
+      if (!isCurrent()) return;
       setLeaving(true);
       if (!isEdit) openAfterClose.current = catalog.id;
     } catch (e) {
+      if (!isCurrent()) return;
+      if (e instanceof StaleConnectError) {
+        setError('This catalog was removed from your libraries.');
+        return;
+      }
       const copy = describeError(e, !!credentials);
       setFields((current) => ({
         ...current,
@@ -135,7 +159,10 @@ export default function CatalogFormScreen() {
       setError(copy.message);
       if (copy.needsLogin && !credentials) setTimeout(() => usernameRef.current?.focus(), 250);
     } finally {
-      setBusy(false);
+      if (attempt.current === mine) {
+        inFlight.current = false;
+        if (mounted.current) setBusy(false);
+      }
     }
   };
 
@@ -171,6 +198,7 @@ export default function CatalogFormScreen() {
       <SheetHeader
         title={title}
         onClose={() => router.back()}
+        closeDisabled={busy}
         action={
           <SheetAction
             title={isEdit ? 'Save' : 'Connect'}
