@@ -57,14 +57,41 @@ const KNOWN_EXTENSIONS = new Set([
   'pdb',
 ]);
 
-/** The file extension for a download: from its MIME type first, then from the URL path, else "bin". */
+// MIME types servers send for several formats (Calibre serves AZW3 as application/x-mobipocket-ebook).
+const AMBIGUOUS_MIME = new Set(['', 'application/octet-stream', 'application/x-mobipocket-ebook', 'application/zip']);
+
+// Ebook extensions a URL path can settle an ambiguous MIME type with; compound ones first.
+const URL_EXTENSIONS = [
+  'kepub.epub',
+  'fb2.zip',
+  'epub',
+  'azw3',
+  'azw',
+  'mobi',
+  'pdf',
+  'cbz',
+  'cbr',
+  'cb7',
+  'fb2',
+  'djvu',
+  'txt',
+  'rtf',
+  'zip',
+];
+
+/**
+ * The file extension for a download: an ebook extension in the URL path when the MIME type is generic or
+ * ambiguous, else the MIME type's, else a best guess from the URL path, else "bin".
+ */
 export function extensionFor(mime: string, url: string): string {
   const base = mime.split(';')[0].trim().toLowerCase();
-  if (MIME_EXTENSIONS[base]) return MIME_EXTENSIONS[base];
   const path = url.split(/[?#]/)[0];
   const last = path.slice(path.lastIndexOf('/') + 1).toLowerCase();
-  if (last.endsWith('.kepub.epub')) return 'kepub.epub';
-  if (last.endsWith('.fb2.zip')) return 'fb2.zip';
+  if (AMBIGUOUS_MIME.has(base)) {
+    const fromUrl = URL_EXTENSIONS.find((ext) => last.endsWith(`.${ext}`));
+    if (fromUrl) return fromUrl;
+  }
+  if (MIME_EXTENSIONS[base]) return MIME_EXTENSIONS[base];
   const dot = last.lastIndexOf('.');
   const ext = dot === -1 ? '' : last.slice(dot + 1);
   if (KNOWN_EXTENSIONS.has(ext)) return ext;

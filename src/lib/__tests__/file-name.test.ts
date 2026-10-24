@@ -40,6 +40,34 @@ describe('extensionFor', () => {
     expect(extensionFor('', 'https://x/book.kepub.epub')).toBe('kepub.epub');
   });
 
+  it.each([
+    ['application/x-mobipocket-ebook', 'https://calibre.example.com/get/azw3/12/Library', 'mobi'],
+    ['application/x-mobipocket-ebook', 'https://calibre.example.com/download/12/book.azw3', 'azw3'],
+    ['application/x-mobipocket-ebook', 'https://x/book.AZW3?token=1', 'azw3'],
+    ['application/x-mobipocket-ebook', 'https://x/book.azw', 'azw'],
+    ['application/x-mobipocket-ebook', 'https://x/book.mobi', 'mobi'],
+    ['application/octet-stream', 'https://x/book.kepub.epub', 'kepub.epub'],
+    ['application/octet-stream', 'https://x/book.fb2.zip', 'fb2.zip'],
+    ['application/zip', 'https://x/book.fb2.zip', 'fb2.zip'],
+    ['application/zip', 'https://x/comic.cbz', 'cbz'],
+    ['application/zip', 'https://x/archive.zip', 'zip'],
+    ['application/zip', 'https://x/download/5', 'zip'],
+    ['application/octet-stream', 'https://x/book.pdf', 'pdf'],
+    ['application/octet-stream', 'https://x/book.djvu', 'djvu'],
+    ['application/octet-stream', 'https://x/book.fb2', 'fb2'],
+    ['application/octet-stream', 'https://x/book.cb7', 'cb7'],
+    ['application/octet-stream', 'https://x/book.cbr', 'cbr'],
+    ['application/octet-stream', 'https://x/book.txt', 'txt'],
+    ['application/octet-stream', 'https://x/book.rtf', 'rtf'],
+    ['', 'https://x/book.azw3', 'azw3'],
+    ['application/octet-stream; charset=binary', 'https://x/book.epub#top', 'epub'],
+    // A specific MIME type still wins over the URL.
+    ['application/epub+zip', 'https://x/book.azw3', 'epub'],
+    ['application/pdf', 'https://x/book.epub', 'pdf'],
+  ])('maps %s at %s to .%s', (mime, url, ext) => {
+    expect(extensionFor(mime, url)).toBe(ext);
+  });
+
   it('uses bin when nothing is known', () => {
     expect(extensionFor('', 'https://x/download/5')).toBe('bin');
   });
