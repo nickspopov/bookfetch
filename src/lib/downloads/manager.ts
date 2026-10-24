@@ -1,7 +1,7 @@
 import { File } from 'expo-file-system';
 import { useSyncExternalStore } from 'react';
 
-import type { Acquisition, Entry } from '@/opds';
+import { mimeBase, type Acquisition, type Entry } from '@/opds';
 
 import type { Catalog } from '../catalogs';
 import { sessionFor } from '../client';
@@ -86,15 +86,37 @@ class NotABookError extends Error {
   }
 }
 
-function looksLikeHtml(file: File, mimeType: string): boolean {
-  if (/html/i.test(mimeType)) return false;
+const HTML_TYPES = new Set(['text/html', 'application/xhtml+xml']);
+const SNIFF_BYTES = 1024;
+
+/**
+ * True when a download that should be a book starts like a web page (a login or error page served with 200):
+ * after a byte order mark, whitespace, an XML prolog and comments comes <!doctype html>, <html>, <head> or <body>.
+ * Acquisitions that are meant to be HTML are never rejected.
+ */
+export function isUnexpectedHtml(head: Uint8Array, expectedType: string): boolean {
+  if (HTML_TYPES.has(mimeBase(expectedType))) return false;
+  let text = '';
+  for (const byte of head) text += String.fromCharCode(byte);
+  // The bytes are read one per character, so a UTF-8 byte order mark shows up as three characters.
+  text = text.replace(/^\xEF\xBB\xBF/, '');
+  for (;;) {
+    text = text.replace(/^\s+/, '');
+    const lower = text.slice(0, 5).toLowerCase();
+    const close = lower.startsWith('<?xml') ? '?>' : lower.startsWith('<!--') ? '-->' : undefined;
+    if (!close) break;
+    const end = text.indexOf(close);
+    if (end === -1) return false;
+    text = text.slice(end + close.length);
+  }
+  return /^<(!doctype\s+html|html|head|body)(?![\w-])/i.test(text);
+}
+
+function looksLikeHtml(file: File, expectedType: string): boolean {
   try {
     const handle = file.open();
     try {
-      const bytes = handle.readBytes(Math.min(512, file.size));
-      let head = '';
-      for (const byte of bytes) head += String.fromCharCode(byte);
-      return /^(﻿|\xEF\xBB\xBF)?\s*(<!doctype html|<html)/i.test(head);
+      return isUnexpectedHtml(handle.readBytes(Math.min(SNIFF_BYTES, file.size)), expectedType);
     } finally {
       handle.close();
     }

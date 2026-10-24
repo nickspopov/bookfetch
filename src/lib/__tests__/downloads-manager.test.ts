@@ -2,7 +2,7 @@ import type { Acquisition, Entry } from '@/opds';
 
 import type { Catalog } from '../catalogs';
 import { downloadIndex } from '../downloads/index-store';
-import { activeDownloadFor, startDownload } from '../downloads/manager';
+import { activeDownloadFor, isUnexpectedHtml, startDownload } from '../downloads/manager';
 import { memory } from './mmkv-mock';
 
 jest.mock('react-native-mmkv', () => jest.requireActual('./mmkv-mock').mmkvMock);
@@ -120,5 +120,72 @@ describe('startDownload index write', () => {
     expect(downloadedFiles()).toEqual([]);
     expect(activeDownloadFor(a.href)).toMatchObject({ status: 'failed' });
     add.mockRestore();
+  });
+});
+
+describe('startDownload HTML check', () => {
+  it.each([
+    '<!-- served by nginx -->\n<!DOCTYPE html><html></html>',
+    '<?xml version="1.0"?>\n<html xmlns="http://www.w3.org/1999/xhtml">',
+    '\xEF\xBB\xBF  <head><title>Login</title></head>',
+    '\n\n<BODY>Sign in</BODY>',
+  ])('rejects a web page served for a book: %j', async (body) => {
+    const a = acquisition(`https://books.example.com/${encodeURIComponent(body.slice(0, 12))}.epub`);
+    mockNextBody.bytes = bytes(body);
+    await startDownload(catalog, entry(a), a);
+    expect(activeDownloadFor(a.href)).toEqual({
+      status: 'failed',
+      message: 'The server sent a web page instead of the book. It may need a login.',
+      needsLogin: false,
+    });
+    expect(downloadedFiles()).toEqual([]);
+  });
+
+  it('keeps an XML book such as FB2', async () => {
+    const a = acquisition('https://books.example.com/emma.fb2', 'application/x-fictionbook+xml');
+    mockNextBody.bytes = bytes('<?xml version="1.0" encoding="utf-8"?>\n<FictionBook>');
+    await startDownload(catalog, entry(a), a);
+    expect(downloadedFiles()).toEqual(['doc/Bookfetch/Emma - Jane Austen.fb2']);
+  });
+
+  it('keeps an HTML book when HTML was expected', async () => {
+    const a = acquisition('https://books.example.com/emma.html', 'text/html; charset=utf-8');
+    mockNextBody.bytes = bytes('<!doctype html><html>');
+    await startDownload(catalog, entry(a), a);
+    expect(downloadedFiles()).toEqual(['doc/Bookfetch/Emma - Jane Austen.html']);
+  });
+});
+
+describe('isUnexpectedHtml', () => {
+  it.each([
+    ['<!doctype html>', true],
+    ['<!DOCTYPE  HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">', true],
+    ['<html>', true],
+    ['<html lang="en">', true],
+    ['<head>', true],
+    ['<body class="x">', true],
+    ['\xEF\xBB\xBF<html>', true],
+    [' \t\r\n<html>', true],
+    ['<?xml version="1.0"?><!-- a --> <!-- b --><html>', true],
+    ['<?XML version="1.0"?>\n<!DOCTYPE html>', true],
+    ['<header>', false],
+    ['<htmlish>', false],
+    ['<?xml version="1.0"?><FictionBook>', false],
+    ['<!-- never closed <html>', false],
+    ['<?xml never closed <html>', false],
+    ['PK\u0003\u0004', false],
+    ['%PDF-1.7', false],
+    ['', false],
+  ])('%j -> %s', (head, expected) => {
+    expect(isUnexpectedHtml(bytes(head), 'application/epub+zip')).toBe(expected);
+  });
+
+  it('never rejects acquisitions that are meant to be HTML', () => {
+    expect(isUnexpectedHtml(bytes('<html>'), 'text/html')).toBe(false);
+    expect(isUnexpectedHtml(bytes('<html>'), 'application/xhtml+xml; charset=utf-8')).toBe(false);
+  });
+
+  it('checks HTML for other types that merely mention html', () => {
+    expect(isUnexpectedHtml(bytes('<html>'), 'application/x-not-html-book')).toBe(true);
   });
 });
