@@ -16,7 +16,7 @@ import { useCatalog } from '@/lib/catalogs';
 import type { CatalogSession } from '@/lib/client';
 import { describeError } from '@/lib/errors';
 import { getSearchSource, putEntry, putSearchSource, takeFeed } from '@/lib/nav-store';
-import { cleanText } from '@/lib/text';
+import { cleanText, formatBytes } from '@/lib/text';
 import { useCatalogSession } from '@/lib/use-session';
 import { Button } from '@/ui/Button';
 import { Cover } from '@/ui/Cover';
@@ -333,9 +333,12 @@ const EntryRow = memo(function EntryRow({
     .map((a) => cleanText(a))
     .filter(Boolean)
     .join(', ');
-  const formats = [...new Set(entry.acquisitions.filter((a) => a.downloadable).map((a) => a.formatLabel))]
+  const downloadable = entry.acquisitions.filter((a) => a.downloadable);
+  const formats = [
+    ...[...new Set(downloadable.map((a) => a.formatLabel))].filter(Boolean).slice(0, 4),
+    formatBytes(downloadable[0]?.size),
+  ]
     .filter(Boolean)
-    .slice(0, 4)
     .join(' · ');
   const image = entry.thumbnailUrl ?? entry.coverUrl;
   return (

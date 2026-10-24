@@ -87,6 +87,7 @@ function EmptyLibraries({ onAdd, onPreset }: { onAdd: () => void; onPreset: (id:
             key={preset.id}
             title={preset.name}
             subtitle={preset.subtitle}
+            subtitleLines={2}
             leading={<FallbackGlyph />}
             chevron
             onPress={() => onPreset(preset.id)}

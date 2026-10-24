@@ -43,8 +43,10 @@ export default ({ config, projectRoot }: ConfigContext): ExpoConfig => {
       infoPlist: {
         CFBundleDisplayName: 'Bookfetch',
         ITSAppUsesNonExemptEncryption: false,
-        // People connect their own servers, often over plain http on a home network.
-        NSAppTransportSecurity: { NSAllowsArbitraryLoads: true, NSAllowsLocalNetworking: true },
+        // People connect their own servers, often over plain http on a home network, and catalogs link to http
+        // URLs (Gutenberg's search template). No NSAllowsLocalNetworking: iOS ignores NSAllowsArbitraryLoads when
+        // it is present, which blocks every non-local http request. Arbitrary loads already cover the LAN.
+        NSAppTransportSecurity: { NSAllowsArbitraryLoads: true },
         NSLocalNetworkUsageDescription: 'Bookfetch connects to book servers on your local network that you add.',
         // Downloads show up in Files → On My iPhone → Bookfetch.
         UIFileSharingEnabled: true,

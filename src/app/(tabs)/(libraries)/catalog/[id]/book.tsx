@@ -117,6 +117,7 @@ export default function BookScreen() {
               catalog={catalog}
               entry={entry}
               acquisition={acquisition}
+              siblings={acquisitions}
               prominent={acquisition === acquisitions[0]}
             />
           ))
@@ -156,11 +157,13 @@ function DownloadControl({
   catalog,
   entry,
   acquisition,
+  siblings,
   prominent,
 }: {
   catalog: Catalog;
   entry: Entry;
   acquisition: Acquisition;
+  siblings: Acquisition[];
   prominent: boolean;
 }) {
   const router = useRouter();
@@ -169,7 +172,7 @@ function DownloadControl({
   const active = useActiveDownload(acquisition.href);
   const key = hrefKeyOf(acquisition.href);
   const record = downloads.find((r) => r.hrefKey === key && fileExists(r.fileName));
-  const label = acquisitionLabel(acquisition);
+  const label = acquisitionLabel(acquisition, siblings);
   const size = formatBytes(acquisition.size);
 
   if (active?.status === 'downloading') {
