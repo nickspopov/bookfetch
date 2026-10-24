@@ -35,9 +35,13 @@ function subscribe(listener: () => void) {
   return () => listeners.delete(listener);
 }
 
+export function activeDownloadFor(href: string | undefined): ActiveDownload | undefined {
+  return href ? active.get(hrefKeyOf(href)) : undefined;
+}
+
 export function useActiveDownload(href: string | undefined): ActiveDownload | undefined {
   useSyncExternalStore(subscribe, () => version);
-  return href ? active.get(hrefKeyOf(href)) : undefined;
+  return activeDownloadFor(href);
 }
 
 export function clearFailure(href: string) {
@@ -146,7 +150,7 @@ export async function startDownload(catalog: Catalog, entry: Entry, acquisition:
       (name) => downloadedFile(name).exists || downloadIndex.hasFileName(name),
     );
     const destination = new File(directory, fileName);
-    partial.move(destination);
+    await partial.move(destination);
 
     const record: DownloadRecord = {
       id: `${Date.now().toString(36)}${Math.random().toString(36).slice(2, 6)}`,
@@ -161,7 +165,13 @@ export async function startDownload(catalog: Catalog, entry: Entry, acquisition:
       hrefKey: key,
       downloadedAt: Date.now(),
     };
-    downloadIndex.add(record);
+    try {
+      downloadIndex.add(record);
+    } catch (error) {
+      // A file the Downloads list does not know about could never be opened or deleted from the app.
+      deleteQuietly(destination);
+      throw error;
+    }
     setState(key, undefined);
   } catch (error) {
     deleteQuietly(partial);
