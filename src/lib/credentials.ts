@@ -22,12 +22,9 @@ export async function saveCredentials(catalogId: string, credentials: Credential
   await SecureStore.setItemAsync(keyFor(catalogId), JSON.stringify(credentials), options);
 }
 
+/** Deleting a missing item succeeds; a keychain failure is thrown so the caller can keep what still refers to it. */
 export async function deleteCredentials(catalogId: string): Promise<void> {
-  try {
-    await SecureStore.deleteItemAsync(keyFor(catalogId), options);
-  } catch {
-    // Nothing stored, or the keychain is unavailable; either way there is nothing left to remove.
-  }
+  await SecureStore.deleteItemAsync(keyFor(catalogId), options);
 }
 
 const urlKeyFor = (catalogId: string) => `catalog.${catalogId}.url`;
@@ -46,9 +43,5 @@ export async function saveSecretUrl(catalogId: string, url: string): Promise<voi
 }
 
 export async function deleteSecretUrl(catalogId: string): Promise<void> {
-  try {
-    await SecureStore.deleteItemAsync(urlKeyFor(catalogId), options);
-  } catch {
-    // Nothing stored.
-  }
+  await SecureStore.deleteItemAsync(urlKeyFor(catalogId), options);
 }

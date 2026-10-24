@@ -1,7 +1,11 @@
+import { Alert } from 'react-native';
+
+import { removeCatalogWithFeedback } from '@/features/remove-catalog';
 import type { Feed } from '@/opds';
 
 import { connectCatalog, removeCatalog, StaleConnectError } from '../catalog-actions';
 import { catalogStore } from '../catalogs';
+import { deleteCredentials, deleteSecretUrl } from '../credentials';
 import { memory } from './mmkv-mock';
 
 jest.mock('react-native-mmkv', () => jest.requireActual('./mmkv-mock').mmkvMock);
@@ -117,5 +121,51 @@ describe('connectCatalog stale completions', () => {
     mockFetchFeed.mockResolvedValueOnce(feed(url));
     const { catalog } = await connectCatalog({ url, credentials, isCurrent: () => true });
     expect(catalogStore.get(catalog.id)?.hasCredentials).toBe(true);
+  });
+});
+
+describe('removing a catalog', () => {
+  const url = 'https://books.example.com/opds';
+  const credentials = { username: 'ann', password: 'secret' };
+  const failNextDelete = () =>
+    jest.requireMock('expo-secure-store').deleteItemAsync.mockRejectedValueOnce(new Error('Keychain unavailable'));
+
+  it('reports keychain deletion errors', async () => {
+    failNextDelete();
+    await expect(deleteCredentials('c1')).rejects.toThrow('Keychain unavailable');
+    failNextDelete();
+    await expect(deleteSecretUrl('c1')).rejects.toThrow('Keychain unavailable');
+  });
+
+  it('deletes the saved login, then the catalog', async () => {
+    mockFetchFeed.mockResolvedValueOnce(feed(url));
+    const { catalog } = await connectCatalog({ url, credentials });
+    expect(mockSecure.size).toBe(1);
+    await removeCatalog(catalog.id);
+    expect(catalogStore.get(catalog.id)).toBeUndefined();
+    expect(mockSecure.size).toBe(0);
+  });
+
+  it('keeps the catalog when its saved login cannot be deleted', async () => {
+    mockFetchFeed.mockResolvedValueOnce(feed(url));
+    const { catalog } = await connectCatalog({ url, credentials });
+    failNextDelete();
+    await expect(removeCatalog(catalog.id)).rejects.toThrow('Keychain unavailable');
+    expect(catalogStore.get(catalog.id)).toBeDefined();
+  });
+
+  it('tells the user when the saved login could not be removed', async () => {
+    const alert = jest.spyOn(Alert, 'alert').mockImplementation(() => {});
+    mockFetchFeed.mockResolvedValueOnce(feed(url));
+    const { catalog } = await connectCatalog({ url, credentials, name: 'Home' });
+    failNextDelete();
+    await removeCatalogWithFeedback(catalog);
+    expect(alert).toHaveBeenCalledWith("Couldn't remove “Home”", "Couldn't remove the saved login. Try again.");
+    expect(catalogStore.get(catalog.id)).toBeDefined();
+
+    alert.mockClear();
+    await removeCatalogWithFeedback(catalog);
+    expect(alert).not.toHaveBeenCalled();
+    expect(catalogStore.get(catalog.id)).toBeUndefined();
   });
 });

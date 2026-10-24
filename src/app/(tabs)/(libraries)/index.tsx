@@ -3,8 +3,8 @@ import { Stack, useRouter, type Href } from 'expo-router';
 import { useState } from 'react';
 import { Alert, Platform, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 
+import { removeCatalogWithFeedback } from '@/features/remove-catalog';
 import { USER_AGENT } from '@/lib/app-info';
-import { removeCatalog } from '@/lib/catalog-actions';
 import { hostOf, useCatalogs, type Catalog } from '@/lib/catalogs';
 import { PRESETS } from '@/lib/presets';
 import { Button } from '@/ui/Button';
@@ -109,7 +109,7 @@ function confirmRemove(catalog: Catalog) {
       : 'Books you downloaded stay in Downloads.',
     [
       { text: 'Cancel', style: 'cancel' },
-      { text: 'Remove', style: 'destructive', onPress: () => void removeCatalog(catalog.id) },
+      { text: 'Remove', style: 'destructive', onPress: () => void removeCatalogWithFeedback(catalog) },
     ],
   );
 }

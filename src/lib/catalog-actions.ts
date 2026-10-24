@@ -73,10 +73,14 @@ export function renameCatalog(id: string, title: string) {
   if (trimmed) catalogStore.update(id, { title: trimmed });
 }
 
+/**
+ * Deletes the catalog's keychain items first and only then the catalog, so a keychain failure (thrown) never
+ * leaves a login behind that nothing in the app points at any more.
+ */
 export async function removeCatalog(id: string) {
+  await Promise.all([deleteCredentials(id), deleteSecretUrl(id)]);
   catalogStore.remove(id);
   forgetSession(id);
-  await Promise.all([deleteCredentials(id), deleteSecretUrl(id)]);
 }
 
 function cleanTitle(title: string | undefined): string {
