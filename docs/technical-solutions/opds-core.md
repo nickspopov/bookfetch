@@ -100,7 +100,8 @@ keeps `indexOffset`/`pageOffset`. `buildSearchUrl` fills the parameters like thi
 
 - `{searchTerms}` gets `encodeURIComponent(query.trim())`.
 - Optional `{x?}` parameters are removed, together with their now-empty query pair.
-- Required `{startPage}`, `{startIndex}`, `{count}` and `{language}` become `pageOffset ?? 1`, `indexOffset ?? 0`, `20` and `*`.
+- Required `{startPage}`, `{startIndex}`, `{count}` and `{language}` become `pageOffset ?? 1`, `indexOffset ?? 1`, `20` and `*`
+  (1 is the OpenSearch default for both offsets; an explicit `indexOffset="0"` is kept).
 - Other required parameters become empty.
 
 The client caches each resolved template per description URL.

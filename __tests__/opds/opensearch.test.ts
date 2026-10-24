@@ -56,7 +56,7 @@ describe('buildSearchUrl', () => {
     ['https://x.example/s?q={searchTerms}&page={startPage?}', 'a', 'https://x.example/s?q=a'],
     ['https://x.example/s?page={startPage?}&q={searchTerms}&n={count?}', 'a', 'https://x.example/s?q=a'],
     ['https://x.example/s?q={searchTerms}&p={startPage}', 'a', 'https://x.example/s?q=a&p=1'],
-    ['https://x.example/s?q={searchTerms}&i={startIndex}', 'a', 'https://x.example/s?q=a&i=0'],
+    ['https://x.example/s?q={searchTerms}&i={startIndex}', 'a', 'https://x.example/s?q=a&i=1'],
     ['https://x.example/s?q={searchTerms}&n={count}&l={language}', 'a', 'https://x.example/s?q=a&n=20&l=*'],
     ['https://x.example/s?q={searchTerms}&a={atom:author?}&x={custom}', 'a', 'https://x.example/s?q=a'],
     ['https://x.example/s/{searchTerms}/{startPage?}', 'a', 'https://x.example/s/a/'],
@@ -73,5 +73,11 @@ describe('buildSearchUrl', () => {
         pageOffset: 0,
       }),
     ).toBe('https://x.example/s?q=a&i=1&p=0');
+  });
+
+  it('keeps an explicit indexOffset of 0', () => {
+    expect(buildSearchUrl('https://x.example/s?q={searchTerms}&i={startIndex}', 'a', { indexOffset: 0 })).toBe(
+      'https://x.example/s?q=a&i=0',
+    );
   });
 });

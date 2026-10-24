@@ -42,7 +42,7 @@ export function parseOpenSearchDescription(xml: string, baseUrl: string): Search
 }
 
 export interface SearchUrlOptions {
-  /** value for a required {startIndex}; default 0 */
+  /** value for a required {startIndex}; default 1 (the OpenSearch default indexOffset) */
   indexOffset?: number;
   /** value for a required {startPage}; default 1 */
   pageOffset?: number;
@@ -53,7 +53,7 @@ const EMPTY = '\u0000';
 /**
  * Fills an OpenSearch URL template: {searchTerms} gets the encoded query; optional parameters ({x?}) are
  * dropped together with their now-empty query parameter; required {startPage}/{startIndex}/{count}/{language}
- * get 1 / 0 (or the given offsets) / 20 / "*"; other required parameters become empty.
+ * get 1 / 1 (or the given offsets) / 20 / "*"; other required parameters become empty.
  */
 export function buildSearchUrl(template: string, query: string, options: SearchUrlOptions = {}): string {
   const filled = template.replace(/\{([^{}]*)\}/g, (_, rawName: string) => {
@@ -66,7 +66,7 @@ export function buildSearchUrl(template: string, query: string, options: SearchU
       case 'startPage':
         return String(options.pageOffset ?? 1);
       case 'startIndex':
-        return String(options.indexOffset ?? 0);
+        return String(options.indexOffset ?? 1);
       case 'count':
         return '20';
       case 'language':
