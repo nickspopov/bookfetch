@@ -227,7 +227,7 @@ export default function CatalogFormScreen() {
             onChangeText={(name) => update({ name })}
             placeholder={isEdit ? 'Catalog name' : 'Optional — the catalog’s own title is used'}
             autoCapitalize="words"
-            autoCorrect
+            autoCorrect={false}
             autoFocus={params.focus === 'name' && loaded}
             returnKeyType="go"
             onSubmitEditing={() => void connect()}
