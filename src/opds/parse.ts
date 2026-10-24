@@ -199,6 +199,8 @@ function toAcquisition(link: RawLink, kind: AcquisitionKind): Acquisition {
   // A wrapper (DRM license, HTML page, Atom entry) is labelled by the innermost real format it leads to.
   const innermost = [...indirect].reverse().find((t) => !isDrmType(t));
   const isWrapper = link.type === '' || isDrmType(link.type) || isHtmlType(link.type) || isAtomType(link.type);
+  // an HTML page or Atom entry whose format is only in indirectTypes is a landing page, not the file itself
+  const landingPage = indirect.length > 0 && (isHtmlType(link.type) || isAtomType(link.type));
   let labelType = innermost && isWrapper ? innermost : link.type;
   // Standard Ebooks and others send AZW3 files as application/x-mobipocket-ebook
   if (mimeBase(labelType) === 'application/x-mobipocket-ebook' && /\.azw3(?:$|[?#])/i.test(link.href)) {
@@ -210,7 +212,7 @@ function toAcquisition(link: RawLink, kind: AcquisitionKind): Acquisition {
     kind,
     indirectTypes: indirect,
     formatLabel: formatLabel(labelType),
-    downloadable: DOWNLOADABLE_KINDS.includes(kind) && !drm && isHttpUrl(link.href),
+    downloadable: DOWNLOADABLE_KINDS.includes(kind) && !drm && !landingPage && isHttpUrl(link.href),
   };
   if (link.title) acquisition.title = link.title;
   if (Number.isFinite(size) && size > 0) acquisition.size = Math.round(size);

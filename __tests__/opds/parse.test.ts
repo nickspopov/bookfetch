@@ -288,6 +288,23 @@ describe('edge cases (hand-made)', () => {
     expect(feed.kind).toBe('acquisition'); // mixed feed
   });
 
+  it('labels an HTML or Atom landing-page acquisition by its indirect format but does not download it', () => {
+    const link = (type: string, href: string) =>
+      `<link rel="http://opds-spec.org/acquisition/open-access" href="${href}" type="${type}">
+         <opds:indirectAcquisition type="application/epub+zip"/></link>`;
+    const xml = `<feed xmlns="http://www.w3.org/2005/Atom" xmlns:opds="http://opds-spec.org/2010/catalog">
+      <title>Landing</title><entry><title>Book</title><id>b</id>
+      ${link('text/html', '/book/page')}${link('application/atom+xml;type=entry;profile=opds-catalog', '/book/entry')}
+      <link rel="http://opds-spec.org/acquisition/open-access" href="/book.epub" type="application/epub+zip"/>
+      </entry></feed>`;
+    const [book] = parseFeed(xml, 'https://books.example.org/landing.xml').entries;
+    expect(book.acquisitions.map((a) => [a.formatLabel, a.downloadable])).toEqual([
+      ['EPUB', false],
+      ['EPUB', false],
+      ['EPUB', true],
+    ]);
+  });
+
   it('repairs duplicate ids without colliding with an original id', () => {
     const entry = (id: string) => `<entry><title>${id}</title><id>${id}</id></entry>`;
     const entries = ['x', 'x', 'x#2'].map(entry).join('');

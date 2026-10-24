@@ -84,6 +84,7 @@ outermost first. The `length` attribute gives `size`. Identical href+type pairs 
 
 - the kind is open-access, generic or sample;
 - neither the link type nor any indirect type is DRM (`adobe.adept`, or an `lcp` token such as `application/vnd.readium.lcp.license.v1.0+json`);
+- the link is not an HTML page or Atom entry whose real format is only in `indirectTypes` (a landing page);
 - the href is http(s).
 
 Wrapper links (DRM, HTML, Atom, or untyped) are labelled with the innermost non-DRM indirect type. An
