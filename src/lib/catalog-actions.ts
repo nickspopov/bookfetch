@@ -39,6 +39,7 @@ export async function connectCatalog(input: ConnectInput): Promise<{ catalog: Ca
     title: input.name?.trim() || cleanTitle(feed.title) || existing?.title || hostLabel(rootUrl),
     iconUrl: storableIconUrl(feed.iconUrl, secret),
     hasCredentials: !!input.credentials,
+    sessionRevision: (existing?.sessionRevision ?? 0) + 1,
     addedAt: existing?.addedAt ?? Date.now(),
   };
   forgetSession(id);

@@ -10,6 +10,7 @@ const catalog = (id: string, extra: Partial<Catalog> = {}): Catalog => ({
   urlInKeychain: false,
   title: `Library ${id}`,
   hasCredentials: false,
+  sessionRevision: 1,
   addedAt: 1,
   ...extra,
 });
@@ -54,6 +55,7 @@ describe('parseCatalogs', () => {
       iconUrl: undefined,
       urlInKeychain: false,
       hasCredentials: false,
+      sessionRevision: 0,
       addedAt: 0,
     });
   });

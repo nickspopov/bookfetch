@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
 
 import type { Catalog } from './catalogs';
-import { sessionFor, type CatalogSession } from './client';
+import { sessionFor, sessionKey, type CatalogSession } from './client';
 
 /** The catalog's client once its keychain items are loaded. */
 export function useCatalogSession(catalog: Catalog | undefined) {
   const [state, setState] = useState<{ key?: string; session?: CatalogSession; error?: unknown }>({});
-  const key = catalog ? `${catalog.id}|${catalog.url}|${catalog.hasCredentials}|${catalog.urlInKeychain}` : undefined;
+  // The key changes with the catalog's session revision, so an edited login replaces the client of open screens.
+  const key = catalog ? sessionKey(catalog) : undefined;
 
   useEffect(() => {
     if (!catalog || !key) return;

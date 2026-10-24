@@ -14,6 +14,8 @@ export interface Catalog {
   iconUrl?: string;
   /** true when a login is stored in SecureStore for this catalog */
   hasCredentials: boolean;
+  /** bumped on every connect or edit that sets the URL or login, so open screens rebuild their client */
+  sessionRevision: number;
   addedAt: number;
 }
 
@@ -38,6 +40,7 @@ export function parseCatalogs(items: unknown[] | undefined): Catalog[] {
       iconUrl: typeof c.iconUrl === 'string' ? storableIconUrl(c.iconUrl, c.urlInKeychain === true) : undefined,
       urlInKeychain: c.urlInKeychain === true,
       hasCredentials: c.hasCredentials === true,
+      sessionRevision: typeof c.sessionRevision === 'number' ? c.sessionRevision : 0,
       addedAt: typeof c.addedAt === 'number' ? c.addedAt : 0,
     });
   }

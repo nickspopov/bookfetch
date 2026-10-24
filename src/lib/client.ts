@@ -29,9 +29,14 @@ export interface CatalogSession {
 
 const sessions = new Map<string, Promise<CatalogSession>>();
 
+/** Identifies one generation of a catalog's client; it changes whenever its URL or login was saved again. */
+export function sessionKey(catalog: Catalog): string {
+  return `${catalog.id}|${catalog.sessionRevision}|${catalog.url}|${catalog.hasCredentials}|${catalog.urlInKeychain}`;
+}
+
 /** One client per saved catalog, created with its stored login and URL. */
 export function sessionFor(catalog: Catalog): Promise<CatalogSession> {
-  const key = `${catalog.id}|${catalog.url}|${catalog.hasCredentials}|${catalog.urlInKeychain}`;
+  const key = sessionKey(catalog);
   let session = sessions.get(key);
   if (!session) {
     session = (async () => {
