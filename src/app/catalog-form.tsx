@@ -286,7 +286,7 @@ export default function CatalogFormScreen() {
                 key={preset.id}
                 title={preset.name}
                 subtitle={preset.subtitle}
-            subtitleLines={2}
+                subtitleLines={2}
                 onPress={busy ? undefined : () => choosePreset(preset)}
                 accessibilityHint="Connects to this catalog"
                 testID={`sheet-preset-${preset.id}`}

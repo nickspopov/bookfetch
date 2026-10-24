@@ -1,4 +1,4 @@
-import { Link, useFocusEffect, useRouter } from 'expo-router';
+import { useFocusEffect, useRouter } from 'expo-router';
 import { useCallback } from 'react';
 import { Alert, FlatList, Platform, Pressable, StyleSheet, View } from 'react-native';
 import ReanimatedSwipeable from 'react-native-gesture-handler/ReanimatedSwipeable';
@@ -10,6 +10,7 @@ import { deleteDownload } from '@/lib/downloads/manager';
 import { cleanText, formatBytes } from '@/lib/text';
 import { Button } from '@/ui/Button';
 import { Icon } from '@/ui/Icon';
+import { accessibilityActionsFor, showRowActions, type RowAction } from '@/ui/row-actions';
 import { CenteredMessage } from '@/ui/States';
 import { Text } from '@/ui/Text';
 import { space, useColors } from '@/ui/theme';
@@ -115,41 +116,21 @@ function DownloadRow({ record }: { record: DownloadRecord }) {
 
   const label = [title, author, details].filter(Boolean).join(', ');
 
-  const row = ios ? (
-    <Link
-      href="/downloads"
-      asChild
-      onPress={(event) => {
-        // The link exists only for its native context menu; a tap opens the file instead of navigating.
-        event.preventDefault();
-        open();
-      }}
-    >
-      <Link.Trigger>
-        <Pressable
-          accessibilityRole="button"
-          accessibilityLabel={label}
-          accessibilityHint="Opens in another app. Touch and hold for more options."
-          style={({ pressed }) => (pressed ? { opacity: 0.6 } : undefined)}
-        >
-          {content}
-        </Pressable>
-      </Link.Trigger>
-      <Link.Menu>
-        <Link.MenuAction title="Open in…" icon="square.and.arrow.up" onPress={open} />
-        <Link.MenuAction title="Delete" icon="trash" destructive onPress={() => confirmDelete(record)} />
-      </Link.Menu>
-    </Link>
-  ) : (
+  const actions: RowAction[] = [
+    { name: 'open', label: 'Open in…', onPress: open },
+    { name: 'delete', label: 'Delete', destructive: true, onPress: () => confirmDelete(record) },
+  ];
+
+  const row = (
     <Pressable
       onPress={open}
-      onLongPress={() => confirmDelete(record)}
+      onLongPress={() => showRowActions(title, details || record.fileName, actions)}
       accessibilityRole="button"
       accessibilityLabel={label}
-      accessibilityHint="Opens in a reader app. Long-press to delete."
-      accessibilityActions={[{ name: 'delete', label: 'Delete' }]}
-      onAccessibilityAction={(event) => event.nativeEvent.actionName === 'delete' && confirmDelete(record)}
+      accessibilityHint={ios ? 'Opens in another app.' : 'Opens in a reader app.'}
+      {...accessibilityActionsFor(actions)}
       android_ripple={{ color: colors.cellPressed }}
+      style={({ pressed }) => (ios && pressed ? { opacity: 0.6 } : undefined)}
     >
       {content}
     </Pressable>

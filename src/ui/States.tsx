@@ -64,7 +64,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: space.xxl,
-    paddingVertical: 48,
+    paddingTop: 48,
+    // Sit slightly above the middle, like system empty states, rather than drifting toward the tab bar.
+    paddingBottom: 140,
     gap: space.s,
   },
   centerText: {

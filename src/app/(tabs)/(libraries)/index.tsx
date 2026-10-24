@@ -1,5 +1,5 @@
 import { Image } from 'expo-image';
-import { Link, Stack, useRouter, type Href } from 'expo-router';
+import { Stack, useRouter, type Href } from 'expo-router';
 import { useState } from 'react';
 import { Alert, Platform, Pressable, ScrollView, StyleSheet, View } from 'react-native';
 
@@ -11,6 +11,7 @@ import { Button } from '@/ui/Button';
 import { HeaderIconButton } from '@/ui/HeaderButton';
 import { Icon } from '@/ui/Icon';
 import { Row, Section } from '@/ui/List';
+import { accessibilityActionsFor, showRowActions, type RowAction } from '@/ui/row-actions';
 import { Text } from '@/ui/Text';
 import { radius, space, useColors } from '@/ui/theme';
 
@@ -134,43 +135,24 @@ function CatalogRow({ catalog }: { catalog: Catalog }) {
     </View>
   );
 
-  if (Platform.OS === 'ios') {
-    return (
-      <Link href={feedHref(catalog)} asChild>
-        <Link.Trigger>
-          <Pressable
-            accessibilityRole="button"
-            accessibilityLabel={`${catalog.title}, ${subtitle}`}
-            accessibilityHint="Opens the catalog. Touch and hold for more options."
-            style={({ pressed }) => (pressed ? { backgroundColor: colors.cellPressed } : undefined)}
-          >
-            {content}
-          </Pressable>
-        </Link.Trigger>
-        <Link.Menu>
-          <Link.MenuAction title="Rename" icon="pencil" onPress={() => edit('name')} />
-          <Link.MenuAction title="Edit" icon="slider.horizontal.3" onPress={() => edit()} />
-          <Link.MenuAction title="Remove" icon="trash" destructive onPress={() => confirmRemove(catalog)} />
-        </Link.Menu>
-      </Link>
-    );
-  }
+  // Rename lives in the edit sheet's Name field, so Android's three-button alert offers Edit and Remove.
+  const actions: RowAction[] = [
+    ...(Platform.OS === 'ios' ? [{ name: 'rename', label: 'Rename', onPress: () => edit('name') }] : []),
+    { name: 'edit', label: 'Edit', onPress: () => edit() },
+    { name: 'remove', label: 'Remove', destructive: true, onPress: () => confirmRemove(catalog) },
+  ];
 
   return (
     <Pressable
       onPress={() => router.push(feedHref(catalog))}
-      onLongPress={() =>
-        // Rename lives in the edit sheet's Name field; Android alerts take three buttons at most.
-        Alert.alert(catalog.title, hostOf(catalog.url), [
-          { text: 'Cancel', style: 'cancel' },
-          { text: 'Remove', style: 'destructive', onPress: () => confirmRemove(catalog) },
-          { text: 'Edit', onPress: () => edit() },
-        ])
-      }
+      onLongPress={() => showRowActions(catalog.title, hostOf(catalog.url), actions)}
       accessibilityRole="button"
       accessibilityLabel={`${catalog.title}, ${subtitle}`}
-      accessibilityHint="Opens the catalog. Long-press to edit or remove."
+      accessibilityHint="Opens the catalog."
+      {...accessibilityActionsFor(actions)}
       android_ripple={{ color: colors.cellPressed }}
+      style={({ pressed }) => (Platform.OS === 'ios' && pressed ? { backgroundColor: colors.cellPressed } : undefined)}
+      testID={`catalog-${catalog.id}`}
     >
       {content}
     </Pressable>
