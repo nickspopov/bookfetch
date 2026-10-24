@@ -1,6 +1,15 @@
 // OPDS 1.x (Atom) feed parsing.
 import { decodeEntities, htmlToText, looksLikeHtml, singleLine, tidyWhitespace } from './html';
-import { formatLabel, isAtomEntryType, isAtomType, isDrmType, isHtmlType, isImageType, mimeBase, mimeParams } from './mime';
+import {
+  formatLabel,
+  isAtomEntryType,
+  isAtomType,
+  isDrmType,
+  isHtmlType,
+  isImageType,
+  mimeBase,
+  mimeParams,
+} from './mime';
 import type { Acquisition, AcquisitionKind, Entry, FacetLink, Feed, NavigationLink, SearchSpec } from './types';
 import { OpdsError } from './types';
 import { isHttpUrl, resolveTemplate, resolveUrl } from './url';
@@ -22,7 +31,11 @@ const ACQUISITION_KINDS: Record<string, AcquisitionKind> = {
 const DOWNLOADABLE_KINDS: AcquisitionKind[] = ['open-access', 'generic', 'sample'];
 
 const COVER_RELS = ['http://opds-spec.org/image', 'http://opds-spec.org/cover', 'x-stanza-cover-image'];
-const THUMBNAIL_RELS = ['http://opds-spec.org/image/thumbnail', 'x-stanza-cover-image-thumbnail', 'http://opds-spec.org/thumbnail'];
+const THUMBNAIL_RELS = [
+  'http://opds-spec.org/image/thumbnail',
+  'x-stanza-cover-image-thumbnail',
+  'http://opds-spec.org/thumbnail',
+];
 
 const NAVIGATION_RELS = [
   'subsection',
@@ -36,7 +49,18 @@ const NAVIGATION_RELS = [
 ];
 
 // atom-typed links that never make an entry navigable on their own
-const NON_NAVIGATION_RELS = ['self', 'start', 'up', 'search', 'next', 'previous', 'prev', 'first', 'last', 'http://opds-spec.org/crawlable'];
+const NON_NAVIGATION_RELS = [
+  'self',
+  'start',
+  'up',
+  'search',
+  'next',
+  'previous',
+  'prev',
+  'first',
+  'last',
+  'http://opds-spec.org/crawlable',
+];
 
 interface RawLink {
   rel: string;
@@ -72,7 +96,14 @@ function readLinks(node: XmlNode, base: string): RawLink[] {
     const rel = normalizeRel(attr(link, 'rel'));
     const href = rawHref.includes('{') ? resolveTemplate(rawHref, linkBase) : resolveUrl(rawHref, linkBase);
     if (!href) continue;
-    links.push({ rel, href, type, title: cleanAttrText(attr(link, 'title')), length: attr(link, 'length'), node: link });
+    links.push({
+      rel,
+      href,
+      type,
+      title: cleanAttrText(attr(link, 'title')),
+      length: attr(link, 'length'),
+      node: link,
+    });
   }
   return links;
 }
@@ -208,7 +239,10 @@ function pickNavigation(links: RawLink[]): NavigationLink | undefined {
   const candidates = links.filter((l) => !isImageType(l.type) && !acquisitionKind(l.rel));
   const pick =
     candidates.find((l) => isNavigationRel(l.rel) && (l.type === '' || isAtomType(l.type))) ??
-    candidates.find((l) => isAtomType(l.type) && !isAtomEntryType(l.type) && !NON_NAVIGATION_RELS.includes(l.rel) && l.rel !== 'related') ??
+    candidates.find(
+      (l) =>
+        isAtomType(l.type) && !isAtomEntryType(l.type) && !NON_NAVIGATION_RELS.includes(l.rel) && l.rel !== 'related',
+    ) ??
     candidates.find((l) => isAtomEntryType(l.type) && l.rel === 'alternate') ??
     candidates.find((l) => isAtomType(l.type) && l.rel === 'related');
   if (!pick) return undefined;
@@ -217,7 +251,11 @@ function pickNavigation(links: RawLink[]): NavigationLink | undefined {
   return nav;
 }
 
-function firstLink(links: RawLink[], rels: string[], accept: (l: RawLink) => boolean = () => true): RawLink | undefined {
+function firstLink(
+  links: RawLink[],
+  rels: string[],
+  accept: (l: RawLink) => boolean = () => true,
+): RawLink | undefined {
   for (const rel of rels) {
     const found = links.find((l) => l.rel === rel && accept(l));
     if (found) return found;
@@ -230,7 +268,8 @@ function readAuthors(entry: XmlNode): string[] {
     .map((a) => childText(a, 'name') ?? (Object.keys(a).length === 1 ? textOf(a) : undefined))
     .filter((n): n is string => !!n)
     .map(singleLine);
-  const fallback = names.length > 0 ? names : children(entry, 'dc:creator', 'dcterms:creator').map((c) => singleLine(textOf(c) ?? ''));
+  const fallback =
+    names.length > 0 ? names : children(entry, 'dc:creator', 'dcterms:creator').map((c) => singleLine(textOf(c) ?? ''));
   return dedupe(fallback.filter((n) => n !== ''));
 }
 
@@ -264,7 +303,8 @@ function readPublisher(entry: XmlNode): string | undefined {
 function readSummary(entry: XmlNode): string | undefined {
   const summary = textConstruct(child(entry, 'summary'), true, true);
   const content = textConstruct(child(entry, 'content'), true, true);
-  const description = summary || content ? undefined : textConstruct(child(entry, 'dc:description', 'dcterms:description'), true);
+  const description =
+    summary || content ? undefined : textConstruct(child(entry, 'dc:description', 'dcterms:description'), true);
   // Prefer the fuller description: some servers put a teaser in <summary> and the blurb in <content>.
   if (summary && content) return content.length > summary.length ? content : summary;
   return summary ?? content ?? description;
@@ -278,7 +318,10 @@ function parseEntry(node: XmlNode, base: string, index: number): Entry {
   // any image link is a cover fallback, except page-streaming templates (PSE) and thumbnails
   const cover =
     firstLink(links, COVER_RELS) ??
-    links.find((l) => isImageType(l.type) && !THUMBNAIL_RELS.includes(l.rel) && !l.rel.startsWith(PSE_REL) && !l.href.includes('{'));
+    links.find(
+      (l) =>
+        isImageType(l.type) && !THUMBNAIL_RELS.includes(l.rel) && !l.rel.startsWith(PSE_REL) && !l.href.includes('{'),
+    );
   const thumbnail = firstLink(links, THUMBNAIL_RELS);
   const alternate = links.find(
     (l) => l.rel === 'alternate' && (isHtmlType(l.type) || l.type === '') && isHttpUrl(l.href) && !isAtomType(l.type),
@@ -362,7 +405,14 @@ function buildFeed(root: XmlNode, entryNodes: XmlNode[], feedUrl: string): Feed 
   const selfLink = firstLink(links, ['self']);
   const selfKind = selfLink ? mimeParams(selfLink.type).kind : undefined;
   const allNavigation = entries.length > 0 && entries.every((e) => e.navigation && e.acquisitions.length === 0);
-  const kind: Feed['kind'] = entries.length === 0 ? (selfKind === 'navigation' ? 'navigation' : 'acquisition') : allNavigation ? 'navigation' : 'acquisition';
+  const kind: Feed['kind'] =
+    entries.length === 0
+      ? selfKind === 'navigation'
+        ? 'navigation'
+        : 'acquisition'
+      : allNavigation
+        ? 'navigation'
+        : 'acquisition';
 
   const feed: Feed = {
     url: feedUrl,
@@ -419,4 +469,3 @@ export function parseFeed(xml: string, feedUrl: string): Feed {
   }
   throw new OpdsError('not-opds', "This address doesn't look like an OPDS catalog.");
 }
-

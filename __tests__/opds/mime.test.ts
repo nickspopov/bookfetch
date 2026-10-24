@@ -54,7 +54,8 @@ describe('htmlToText / decodeEntities', () => {
   });
 
   it('keeps paragraph breaks, line breaks and list items; drops scripts and comments', () => {
-    const html = '<div><p>One\n  two</p><!-- x --><p>Three<br>four</p><script>var a = "<p>";</script><ol><li>x</li></ol></div>';
+    const html =
+      '<div><p>One\n  two</p><!-- x --><p>Three<br>four</p><script>var a = "<p>";</script><ol><li>x</li></ol></div>';
     expect(htmlToText(html)).toBe('One two\n\nThree\nfour\n\n• x');
   });
 

@@ -41,8 +41,7 @@ if (options.version !== undefined && !VERSION_PATTERN.test(options.version)) {
 
 const explicit = options.version !== undefined || options.build !== undefined;
 const version = options.version ?? current.version;
-const build =
-  options.build !== undefined ? parseBuild(options.build) : explicit ? current.build : current.build + 1;
+const build = options.build !== undefined ? parseBuild(options.build) : explicit ? current.build : current.build + 1;
 
 writeFileSync(VERSION_FILE, `{ "version": ${JSON.stringify(version)}, "build": ${build} }\n`);
 console.log(`version.json: version ${version}, build ${build}`);

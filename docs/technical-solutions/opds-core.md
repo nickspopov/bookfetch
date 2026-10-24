@@ -3,16 +3,16 @@
 The app talks to catalogs only through `@/opds` (`src/opds/index.ts`). The core is plain TypeScript with one
 dependency (`fast-xml-parser` 5); it has no React or Expo imports and is tested with Jest (`npx jest`).
 
-| Module | Role |
-| --- | --- |
-| `types.ts` | Public contract (`Feed`, `Entry`, `Acquisition`, `OpdsError`, `OpdsClient`, ...) |
-| `xml.ts` | XML parsing and namespace normalisation |
-| `parse.ts` | `parseFeed` — Atom feed / entry document → `Feed` |
-| `opensearch.ts` | `parseOpenSearchDescription`, `buildSearchUrl` |
-| `client.ts` | `createOpdsClient` — fetch, auth, status mapping, sniffing, search |
-| `url.ts` | RFC 3986 resolution, `originOf`, `normalizeCatalogUrl` |
-| `mime.ts` | `formatLabel`, DRM detection, MIME parameters |
-| `html.ts` | `htmlToText`, `decodeEntities` |
+| Module          | Role                                                                             |
+| --------------- | -------------------------------------------------------------------------------- |
+| `types.ts`      | Public contract (`Feed`, `Entry`, `Acquisition`, `OpdsError`, `OpdsClient`, ...) |
+| `xml.ts`        | XML parsing and namespace normalisation                                          |
+| `parse.ts`      | `parseFeed` — Atom feed / entry document → `Feed`                                |
+| `opensearch.ts` | `parseOpenSearchDescription`, `buildSearchUrl`                                   |
+| `client.ts`     | `createOpdsClient` — fetch, auth, status mapping, sniffing, search               |
+| `url.ts`        | RFC 3986 resolution, `originOf`, `normalizeCatalogUrl`                           |
+| `mime.ts`       | `formatLabel`, DRM detection, MIME parameters                                    |
+| `html.ts`       | `htmlToText`, `decodeEntities`                                                   |
 
 ## Supported
 
@@ -48,6 +48,7 @@ links fill `facets` (`opds:facetGroup`, `opds:activeFacet`, `thr:count`). `opens
 the self link's `kind=` parameter and otherwise counts as `acquisition`.
 
 **Entries.** An entry is a navigation entry when it has no acquisition link but does have one of these:
+
 - a `subsection`/`collection`/`http://opds-spec.org/sort/*`/featured/recommended rel;
 - an Atom-typed link (not self/start/up/search/related);
 - an Atom entry `alternate`;
@@ -58,6 +59,7 @@ Covers come from `http://opds-spec.org/image`, `/cover` or `x-stanza-cover-image
 templates. When only a cover or only a thumbnail is present, it fills both fields.
 
 The other entry fields map like this:
+
 - Authors: `author/name`, falling back to `dc:creator`.
 - Language: `dcterms:language`/`dc:language`.
 - Publisher: `dc:publisher`, or Calibre-Web's `<publisher><name>`.
@@ -69,6 +71,7 @@ Missing ids fall back to the navigation href, the first acquisition href or `ent
 a feed get a `#2`, `#3` suffix (Kavita repeats them), so `entry.id` is safe as a list key.
 
 **Acquisitions.** Rels map to kinds:
+
 - `http://opds-spec.org/acquisition` → `generic`
 - `/open-access` → `open-access`
 - `/sample` and `/preview` → `sample`
@@ -78,6 +81,7 @@ Unknown `/acquisition/*` rels count as `generic`. Nested `opds:indirectAcquisiti
 outermost first. The `length` attribute gives `size`. Identical href+type pairs are listed once.
 
 `downloadable` is true only when all of these hold:
+
 - the kind is open-access, generic or sample;
 - neither the link type nor any indirect type is DRM (`adobe.adept`, or an `lcp` token such as `application/vnd.readium.lcp.license.v1.0+json`);
 - the href is http(s).
@@ -93,6 +97,7 @@ is case-insensitive.
 **OpenSearch.** The core picks the description's `Url` with an Atom type and `rel` `results` (or no rel). It
 prefers `profile=opds-catalog`, then `kind=acquisition`, resolves the template against the description URL, and
 keeps `indexOffset`/`pageOffset`. `buildSearchUrl` fills the parameters like this:
+
 - `{searchTerms}` gets `encodeURIComponent(query.trim())`.
 - Optional `{x?}` parameters are removed, together with their now-empty query pair.
 - Required `{startPage}`, `{startIndex}`, `{count}` and `{language}` become `pageOffset ?? 1`, `indexOffset ?? 0`, `20` and `*`.
@@ -126,21 +131,22 @@ The client caches each resolved template per description URL.
 
 ## Error codes (`OpdsError.code`)
 
-| Code | When | Message (shown to users) |
-| --- | --- | --- |
-| `invalid-url` | `normalizeCatalogUrl` rejected the input | Enter a full web address that starts with http:// or https://. |
-| `network` | fetch threw (offline, DNS, TLS, refused) | Can't reach the server. Check the address and your connection. |
-| `timeout` | no complete answer within `timeoutMs` | The server took too long to answer. |
-| `unauthorized` | HTTP 401 / 403 (`status` set) | The server needs a valid username and password. / The server refused access with these credentials. |
-| `not-found` | HTTP 404 / 410; no search | Nothing was found at this address. / This catalog has no search |
-| `http` | any other non-2xx (`status` set) | The server answered with an error (HTTP n). |
-| `not-opds` | HTML without an OPDS link, other XML, JSON, text | This address doesn't look like an OPDS catalog. |
-| `opds2-unsupported` | OPDS 2 JSON | OPDS 2 catalogs aren't supported yet. |
-| `parse` | empty or unreadable XML | The catalog sent a feed that couldn't be read. |
+| Code                | When                                             | Message (shown to users)                                                                            |
+| ------------------- | ------------------------------------------------ | --------------------------------------------------------------------------------------------------- |
+| `invalid-url`       | `normalizeCatalogUrl` rejected the input         | Enter a full web address that starts with http:// or https://.                                      |
+| `network`           | fetch threw (offline, DNS, TLS, refused)         | Can't reach the server. Check the address and your connection.                                      |
+| `timeout`           | no complete answer within `timeoutMs`            | The server took too long to answer.                                                                 |
+| `unauthorized`      | HTTP 401 / 403 (`status` set)                    | The server needs a valid username and password. / The server refused access with these credentials. |
+| `not-found`         | HTTP 404 / 410; no search                        | Nothing was found at this address. / This catalog has no search                                     |
+| `http`              | any other non-2xx (`status` set)                 | The server answered with an error (HTTP n).                                                         |
+| `not-opds`          | HTML without an OPDS link, other XML, JSON, text | This address doesn't look like an OPDS catalog.                                                     |
+| `opds2-unsupported` | OPDS 2 JSON                                      | OPDS 2 catalogs aren't supported yet.                                                               |
+| `parse`             | empty or unreadable XML                          | The catalog sent a feed that couldn't be read.                                                      |
 
 ## normalizeCatalogUrl
 
 The function goes through these steps:
+
 1. Trim the input. Reject it when it is empty or has whitespace inside.
 2. Map `opds://` and `opds+https://` to `https://`, and `opds+http://` to `http://`.
 3. Add `https://` when there is no scheme. `host:8080/path` counts as a host with a port, not a scheme.
@@ -150,15 +156,15 @@ The function goes through these steps:
 
 ## Tested servers (fixtures in `__fixtures__/opds/`)
 
-| Server | Fixtures | Kind |
-| --- | --- | --- |
-| Project Gutenberg | `gutenberg-root.xml`, `gutenberg-search-austen.xml`, `gutenberg-book-1342.xml`, `gutenberg-osd.xml` | live, 2026-10-24 |
-| Standard Ebooks | `standardebooks-search-austen.xml`, `standardebooks-root-401.html` | live |
-| Kavita demo (key in URL) | `kavita-root.xml`, `kavita-libraries.xml`, `kavita-library-1.xml`, `kavita-series-56.xml`, `kavita-search-osd.xml` | live |
-| OPDS 2 test catalog | `opds2-test-home.json` | live, trimmed |
-| Calibre-Web | `calibre-web-root.xml`, `calibre-web-new.xml` | hand-made from its templates |
-| Komga | `komga-series.xml` | hand-made from its OPDS 1.2 controller |
-| Edge cases | `edge-cases.xml`, `single-entry.xml`, `html-autodiscovery.html` | hand-made |
+| Server                   | Fixtures                                                                                                           | Kind                                   |
+| ------------------------ | ------------------------------------------------------------------------------------------------------------------ | -------------------------------------- |
+| Project Gutenberg        | `gutenberg-root.xml`, `gutenberg-search-austen.xml`, `gutenberg-book-1342.xml`, `gutenberg-osd.xml`                | live, 2026-10-24                       |
+| Standard Ebooks          | `standardebooks-search-austen.xml`, `standardebooks-root-401.html`                                                 | live                                   |
+| Kavita demo (key in URL) | `kavita-root.xml`, `kavita-libraries.xml`, `kavita-library-1.xml`, `kavita-series-56.xml`, `kavita-search-osd.xml` | live                                   |
+| OPDS 2 test catalog      | `opds2-test-home.json`                                                                                             | live, trimmed                          |
+| Calibre-Web              | `calibre-web-root.xml`, `calibre-web-new.xml`                                                                      | hand-made from its templates           |
+| Komga                    | `komga-series.xml`                                                                                                 | hand-made from its OPDS 1.2 controller |
+| Edge cases               | `edge-cases.xml`, `single-entry.xml`, `html-autodiscovery.html`                                                    | hand-made                              |
 
 ## Known limits
 

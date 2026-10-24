@@ -22,12 +22,17 @@ async function codeOf(promise: Promise<unknown>): Promise<string | undefined> {
 }
 
 describe('base64 for Basic auth', () => {
-  it.each([['reader:secret'], ['ü:pässwörd'], ['用户:密码'], ['emoji:🔑'], [''], ['a'], ['ab'], ['abc']])('encodes %j as UTF-8', (text) => {
-    expect(base64Utf8(text)).toBe(Buffer.from(text, 'utf8').toString('base64'));
-  });
+  it.each([['reader:secret'], ['ü:pässwörd'], ['用户:密码'], ['emoji:🔑'], [''], ['a'], ['ab'], ['abc']])(
+    'encodes %j as UTF-8',
+    (text) => {
+      expect(base64Utf8(text)).toBe(Buffer.from(text, 'utf8').toString('base64'));
+    },
+  );
 
   it('builds the header', () => {
-    expect(basicAuthHeader({ username: 'ü', password: '密码' })).toBe(`Basic ${Buffer.from('ü:密码', 'utf8').toString('base64')}`);
+    expect(basicAuthHeader({ username: 'ü', password: '密码' })).toBe(
+      `Basic ${Buffer.from('ü:密码', 'utf8').toString('base64')}`,
+    );
   });
 });
 
@@ -55,7 +60,12 @@ describe('fetchFeed', () => {
   });
 
   it('treats a different scheme or port as a different origin', () => {
-    const client = createOpdsClient({ userAgent: UA, credentials, catalogOrigin: ORIGIN, fetchImpl: jest.fn() as never });
+    const client = createOpdsClient({
+      userAgent: UA,
+      credentials,
+      catalogOrigin: ORIGIN,
+      fetchImpl: jest.fn() as never,
+    });
     expect(client.headersFor('https://books.example.org:443/x').Authorization).toBeDefined();
     expect(client.headersFor('http://books.example.org/x').Authorization).toBeUndefined();
     expect(client.headersFor('https://books.example.org:8443/x').Authorization).toBeUndefined();
@@ -136,21 +146,29 @@ describe('fetchFeed', () => {
       url: CATALOG,
       text: () =>
         new Promise<string>((_, reject) => {
-          init.signal.addEventListener('abort', () => reject(Object.assign(new Error('Aborted'), { name: 'AbortError' })));
+          init.signal.addEventListener('abort', () =>
+            reject(Object.assign(new Error('Aborted'), { name: 'AbortError' })),
+          );
         }),
     })) as unknown as typeof fetch;
-    expect(await codeOf(createOpdsClient({ userAgent: UA, fetchImpl, timeoutMs: 20 }).fetchFeed(CATALOG))).toBe('timeout');
+    expect(await codeOf(createOpdsClient({ userAgent: UA, fetchImpl, timeoutMs: 20 }).fetchFeed(CATALOG))).toBe(
+      'timeout',
+    );
   });
 
   it('rejects with the AbortError itself when the caller cancels', async () => {
     const fetchImpl = jest.fn(
       (_url: string, init: { signal: AbortSignal }) =>
         new Promise((_, reject) => {
-          init.signal.addEventListener('abort', () => reject(Object.assign(new Error('Aborted'), { name: 'AbortError' })));
+          init.signal.addEventListener('abort', () =>
+            reject(Object.assign(new Error('Aborted'), { name: 'AbortError' })),
+          );
         }),
     ) as unknown as typeof fetch;
     const controller = new AbortController();
-    const promise = createOpdsClient({ userAgent: UA, fetchImpl, timeoutMs: 5000 }).fetchFeed(CATALOG, { signal: controller.signal });
+    const promise = createOpdsClient({ userAgent: UA, fetchImpl, timeoutMs: 5000 }).fetchFeed(CATALOG, {
+      signal: controller.signal,
+    });
     controller.abort();
     await expect(promise).rejects.toMatchObject({ name: 'AbortError' });
     await expect(promise).rejects.not.toBeInstanceOf(OpdsError);
@@ -162,7 +180,9 @@ describe('fetchFeed', () => {
       const fetchImpl = jest.fn(
         (_url: string, init: { signal: AbortSignal }) =>
           new Promise((_, reject) => {
-            init.signal.addEventListener('abort', () => reject(Object.assign(new Error('Aborted'), { name: 'AbortError' })));
+            init.signal.addEventListener('abort', () =>
+              reject(Object.assign(new Error('Aborted'), { name: 'AbortError' })),
+            );
           }),
       ) as unknown as typeof fetch;
       const promise = codeOf(createOpdsClient({ userAgent: UA, fetchImpl }).fetchFeed(CATALOG));
@@ -217,7 +237,10 @@ describe('content sniffing', () => {
   it('does not follow a second autodiscovery hop', async () => {
     const page = 'https://books.example.org/';
     const loop = `<!DOCTYPE html><html><head><link rel="alternate" type="application/atom+xml;profile=opds-catalog" href="/again"></head></html>`;
-    const { fetchImpl, requests } = mockFetch({ [page]: { body: loop }, 'https://books.example.org/again': { body: loop } });
+    const { fetchImpl, requests } = mockFetch({
+      [page]: { body: loop },
+      'https://books.example.org/again': { body: loop },
+    });
     expect(await codeOf(createOpdsClient({ userAgent: UA, fetchImpl }).fetchFeed(page))).toBe('not-opds');
     expect(requests).toHaveLength(2);
   });
@@ -254,7 +277,9 @@ describe('content sniffing', () => {
   });
 
   it('reports broken XML with a feed root as parse', async () => {
-    const { fetchImpl } = mockFetch({ [CATALOG]: { body: '<feed xmlns="http://www.w3.org/2005/Atom"><title>x</feed' } });
+    const { fetchImpl } = mockFetch({
+      [CATALOG]: { body: '<feed xmlns="http://www.w3.org/2005/Atom"><title>x</feed' },
+    });
     const code = await codeOf(createOpdsClient({ userAgent: UA, fetchImpl }).fetchFeed(CATALOG));
     // fast-xml-parser is lenient; either the partial feed parses or it is a parse error, never a crash
     expect([undefined, 'parse']).toContain(code);
@@ -306,7 +331,11 @@ describe('search', () => {
     })();
     expect((await client.search(root, 'dune')).title).toBe('Dune');
     expect((await client.search(root, 'emma')).title).toBe('Emma');
-    expect(requests.map((r) => r.url)).toEqual([descUrl, `${KAVITA_BASE}/series?query=dune`, `${KAVITA_BASE}/series?query=emma`]);
+    expect(requests.map((r) => r.url)).toEqual([
+      descUrl,
+      `${KAVITA_BASE}/series?query=dune`,
+      `${KAVITA_BASE}/series?query=emma`,
+    ]);
     expect(requests[0].headers.Accept).toMatch(/^application\/opensearchdescription\+xml/);
     expect(requests[0].headers.Authorization).toBeDefined();
   });
@@ -314,22 +343,41 @@ describe('search', () => {
   it('throws not-found when the catalog has no search', async () => {
     const client = createOpdsClient({ userAgent: UA, fetchImpl: jest.fn() as never });
     const feed: Feed = { url: CATALOG, title: 'x', kind: 'navigation', entries: [], facets: [] };
-    await expect(client.search(feed, 'x')).rejects.toMatchObject({ code: 'not-found', message: 'This catalog has no search' });
+    await expect(client.search(feed, 'x')).rejects.toMatchObject({
+      code: 'not-found',
+      message: 'This catalog has no search',
+    });
   });
 
   it('throws not-found when the description has no Atom template', async () => {
     const descUrl = 'https://books.example.org/osd';
     const { fetchImpl } = mockFetch({
-      [descUrl]: { body: '<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/"><Url type="text/html" template="/?q={searchTerms}"/></OpenSearchDescription>' },
+      [descUrl]: {
+        body: '<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/"><Url type="text/html" template="/?q={searchTerms}"/></OpenSearchDescription>',
+      },
     });
-    const feed: Feed = { url: CATALOG, title: 'x', kind: 'navigation', entries: [], facets: [], search: { kind: 'description', url: descUrl } };
+    const feed: Feed = {
+      url: CATALOG,
+      title: 'x',
+      kind: 'navigation',
+      entries: [],
+      facets: [],
+      search: { kind: 'description', url: descUrl },
+    };
     expect(await codeOf(createOpdsClient({ userAgent: UA, fetchImpl }).search(feed, 'x'))).toBe('not-found');
   });
 
   it('maps description fetch errors like feed errors', async () => {
     const descUrl = 'https://books.example.org/osd';
     const { fetchImpl } = mockFetch({ [descUrl]: { status: 401 } });
-    const feed: Feed = { url: CATALOG, title: 'x', kind: 'navigation', entries: [], facets: [], search: { kind: 'description', url: descUrl } };
+    const feed: Feed = {
+      url: CATALOG,
+      title: 'x',
+      kind: 'navigation',
+      entries: [],
+      facets: [],
+      search: { kind: 'description', url: descUrl },
+    };
     expect(await codeOf(createOpdsClient({ userAgent: UA, fetchImpl }).search(feed, 'x'))).toBe('unauthorized');
   });
 });

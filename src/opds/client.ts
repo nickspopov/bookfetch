@@ -58,11 +58,7 @@ export function basicAuthHeader(credentials: Credentials): string {
   return `Basic ${base64Utf8(`${credentials.username}:${credentials.password}`)}`;
 }
 
-type Sniffed =
-  | { kind: 'feed' }
-  | { kind: 'html' }
-  | { kind: 'opds2' }
-  | { kind: 'other' };
+type Sniffed = { kind: 'feed' } | { kind: 'html' } | { kind: 'opds2' } | { kind: 'other' };
 
 /** Classifies a response body by its content (servers often send wrong Content-Type headers). */
 export function sniffBody(body: string): Sniffed {

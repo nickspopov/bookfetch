@@ -81,7 +81,10 @@ describe('normalizeCatalogUrl', () => {
     ['opds://books.example.org/catalog', 'https://books.example.org/catalog'],
     ['opds+https://books.example.org/catalog', 'https://books.example.org/catalog'],
     ['opds+http://books.example.org/catalog', 'http://books.example.org/catalog'],
-    ['https://demo.kavitareader.com/api/opds/9003cf99-9213-4206-a787-af2fe4cc5f1f', 'https://demo.kavitareader.com/api/opds/9003cf99-9213-4206-a787-af2fe4cc5f1f'],
+    [
+      'https://demo.kavitareader.com/api/opds/9003cf99-9213-4206-a787-af2fe4cc5f1f',
+      'https://demo.kavitareader.com/api/opds/9003cf99-9213-4206-a787-af2fe4cc5f1f',
+    ],
     ['https://www.gutenberg.org/ebooks.opds/', 'https://www.gutenberg.org/ebooks.opds/'],
   ])('%j -> %s', (input, expected) => {
     expect(normalizeCatalogUrl(input)).toBe(expected);

@@ -4,7 +4,9 @@ import { KAVITA_BASE, fixture } from './helpers';
 
 describe('parseOpenSearchDescription', () => {
   it('picks the Atom template from the Gutenberg description (keeping http as given)', () => {
-    expect(parseOpenSearchDescription(fixture('gutenberg-osd.xml'), 'https://www.gutenberg.org/catalog/osd-books.xml')).toEqual({
+    expect(
+      parseOpenSearchDescription(fixture('gutenberg-osd.xml'), 'https://www.gutenberg.org/catalog/osd-books.xml'),
+    ).toEqual({
       kind: 'template',
       template: 'http://m.gutenberg.org/ebooks/search.opds/?query={searchTerms}',
     });
@@ -45,7 +47,11 @@ describe('buildSearchUrl', () => {
   it.each([
     ['https://x.example/s?q={searchTerms}', 'jane austen', 'https://x.example/s?q=jane%20austen'],
     ['https://x.example/s?q={searchTerms}', 'tom & jerry/1?', 'https://x.example/s?q=tom%20%26%20jerry%2F1%3F'],
-    ['https://x.example/s?q={searchTerms}', 'Достоевский', 'https://x.example/s?q=%D0%94%D0%BE%D1%81%D1%82%D0%BE%D0%B5%D0%B2%D1%81%D0%BA%D0%B8%D0%B9'],
+    [
+      'https://x.example/s?q={searchTerms}',
+      'Достоевский',
+      'https://x.example/s?q=%D0%94%D0%BE%D1%81%D1%82%D0%BE%D0%B5%D0%B2%D1%81%D0%BA%D0%B8%D0%B9',
+    ],
     ['http://192.168.1.10:8083/opds/search/{searchTerms}', 'dune', 'http://192.168.1.10:8083/opds/search/dune'],
     ['https://x.example/s?q={searchTerms}&page={startPage?}', 'a', 'https://x.example/s?q=a'],
     ['https://x.example/s?page={startPage?}&q={searchTerms}&n={count?}', 'a', 'https://x.example/s?q=a'],
@@ -61,8 +67,11 @@ describe('buildSearchUrl', () => {
   });
 
   it('uses the description offsets for required index and page parameters', () => {
-    expect(buildSearchUrl('https://x.example/s?q={searchTerms}&i={startIndex}&p={startPage}', 'a', { indexOffset: 1, pageOffset: 0 })).toBe(
-      'https://x.example/s?q=a&i=1&p=0',
-    );
+    expect(
+      buildSearchUrl('https://x.example/s?q={searchTerms}&i={startIndex}&p={startPage}', 'a', {
+        indexOffset: 1,
+        pageOffset: 0,
+      }),
+    ).toBe('https://x.example/s?q=a&i=1&p=0');
   });
 });

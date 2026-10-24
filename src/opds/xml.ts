@@ -55,7 +55,13 @@ function canonicalName(name: string, scope: Scope, isAttribute: boolean): string
   if (prefix === '' && isAttribute) return local; // unprefixed attributes have no namespace
   const uri = scope[prefix];
   if (uri === undefined) return prefix === '' || prefix === 'atom' ? local : name;
-  const canon = CANONICAL[uri.trim().toLowerCase().replace(/^https:/, 'http:')];
+  const canon =
+    CANONICAL[
+      uri
+        .trim()
+        .toLowerCase()
+        .replace(/^https:/, 'http:')
+    ];
   if (canon === '') return local;
   if (canon !== undefined) return `${canon}:${local}`;
   return prefix === '' ? `?:${local}` : name;

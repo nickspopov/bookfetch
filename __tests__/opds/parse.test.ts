@@ -48,7 +48,9 @@ describe('Project Gutenberg', () => {
     expect(book.thumbnailUrl).toBe('https://www.gutenberg.org/cache/epub/1342/pg1342.cover.small.jpg');
     expect(book.categories).toContain('Love stories');
     expect(book.categories).toContain('Language and Literatures: English literature'); // label wins over term
-    expect(book.summary?.startsWith('This edition had all images removed.\n\nTitle: Pride and Prejudice\n\n')).toBe(true);
+    expect(book.summary?.startsWith('This edition had all images removed.\n\nTitle: Pride and Prejudice\n\n')).toBe(
+      true,
+    );
     expect(book.summary).toContain('Reading ease score: 69.2 (8th & 9th grade).');
     expect(book.summary).not.toMatch(/<|&amp;/);
     expect(book.acquisitions).toEqual([
@@ -79,7 +81,10 @@ describe('Project Gutenberg', () => {
 });
 
 describe('Standard Ebooks', () => {
-  const feed = parseFeed(fixture('standardebooks-search-austen.xml'), 'https://standardebooks.org/feeds/opds/all?query=austen');
+  const feed = parseFeed(
+    fixture('standardebooks-search-austen.xml'),
+    'https://standardebooks.org/feeds/opds/all?query=austen',
+  );
 
   it('reads feed metadata despite the stylesheet PI and the embedded xhtml script element', () => {
     expect(feed.title).toBe('Search Results');
@@ -251,8 +256,20 @@ describe('edge cases (hand-made)', () => {
 
   it('reads facets', () => {
     expect(feed.facets).toEqual([
-      { title: 'Newest', href: 'https://books.example.org/catalog/edge.xml?sort=new', group: 'Sort', active: true, count: 12 },
-      { title: 'French', href: 'https://books.example.org/catalog/edge.xml?lang=fr', group: 'Language', active: false, count: 3 },
+      {
+        title: 'Newest',
+        href: 'https://books.example.org/catalog/edge.xml?sort=new',
+        group: 'Sort',
+        active: true,
+        count: 12,
+      },
+      {
+        title: 'French',
+        href: 'https://books.example.org/catalog/edge.xml?lang=fr',
+        group: 'Language',
+        active: false,
+        count: 3,
+      },
     ]);
   });
 
@@ -289,7 +306,10 @@ describe('documents and input errors', () => {
   });
 
   it('accepts a byte order mark and leading whitespace', () => {
-    const feed = parseFeed('﻿\n  <?xml version="1.0"?><feed xmlns="http://www.w3.org/2005/Atom"><title>T</title></feed>', 'https://x.example/');
+    const feed = parseFeed(
+      '﻿\n  <?xml version="1.0"?><feed xmlns="http://www.w3.org/2005/Atom"><title>T</title></feed>',
+      'https://x.example/',
+    );
     expect(feed.title).toBe('T');
     expect(feed.entries).toEqual([]);
     expect(feed.kind).toBe('acquisition');
@@ -302,6 +322,13 @@ describe('documents and input errors', () => {
     } catch (e) {
       expect((e as OpdsError).code).toBe('parse');
     }
+  });
+
+  it('does not expand nested DOCTYPE entities (billion laughs)', () => {
+    let entities = '<!ENTITY a0 "lollollollollollollollollollol">';
+    for (let i = 1; i < 10; i += 1) entities += `<!ENTITY a${i} "${`&a${i - 1};`.repeat(10)}">`;
+    const xml = `<?xml version="1.0"?><!DOCTYPE feed [${entities}]><feed xmlns="http://www.w3.org/2005/Atom"><title>&a9;</title></feed>`;
+    expect(parseFeed(xml, 'https://x.example/').title.length).toBeLessThan(1000);
   });
 
   it('throws not-opds for XML that is not Atom', () => {
