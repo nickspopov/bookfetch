@@ -22,4 +22,3 @@ npm run typecheck && npm test && npm run lint
 - Native UI first: `NativeTabs`, native stack headers and search, `formSheet` routes for sheets, SF Symbols on iOS
   with Material Symbols on Android.
 - No analytics, crash SDKs, accounts or JS crypto. MMKV without an encryption key; secrets in `expo-secure-store`.
-- `legacy/swiftui/` is the archived 2023 app; do not modify it.

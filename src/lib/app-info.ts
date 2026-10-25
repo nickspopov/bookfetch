@@ -8,5 +8,5 @@ export const USER_AGENT = `Bookfetch/${APP_VERSION} (+https://nickpopov.com/book
 export const LINKS = {
   privacy: 'https://nickpopov.com/bookfetch/privacy/',
   support: 'https://nickpopov.com/bookfetch/support/',
-  source: 'https://github.com/nickspopov/opdsreader',
+  source: 'https://github.com/nickspopov/bookfetch',
 } as const;

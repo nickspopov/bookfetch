@@ -6,7 +6,7 @@ module.exports = defineConfig([
   expoConfig,
   prettierConfig,
   {
-    ignores: ['dist/*', 'android/*', 'ios/*', 'coverage/*', 'legacy/*', 'expo-env.d.ts'],
+    ignores: ['dist/*', 'android/*', 'ios/*', 'coverage/*', 'expo-env.d.ts'],
   },
   {
     files: ['jest.setup.js', '**/__tests__/**', '**/*.test.ts', '**/*.test.tsx'],
